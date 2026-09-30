@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "coming-soon",
+      "settings": {
+        "eyebrow": "Collection page",
+        "text": "Collection pages are added in Step 5."
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

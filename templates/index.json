@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "coming-soon",
+      "settings": {
+        "eyebrow": "Home page",
+        "text": "The home page sections are added in Step 4."
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

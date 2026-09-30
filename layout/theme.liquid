@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{%- liquid
+  assign brand = settings.brand_name | default: 'Original Skinn'
+  if template.name == 'index'
+    assign tab_title = 'Home'
+  else
+    assign tab_title = page_title
+  endif
+-%}
+<title>{{ tab_title }} | {{ brand }}</title>
+<meta name="description" content="{{ page_description | default: settings.meta_description | escape }}">
+<link rel="canonical" href="{{ canonical_url }}">
+<link rel="icon" type="image/png" href="{{ 'logo.png' | asset_url }}">
+{{ 'original-skinn.css' | asset_url | stylesheet_tag }}
+{{ content_for_header }}
+</head>
+<body class="template-{{ template.name }}">
+{% sections 'header-group' %}
+<section class="page-section entering" data-page="{% render 'page-key' %}">
+{% section 'announcement-bar' %}
+<main id="MainContent">
+{{ content_for_layout }}
+</main>
+</section>
+{% sections 'footer-group' %}
+<div class="toast" id="toast" role="status" aria-live="polite">Added to bag</div>
+<script src="{{ 'theme.js' | asset_url }}" defer></script>
+</body>
+</html>

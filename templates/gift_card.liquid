@@ -1,0 +1,20 @@
+{%- layout none -%}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gift card | {{ shop.name }}</title>
+{{ 'original-skinn.css' | asset_url | stylesheet_tag }}
+{{ content_for_header }}
+</head>
+<body style="padding-top:0!important">
+<div class="container" style="padding:80px 28px;text-align:center;max-width:560px">
+  <p class="eyebrow">Gift card</p>
+  <h2>{{ gift_card.balance | money }}</h2>
+  {%- if gift_card.enabled == false or gift_card.expired -%}<p style="margin-top:14px">This gift card is no longer active.</p>{%- endif -%}
+  <p style="margin-top:18px">Code: <strong>{{ gift_card.code | format_code }}</strong></p>
+  <p style="margin-top:24px"><a class="btn primary" href="{{ shop.url }}">Shop now</a></p>
+</div>
+</body>
+</html>

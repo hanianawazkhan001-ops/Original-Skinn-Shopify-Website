@@ -1,0 +1,50 @@
+{%- comment -%}
+  Footer — copied from the test site. Each column can use a Shopify menu chosen in
+  the theme editor; until one is chosen, the test site's links are shown.
+{%- endcomment -%}
+{%- assign brand = settings.brand_name | default: 'Original Skinn' -%}
+<footer><div class="container"><div class="footer-grid">
+<div class="footer-brand"><img alt="{{ brand | escape }} logo" src="{{ 'logo.png' | asset_url }}" width="165" height="165"/><div><strong>{{ brand }}</strong><p>{{ section.settings.about_text }}</p></div></div>
+<div class="footer-col"><b>{{ section.settings.col1_title }}</b>
+{%- if section.settings.col1_menu != blank -%}
+  {%- for link in linklists[section.settings.col1_menu].links -%}<a href="{{ link.url }}">{{ link.title }}</a>{%- endfor -%}
+{%- else -%}
+<a href="{{ routes.collections_url }}/face">Face</a><a href="{{ routes.collections_url }}/body">Body</a><a href="{{ routes.collections_url }}/bath-shower">Bath &amp; Shower</a><a href="{{ routes.collections_url }}/baby">Baby</a><a href="{{ routes.collections_url }}/home-fragrance">Home Fragrance</a>
+{%- endif -%}
+</div>
+<div class="footer-col"><b>{{ section.settings.col2_title }}</b>
+{%- if section.settings.col2_menu != blank -%}
+  {%- for link in linklists[section.settings.col2_menu].links -%}<a href="{{ link.url }}">{{ link.title }}</a>{%- endfor -%}
+{%- else -%}
+<a href="/pages/about">About Us</a><a href="/pages/ingredients">Ingredients</a><a href="/pages/faqs">FAQ</a><a href="/pages/contact">Contact</a>
+{%- endif -%}
+</div>
+<div class="footer-col"><b>{{ section.settings.col3_title }}</b>
+{%- if section.settings.col3_menu != blank -%}
+  {%- for link in linklists[section.settings.col3_menu].links -%}<a href="{{ link.url }}">{{ link.title }}</a>{%- endfor -%}
+{%- else -%}
+<a href="/pages/delivery-returns">Delivery</a><a href="/pages/delivery-returns">Returns</a><a href="/policies/privacy-policy">Privacy</a><a href="/policies/terms-of-service">Terms</a><a href="/pages/cookie-policy">Cookie Policy</a>
+{%- endif -%}
+</div>
+</div><div class="footer-bottom"><span>&copy; {{ 'now' | date: '%Y' }} {{ section.settings.company_line }}</span></div></div></footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "enabled_on": { "groups": ["footer"] },
+  "settings": [
+    { "type": "textarea", "id": "about_text", "label": "Short description", "default": "Plant-led, vegan skincare and home fragrance, made in small batches. An independent brand from Hampshire, UK." },
+    { "type": "header", "content": "Column 1" },
+    { "type": "text", "id": "col1_title", "label": "Heading", "default": "Shop" },
+    { "type": "link_list", "id": "col1_menu", "label": "Menu", "info": "Leave empty to show the standard shop links." },
+    { "type": "header", "content": "Column 2" },
+    { "type": "text", "id": "col2_title", "label": "Heading", "default": "About" },
+    { "type": "link_list", "id": "col2_menu", "label": "Menu", "info": "Leave empty to show About Us, Ingredients, FAQ and Contact." },
+    { "type": "header", "content": "Column 3" },
+    { "type": "text", "id": "col3_title", "label": "Heading", "default": "Help" },
+    { "type": "link_list", "id": "col3_menu", "label": "Menu", "info": "Leave empty to show Delivery, Returns, Privacy, Terms and Cookie Policy." },
+    { "type": "header", "content": "Company details" },
+    { "type": "textarea", "id": "company_line", "label": "Company line", "default": "OriginalSkin Ltd, trading as Original Skinn · Registered in England and Wales, company no. 15919300 · Registered office: Pepys Cottage Bounce, Hook, South Warnborough, Hampshire, RG29 1RX" }
+  ]
+}
+{% endschema %}

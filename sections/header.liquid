@@ -1,0 +1,71 @@
+{%- comment -%}
+  Header, slide-out menu and bag icon — copied from the test site (index.html).
+  Menus: choose a Shopify menu in the theme editor; until one is chosen, the
+  test site's links are shown.
+{%- endcomment -%}
+<header class="header"><div class="nav">
+<nav class="nav-left"><button aria-label="Open menu" class="nav-icon menu-left" id="menuOpenBtn" type="button">&#9776;</button></nav>
+<a class="brand" href="{{ routes.root_url }}"><img alt="{{ settings.brand_name | default: 'Original Skinn' | escape }} logo" src="{{ 'logo.png' | asset_url }}" width="165" height="165"/></a>
+<div class="nav-right">
+  <a aria-label="Bag" class="nav-icon cart-right" id="cartBtn" href="{{ routes.cart_url }}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 5h2l2.1 10.2a1 1 0 0 0 1 .8h8.9a1 1 0 0 0 1-.8L20 8H7"></path><circle cx="10" cy="19" r="1.6"></circle><circle cx="17" cy="19" r="1.6"></circle></svg><span class="bag-count" id="bagCount">{{ cart.item_count }}</span></a>
+</div>
+</div></header>
+
+<div class="menu-overlay" id="menuOverlay" aria-hidden="true"></div>
+<aside class="menu-drawer" id="menuDrawer" aria-hidden="true" aria-label="Main menu">
+  <div class="menu-drawer-head">
+    <div class="menu-mini-brand"><img src="{{ 'logo.png' | asset_url }}" alt="{{ settings.brand_name | default: 'Original Skinn' | escape }}" width="165" height="165"><strong>{{ settings.brand_name | default: 'Original Skinn' }}</strong></div>
+    <button class="menu-close" id="menuClose" type="button" aria-label="Close menu">
+      <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div class="menu-inner">
+    <div class="menu-eyebrow">{{ section.settings.menu_eyebrow }}</div>
+    <nav class="menu-primary" aria-label="Shop categories">
+      {%- if section.settings.menu_shop != blank -%}
+        {%- for link in linklists[section.settings.menu_shop].links -%}
+      <a href="{{ link.url }}">{{ link.title }} <span class="arrow">&rarr;</span></a>
+        {%- endfor -%}
+      {%- else -%}
+      <a href="{{ routes.all_products_collection_url }}">Shop All <span class="arrow">&rarr;</span></a>
+      <a href="{{ routes.collections_url }}/face">Face <span class="arrow">&rarr;</span></a>
+      <a href="{{ routes.collections_url }}/body">Body <span class="arrow">&rarr;</span></a>
+      <a href="{{ routes.collections_url }}/bath-shower">Bath &amp; Shower <span class="arrow">&rarr;</span></a>
+      <a href="{{ routes.collections_url }}/baby">Baby <span class="arrow">&rarr;</span></a>
+      <a href="{{ routes.collections_url }}/home-fragrance">Home Fragrance <span class="arrow">&rarr;</span></a>
+      {%- endif -%}
+    </nav>
+    <div class="menu-divider"></div>
+    <nav class="menu-secondary" aria-label="Information">
+      {%- if section.settings.menu_info != blank -%}
+        {%- for link in linklists[section.settings.menu_info].links -%}
+      <a href="{{ link.url }}">{{ link.title }}</a>
+        {%- endfor -%}
+      {%- else -%}
+      <a href="/pages/about">About Us</a>
+      <a href="/pages/faqs">FAQs</a>
+      <a href="/pages/contact">Contact</a>
+      {%- endif -%}
+    </nav>
+    <div class="menu-spacer"></div>
+    <a class="menu-best" href="{{ section.settings.menu_button_link | default: routes.all_products_collection_url }}">{{ section.settings.menu_button_label }} &rarr;</a>
+    <div class="menu-note">{{ section.settings.menu_note }}</div>
+  </div>
+</aside>
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "os-header-section",
+  "enabled_on": { "groups": ["header"] },
+  "settings": [
+    { "type": "header", "content": "Slide-out menu" },
+    { "type": "text", "id": "menu_eyebrow", "label": "Small heading", "default": "Shop by ritual" },
+    { "type": "link_list", "id": "menu_shop", "label": "Shop links menu", "info": "Leave empty to show the standard shop links." },
+    { "type": "link_list", "id": "menu_info", "label": "Information links menu", "info": "Leave empty to show About Us, FAQs and Contact." },
+    { "type": "text", "id": "menu_button_label", "label": "Button label", "default": "Shop All" },
+    { "type": "url", "id": "menu_button_link", "label": "Button link" },
+    { "type": "text", "id": "menu_note", "label": "Note at the bottom", "default": "Natural skincare, thoughtfully made." }
+  ]
+}
+{% endschema %}

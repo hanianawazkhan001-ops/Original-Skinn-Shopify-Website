@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "coming-soon",
+      "settings": {
+        "eyebrow": "Your bag",
+        "text": "The bag is added in Step 7."
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

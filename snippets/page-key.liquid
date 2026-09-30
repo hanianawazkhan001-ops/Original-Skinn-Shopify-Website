@@ -1,0 +1,42 @@
+{%- comment -%}
+  Prints the page name the design's CSS uses (the same names as the test site),
+  e.g. home, shop-all, face, body, bath-shower, baby, home-fragrance, product, basket, about.
+  Collection and page names from Alex's store that differ are mapped here.
+{%- endcomment -%}
+{%- liquid
+  case template.name
+    when 'index'
+      assign key = 'home'
+    when 'product'
+      assign key = 'product'
+    when 'cart'
+      assign key = 'basket'
+    when 'collection'
+      assign key = collection.handle
+      case collection.handle
+        when 'all', 'shop-all', 'all-products'
+          assign key = 'shop-all'
+        when 'body-and-hair', 'body-care'
+          assign key = 'body'
+        when 'bath-and-shower', 'bath-shower'
+          assign key = 'bath-shower'
+        when 'home-fragrances', 'candles'
+          assign key = 'home-fragrance'
+      endcase
+    when 'page'
+      assign key = page.handle
+      case page.handle
+        when 'about-us'
+          assign key = 'about'
+        when 'faq'
+          assign key = 'faqs'
+        when 'contact-us'
+          assign key = 'contact'
+        when 'delivery', 'shipping', 'delivery-and-returns', 'shipping-returns'
+          assign key = 'delivery-returns'
+      endcase
+    else
+      assign key = template.name
+  endcase
+-%}
+{{- key -}}

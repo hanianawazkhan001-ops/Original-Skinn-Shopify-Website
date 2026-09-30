@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "coming-soon",
+      "settings": {
+        "eyebrow": "Product page",
+        "text": "Product pages are added in Step 6."
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "coming-soon",
+      "settings": {
+        "eyebrow": "Page",
+        "text": "Information pages are added in Step 8."
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

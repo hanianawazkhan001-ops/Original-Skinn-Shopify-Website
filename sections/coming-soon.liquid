@@ -1,0 +1,20 @@
+{%- comment -%}
+  Temporary placeholder used while the theme is being built step by step.
+  Each page template swaps this for its real sections in later steps.
+{%- endcomment -%}
+<div class="container" style="padding:96px 28px 110px;text-align:center">
+  <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+  <h2>{{ page_title | default: shop.name }}</h2>
+  <p style="margin:18px auto 0;max-width:520px;color:var(--muted)">{{ section.settings.text }}</p>
+</div>
+
+{% schema %}
+{
+  "name": "Coming soon (temporary)",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small heading", "default": "Being built" },
+    { "type": "text", "id": "text", "label": "Text", "default": "This page is added in a later step." }
+  ],
+  "presets": [{ "name": "Coming soon (temporary)" }]
+}
+{% endschema %}
