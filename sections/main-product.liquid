@@ -44,7 +44,7 @@
 <div class="product-info-panel">
 <span class="product-kicker" id="pdKicker">{{ cat_label }}</span>
 <h1 id="pdName">{{ product.title }}</h1>
-{%- if product.metafields.judgeme.badge != blank %}
+{%- if section.settings.judgeme %}
 {% render 'reviews-style' %}
 <div class="jdgm-widget jdgm-preview-badge os-rating" data-id="{{ product.id }}">{{ product.metafields.judgeme.badge }}</div>
 {%- endif %}
@@ -168,7 +168,7 @@
   endfor
   assign legacy_widget = product.metafields.judgeme.widget
 -%}
-{%- if app_blocks > 0 or legacy_widget != blank %}
+{%- if app_blocks > 0 or section.settings.judgeme %}
 {% render 'reviews-style' %}
 <section class="also-like os-reviews" id="reviews">
 <h2>{{ section.settings.reviews_heading }}</h2>
@@ -219,7 +219,9 @@
     { "type": "text", "id": "delivery_text", "label": "Delivery & returns text", "default": "Free UK delivery on orders over £30." },
     { "type": "text", "id": "delivery_link", "label": "Delivery & Returns page link", "default": "/pages/delivery-returns" },
     { "type": "text", "id": "also_heading", "label": "'You may also like' heading", "default": "You may also like" },
-    { "type": "text", "id": "reviews_heading", "label": "Reviews heading", "default": "Reviews", "info": "Shown above the reviews app's widget (Judge.me)." }
+    { "type": "header", "content": "Reviews" },
+    { "type": "checkbox", "id": "judgeme", "label": "Show Judge.me reviews and stars", "default": false, "info": "Needs the Judge.me app with its app embed switched on (Theme settings > App embeds)." },
+    { "type": "text", "id": "reviews_heading", "label": "Reviews heading", "default": "Reviews" }
   ],
   "blocks": [
     { "type": "@app" }
