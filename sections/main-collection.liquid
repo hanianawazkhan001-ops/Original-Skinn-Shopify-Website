@@ -1,0 +1,177 @@
+{%- comment -%}
+  Shop pages (Shop All, Face, Body, Bath & Shower, Baby, Home Fragrance) — copied from the test site.
+  The ritual heading, intro and ritual strip for each collection are blocks: each block says which
+  collection it belongs to, and only the blocks for the collection being viewed are shown.
+{%- endcomment -%}
+{%- liquid
+  assign h = collection.handle
+  assign is_all = false
+  if h == 'all' or h == 'shop-all' or h == 'all-products'
+    assign is_all = true
+  endif
+-%}
+<section class="shop-hero">
+<div aria-hidden="true" class="shop-leaf shop-leaf-a"></div>
+<div aria-hidden="true" class="shop-leaf shop-leaf-b"></div>
+<div class="shop-hero-inner">
+<span class="shop-kicker">{{ section.settings.kicker }}</span>
+<h1>{{ collection.title }}</h1>
+{%- if collection.description != blank %}
+<p>{{ collection.description | strip_html | strip }}</p>
+{%- endif %}
+</div>
+</section>
+<section aria-label="Shop all products" class="shop-shell">
+{%- if is_all %}
+<div class="filter-scroll" id="categoryFilters">
+<button class="filter-pill active" data-filter="all" type="button">All</button>
+<button class="filter-pill" data-filter="face" type="button">Face</button>
+<button class="filter-pill" data-filter="body" type="button">Body</button>
+<button class="filter-pill" data-filter="bath" type="button">Bath &amp; Shower</button>
+<button class="filter-pill" data-filter="baby" type="button">Baby</button>
+<button class="filter-pill" data-filter="home" type="button">Home Fragrance</button>
+</div>
+{%- endif %}
+<div class="shop-controls{% unless is_all %} category-controls{% endunless %}">
+<span id="productCount">{{ collection.products_count }} {% if collection.products_count == 1 %}product{% else %}products{% endif %}</span>
+<label class="sort-wrap">
+<span>Sort</span>
+<select aria-label="Sort products" id="sortProducts">
+<option value="featured">Featured</option>
+<option value="price-low">Price, low to high</option>
+<option value="price-high">Price, high to low</option>
+<option value="az">A–Z</option>
+</select>
+</label>
+</div>
+{%- for block in section.blocks -%}
+{%- if block.type == 'intro' and block.settings.collection.handle == h %}
+<div class="category-intro" {{ block.shopify_attributes }}>
+<h2>{{ block.settings.heading }}</h2>
+<p>{{ block.settings.text }}</p>
+</div>
+{%- endif -%}
+{%- endfor -%}
+{%- liquid
+  assign strip_steps = 0
+  for block in section.blocks
+    if block.type == 'step' and block.settings.collection.handle == h
+      assign strip_steps = strip_steps | plus: 1
+    endif
+  endfor
+-%}
+{%- if strip_steps > 0 -%}
+{%- assign buy = nil -%}{%- for block in section.blocks -%}{%- if block.type == 'buy' and block.settings.collection.handle == h -%}{%- assign buy = block -%}{%- endif -%}{%- endfor %}
+<section class="ritual-strip" aria-label="{{ buy.settings.kicker | escape }}">
+<div class="rs-steps">
+{%- assign n = 0 -%}
+{%- for block in section.blocks -%}
+{%- if block.type == 'step' and block.settings.collection.handle == h -%}
+{%- liquid
+  assign n = n | plus: 1
+  assign p = block.settings.product
+  assign alt = block.settings.switch_product
+  assign url = block.settings.link | default: p.url
+  assign name = block.settings.name | default: p.title
+-%}
+{%- if n > 1 %}<span class="rs-plus" aria-hidden="true">+</span>{% endif -%}
+<div class="rs-tile" data-variant="{{ p.selected_or_first_available_variant.id }}"{% if alt != blank %} data-variant-a="{{ p.selected_or_first_available_variant.id }}" data-variant-b="{{ alt.selected_or_first_available_variant.id }}" data-url-a="{{ p.url }}" data-url-b="{{ alt.url }}" data-img-a="{{ p.featured_image | image_url: width: 600 }}" data-img-b="{{ alt.featured_image | image_url: width: 600 }}"{% endif %} {{ block.shopify_attributes }}>
+<a class="rs-img" href="{{ url }}" tabindex="-1" aria-hidden="true"><img alt="" loading="lazy" src="{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 600 }}{% else %}{{ p.featured_image | image_url: width: 600 }}{% endif %}"/></a>
+<div class="rs-text"><span class="rs-step">{{ block.settings.step_label }}</span><a class="rs-name card-title-link" href="{{ url }}">{% if alt != blank %}<span class="rs-var-name">{{ block.settings.switch_label_a }}</span> {{ block.settings.name_suffix }}{% else %}{{ name }}{% endif %}</a><span class="rs-price">{{ p.selected_or_first_available_variant.price | money_without_trailing_zeros }}</span>{% if block.settings.note != blank %}<p class="rs-note">{{ block.settings.note }}</p>{% endif %}{% if alt != blank %}<span class="rs-switch" role="group" aria-label="Choose moisturiser"><button type="button" class="rs-opt active" data-variant="a">{{ block.settings.switch_label_a }}</button><button type="button" class="rs-opt" data-variant="b">{{ block.settings.switch_label_b }}</button></span>{% endif %}</div>
+</div>
+{%- endif -%}
+{%- endfor %}
+</div>
+{%- if buy %}
+<div class="rs-buy" {{ buy.shopify_attributes }}>
+<div class="rs-buy-text"><span class="rs-kicker">{{ buy.settings.kicker }}</span><div class="rs-total">{{ buy.settings.total_html }}</div>{% if buy.settings.small != blank %}<p class="rs-small">{{ buy.settings.small }}</p>{% endif %}</div>
+<div class="rs-buy-action">{%- liquid
+  assign add_ids = ''
+  for ap in buy.settings.add_products
+    assign add_ids = add_ids | append: ap.selected_or_first_available_variant.id | append: ','
+  endfor
+-%}
+<button class="btn primary rs-add"{% if add_ids != blank %} data-variants="{{ add_ids }}"{% endif %} data-product="{{ buy.settings.ritual_name | escape }}" data-base-name="{{ buy.settings.ritual_name | escape }}" data-base-label="{{ buy.settings.button_label | escape }}" data-base-total="{{ buy.settings.total_html | escape }}" data-base-small="{{ buy.settings.small | escape }}"{% if buy.settings.upgrade %} data-up-name="{{ buy.settings.upgrade_ritual_name | escape }}" data-up-label="{{ buy.settings.upgrade_button_label | escape }}" data-up-total="{{ buy.settings.upgrade_total_html | escape }}" data-up-small="{{ buy.settings.upgrade_small | escape }}"{% endif %} type="button">{{ buy.settings.button_label }}</button>{% if buy.settings.upgrade %}<label class="rs-upgrade"><input type="checkbox" class="rs-both"/> <span>Add <span class="rs-other">{{ buy.settings.upgrade_other_label }}</span> {{ buy.settings.upgrade_text }}</span></label>{% endif %}</div>
+</div>
+{%- endif %}
+</section>
+{%- endif %}
+<div class="shop-grid" id="productGrid">
+{%- paginate collection.products by 50 -%}
+{%- for product in collection.products -%}
+{%- render 'shop-card', product: product, order: forloop.index0 -%}
+{%- endfor -%}
+{%- endpaginate -%}
+</div>
+</section>
+<section class="shop-reassurance">
+<div><strong>{{ section.settings.r1_title }}</strong><p>{{ section.settings.r1_text }}</p></div>
+<div><strong>{{ section.settings.r2_title }}</strong><p>{{ section.settings.r2_text }}</p></div>
+<div><strong>{{ section.settings.r3_title }}</strong><p>{{ section.settings.r3_text }}</p></div>
+</section>
+
+{% schema %}
+{
+  "name": "Shop page",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Small heading above the page name", "default": "Original Skinn" },
+    { "type": "header", "content": "Reassurance strip at the bottom" },
+    { "type": "text", "id": "r1_title", "label": "Point 1", "default": "Vegan" },
+    { "type": "text", "id": "r1_text", "label": "Point 1 text", "default": "Every product, no exceptions." },
+    { "type": "text", "id": "r2_title", "label": "Point 2", "default": "Free UK delivery" },
+    { "type": "text", "id": "r2_text", "label": "Point 2 text", "default": "On orders over £30." },
+    { "type": "text", "id": "r3_title", "label": "Point 3", "default": "Safety assessed" },
+    { "type": "text", "id": "r3_text", "label": "Point 3 text", "default": "Every product professionally safety assessed." }
+  ],
+  "blocks": [
+    {
+      "type": "intro",
+      "name": "Ritual heading + intro",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Show on this collection" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Face Ritual" },
+        { "type": "textarea", "id": "text", "label": "Intro text", "default": "Cleanse, refresh, moisturise." }
+      ]
+    },
+    {
+      "type": "step",
+      "name": "Ritual strip: step",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Show on this collection" },
+        { "type": "text", "id": "step_label", "label": "Step label", "default": "Step 1 · Cleanse" },
+        { "type": "product", "id": "product", "label": "Product (added to the bag)" },
+        { "type": "text", "id": "name", "label": "Name shown (leave empty for the product name)" },
+        { "type": "text", "id": "link", "label": "Link (leave empty for the product page)" },
+        { "type": "image_picker", "id": "image", "label": "Photo (leave empty for the product photo)" },
+        { "type": "text", "id": "note", "label": "Small note under the price" },
+        { "type": "header", "content": "Optional choice (e.g. Day / Night)" },
+        { "type": "product", "id": "switch_product", "label": "Second choice product" },
+        { "type": "text", "id": "switch_label_a", "label": "First choice label", "default": "Day" },
+        { "type": "text", "id": "switch_label_b", "label": "Second choice label", "default": "Night" },
+        { "type": "text", "id": "name_suffix", "label": "Name after the choice label", "default": "Moisturiser & Serum" }
+      ]
+    },
+    {
+      "type": "buy",
+      "name": "Ritual price + button",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Show on this collection" },
+        { "type": "text", "id": "kicker", "label": "Ritual name", "default": "Face Ritual" },
+        { "type": "text", "id": "total_html", "label": "Price as shown", "default": "<s>£35</s> £32" },
+        { "type": "text", "id": "small", "label": "Small text under the price", "default": "Saves £3." },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "Add the Face Ritual" },
+        { "type": "text", "id": "ritual_name", "label": "Name for the 'added' message", "default": "Face Ritual" },
+        { "type": "product_list", "id": "add_products", "label": "Products added to the bag", "info": "Leave empty to add the products shown in the steps.", "limit": 5 },
+        { "type": "header", "content": "Optional upgrade checkbox" },
+        { "type": "checkbox", "id": "upgrade", "label": "Show upgrade checkbox", "default": false },
+        { "type": "text", "id": "upgrade_other_label", "label": "Upgrade: product label", "default": "Night" },
+        { "type": "text", "id": "upgrade_text", "label": "Upgrade: text after the label", "default": "Moisturiser & Serum for £13 more" },
+        { "type": "text", "id": "upgrade_total_html", "label": "Upgrade: price as shown", "default": "<s>£50</s> £45" },
+        { "type": "text", "id": "upgrade_small", "label": "Upgrade: small text", "default": "Saves £5." },
+        { "type": "text", "id": "upgrade_button_label", "label": "Upgrade: button label", "default": "Add the Day & Night Face Ritual" },
+        { "type": "text", "id": "upgrade_ritual_name", "label": "Upgrade: name for the 'added' message", "default": "Day & Night Face Ritual" }
+      ]
+    }
+  ]
+}
+{% endschema %}

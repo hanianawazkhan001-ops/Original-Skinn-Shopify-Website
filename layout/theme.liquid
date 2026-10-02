@@ -22,7 +22,8 @@
 {% sections 'header-group' %}
 <section class="page-section entering" data-page="{% render 'page-key' %}">
 {% section 'announcement-bar' %}
-<main id="MainContent">
+{%- capture main_class -%}{% render 'main-class' %}{%- endcapture -%}
+<main id="MainContent"{% if main_class != blank %} class="{{ main_class }}"{% endif %}>
 {{ content_for_layout }}
 </main>
 </section>

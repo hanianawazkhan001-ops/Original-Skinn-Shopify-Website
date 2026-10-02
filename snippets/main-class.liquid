@@ -1,0 +1,29 @@
+{%- comment -%} The class the test site put on <main> for each kind of page (the design's CSS uses it). {%- endcomment -%}
+{%- capture key -%}{% render 'page-key' %}{%- endcapture -%}
+{%- liquid
+  case template.name
+    when 'collection', 'list-collections'
+      echo 'shop-page'
+    when 'product'
+      echo 'product-page'
+    when 'cart'
+      echo 'basket-page'
+    when 'page'
+      case key
+        when 'contact'
+          echo 'contact-page'
+        when 'faqs'
+          echo 'faq-page'
+        when 'delivery-returns'
+          echo 'delivery-page'
+        when 'privacy'
+          echo 'privacy-page'
+        when 'terms'
+          echo 'terms-page'
+        when 'cookie-policy'
+          echo 'cookie-page'
+        else
+          echo 'about-page'
+      endcase
+  endcase
+-%}

@@ -83,10 +83,23 @@
   window.OS.addToBag = addToBag;
 
   document.addEventListener('click', function(e){
-    var btn = e.target.closest ? e.target.closest('.quickadd, .concern-add') : null;
-    if(!btn || !btn.dataset.variants) return;
+    var btn = e.target.closest ? e.target.closest('.quickadd, .concern-add, .card-add, .rs-add') : null;
+    if(!btn) return;
+    var list = btn.dataset.variants || '';
+    var strip = (btn.classList.contains('rs-add') && !list) ? btn.closest('.ritual-strip') : null;
+    if(strip){
+      // a ritual strip adds the product shown in each step (and the other choice too, if ticked)
+      var ids = [];
+      strip.querySelectorAll('.rs-tile[data-variant]').forEach(function(t){ ids.push(t.dataset.variant); });
+      var both = strip.querySelector('.rs-both');
+      var sw = strip.querySelector('.rs-tile[data-variant-b]');
+      if(both && both.checked && sw){
+        ids.push(sw.dataset.variant === sw.dataset.variantA ? sw.dataset.variantB : sw.dataset.variantA);
+      }
+      list = ids.join(',');
+    }
+    if(!list) return;
     e.preventDefault();
-    var list = btn.dataset.variants;
     var card = btn.closest('.concern-card');
     var extra = card ? card.querySelector('.concern-night') : null;
     if(extra && extra.checked && extra.dataset.variant) list += ',' + extra.dataset.variant;
@@ -111,6 +124,87 @@
       }
     });
   });
+})();
+
+// ---- shop pages: ritual strip Day/Night choice, sort and filter pills (copied from the test site) ----
+(function(){
+  document.querySelectorAll('.ritual-strip').forEach(function(strip){
+    var tile = strip.querySelector('.rs-tile[data-variant-b]');
+    var btn = strip.querySelector('.rs-add');
+    var both = strip.querySelector('.rs-both');
+    var total = strip.querySelector('.rs-total');
+    var small = strip.querySelector('.rs-small');
+    var other = strip.querySelector('.rs-other');
+    if(!btn) return;
+    var opts = tile ? tile.querySelectorAll('.rs-opt') : [];
+    var varName = tile ? tile.querySelector('.rs-var-name') : null;
+    function label(which){ var o = tile.querySelector('.rs-opt[data-variant="' + which + '"]'); return o ? o.textContent : ''; }
+    function refresh(){
+      if(both && both.checked && btn.dataset.upName){
+        total.innerHTML = btn.dataset.upTotal;
+        if(small) small.textContent = btn.dataset.upSmall;
+        btn.textContent = btn.dataset.upLabel; btn.dataset.product = btn.dataset.upName;
+      } else {
+        total.innerHTML = btn.dataset.baseTotal;
+        if(small) small.textContent = btn.dataset.baseSmall;
+        btn.textContent = btn.dataset.baseLabel;
+        btn.dataset.product = btn.dataset.baseName + (varName ? ' (' + varName.textContent + ')' : '');
+      }
+    }
+    Array.prototype.forEach.call(opts, function(o){
+      o.addEventListener('click', function(){
+        Array.prototype.forEach.call(opts, function(x){ x.classList.remove('active'); });
+        o.classList.add('active');
+        var v = o.dataset.variant; // 'a' or 'b'
+        var isA = v === 'a';
+        varName.textContent = label(v);
+        if(other) other.textContent = label(isA ? 'b' : 'a');
+        tile.dataset.variant = isA ? tile.dataset.variantA : tile.dataset.variantB;
+        var img = tile.querySelector('.rs-img img');
+        if(img) img.src = isA ? tile.dataset.imgA : tile.dataset.imgB;
+        tile.querySelectorAll('a').forEach(function(l){ l.setAttribute('href', isA ? tile.dataset.urlA : tile.dataset.urlB); });
+        refresh();
+      });
+    });
+    if(both) both.addEventListener('change', refresh);
+    if(tile || both) refresh();
+  });
+
+  var sel = document.querySelector('.shop-shell #sortProducts');
+  var grid = document.querySelector('.shop-grid');
+  if(sel && grid){
+    var cards = Array.prototype.slice.call(grid.querySelectorAll('.shop-card'));
+    sel.addEventListener('change', function(){
+      var mode = sel.value;
+      var sorted = cards.slice().sort(function(a,b){
+        if(mode === 'price-low') return (+a.dataset.price) - (+b.dataset.price);
+        if(mode === 'price-high') return (+b.dataset.price) - (+a.dataset.price);
+        if(mode === 'az') return a.dataset.name.localeCompare(b.dataset.name);
+        return (+a.dataset.order) - (+b.dataset.order);
+      });
+      sorted.forEach(function(c){ grid.appendChild(c); });
+    });
+  }
+
+  var pills = Array.prototype.slice.call(document.querySelectorAll('.filter-pill'));
+  var count = document.getElementById('productCount');
+  if(pills.length && grid){
+    var all = Array.prototype.slice.call(grid.querySelectorAll('.shop-card'));
+    pills.forEach(function(pill){
+      pill.addEventListener('click', function(){
+        pills.forEach(function(p){ p.classList.remove('active'); });
+        pill.classList.add('active');
+        var filter = pill.dataset.filter;
+        var visible = 0;
+        all.forEach(function(card){
+          var show = filter === 'all' || (' ' + card.dataset.category + ' ').indexOf(' ' + filter + ' ') !== -1;
+          card.hidden = !show;
+          if(show) visible++;
+        });
+        if(count) count.textContent = visible + (visible === 1 ? ' product' : ' products');
+      });
+    });
+  }
 })();
 
 // ---- scroll-reveal: elements slide/rise/pop into place as you scroll ----

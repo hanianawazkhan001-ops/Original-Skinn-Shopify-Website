@@ -1,11 +1,215 @@
 {
   "sections": {
     "main": {
-      "type": "coming-soon",
-      "settings": {
-        "eyebrow": "Collection page",
-        "text": "Collection pages are added in Step 5."
-      }
+      "type": "main-collection",
+      "blocks": {
+        "face_intro": {
+          "type": "intro",
+          "settings": {
+            "collection": "face",
+            "heading": "Face Ritual",
+            "text": "Cleanse, refresh, moisturise. A gentle foaming wash, a toner mist, and a moisturiser & serum for day or night. Take all three in the Face Ritual and save — or add the Night Moisturiser for the full Day & Night Face Ritual."
+          }
+        },
+        "face_s1": {
+          "type": "step",
+          "settings": {
+            "collection": "face",
+            "step_label": "Step 1 · Cleanse",
+            "product": "gentle-foaming-face-wash",
+            "name": "Gentle Foaming Face Wash"
+          }
+        },
+        "face_s2": {
+          "type": "step",
+          "settings": {
+            "collection": "face",
+            "step_label": "Step 2 · Refresh",
+            "product": "facial-toner-mist"
+          }
+        },
+        "face_s3": {
+          "type": "step",
+          "settings": {
+            "collection": "face",
+            "step_label": "Step 3 · Moisturise",
+            "product": "day-facial-moisturiser-serum",
+            "switch_product": "night-facial-moisturiser-serum",
+            "switch_label_a": "Day",
+            "switch_label_b": "Night",
+            "name_suffix": "Moisturiser & Serum"
+          }
+        },
+        "face_buy": {
+          "type": "buy",
+          "settings": {
+            "collection": "face",
+            "kicker": "Face Ritual",
+            "total_html": "<s>£35</s> £32",
+            "small": "Saves £3.",
+            "button_label": "Add the Face Ritual",
+            "ritual_name": "Face Ritual",
+            "upgrade": true,
+            "upgrade_other_label": "Night",
+            "upgrade_text": "Moisturiser & Serum for £13 more",
+            "upgrade_total_html": "<s>£50</s> £45",
+            "upgrade_small": "Saves £5.",
+            "upgrade_button_label": "Add the Day & Night Face Ritual",
+            "upgrade_ritual_name": "Day & Night Face Ritual"
+          }
+        },
+        "body_intro": {
+          "type": "intro",
+          "settings": {
+            "collection": "body",
+            "heading": "Soft Skin Ritual",
+            "text": "Whipped body butters in five scents. Rich, melts into skin, and made by hand in small batches."
+          }
+        },
+        "body_s1": {
+          "type": "step",
+          "settings": {
+            "collection": "body",
+            "step_label": "Step 1 · Scrub",
+            "product": "grapefruit-salt-scrub",
+            "name": "Salt Scrub",
+            "note": "Choose your scent"
+          }
+        },
+        "body_s2": {
+          "type": "step",
+          "settings": {
+            "collection": "body",
+            "step_label": "Step 2 · Butter",
+            "product": "black-cherry-whipped-body-butter",
+            "name": "Whipped Body Butter",
+            "link": "/collections/body",
+            "note": "Choose your scent"
+          }
+        },
+        "body_buy": {
+          "type": "buy",
+          "settings": {
+            "collection": "body",
+            "kicker": "Soft Skin Ritual",
+            "total_html": "£20",
+            "button_label": "Add the Scrub + Butter ritual",
+            "ritual_name": "Scrub & Butter ritual",
+            "small": ""
+          }
+        },
+        "bath_intro": {
+          "type": "intro",
+          "settings": {
+            "collection": "bath-shower",
+            "heading": "Bath Ritual",
+            "text": "Wash, scrub, soak, then butter. Shower gel, salt scrubs and bath soaks made to leave skin feeling smooth and calm."
+          }
+        },
+        "bath_s1": {
+          "type": "step",
+          "settings": {
+            "collection": "bath-shower",
+            "step_label": "Step 1 · Scrub",
+            "product": "grapefruit-salt-scrub"
+          }
+        },
+        "bath_s2": {
+          "type": "step",
+          "settings": {
+            "collection": "bath-shower",
+            "step_label": "Step 2 · Soak",
+            "product": "lavender-jojoba-bath-soak"
+          }
+        },
+        "bath_s3": {
+          "type": "step",
+          "settings": {
+            "collection": "bath-shower",
+            "step_label": "Step 3 · Butter",
+            "product": "lavender-whipped-body-butter"
+          }
+        },
+        "bath_buy": {
+          "type": "buy",
+          "settings": {
+            "collection": "bath-shower",
+            "kicker": "Bath Ritual",
+            "total_html": "<s>£26</s> £24",
+            "small": "Saves £2 and unlocks free delivery with one more item.",
+            "button_label": "Add the full Bath Ritual",
+            "ritual_name": "Bath Ritual"
+          }
+        },
+        "baby_intro": {
+          "type": "intro",
+          "settings": {
+            "collection": "baby",
+            "heading": "Bedtime Ritual",
+            "text": "A gentle wash and an organic moisturiser for everyday care. Both together in the Baby Essentials Bundle."
+          }
+        },
+        "baby_s1": {
+          "type": "step",
+          "settings": {
+            "collection": "baby",
+            "step_label": "Step 1 · Wash",
+            "product": "lavender-chamomile-baby-wash"
+          }
+        },
+        "baby_s2": {
+          "type": "step",
+          "settings": {
+            "collection": "baby",
+            "step_label": "Step 2 · Moisturise",
+            "product": "organic-baby-moisturiser"
+          }
+        },
+        "baby_buy": {
+          "type": "buy",
+          "settings": {
+            "collection": "baby",
+            "kicker": "Bedtime Ritual",
+            "total_html": "<s>£17</s> £15",
+            "small": "Saves £2.",
+            "button_label": "Add the Baby Essentials Bundle",
+            "ritual_name": "Baby Essentials Bundle",
+            "add_products": [
+              "baby-essentials-bundle"
+            ]
+          }
+        },
+        "home_intro": {
+          "type": "intro",
+          "settings": {
+            "collection": "home-fragrance",
+            "heading": "Home Ritual",
+            "text": "Candles and car blends to finish the evening. These use fragrance oils, so they sit outside our plant-led skincare range."
+          }
+        }
+      },
+      "block_order": [
+        "face_intro",
+        "face_s1",
+        "face_s2",
+        "face_s3",
+        "face_buy",
+        "body_intro",
+        "body_s1",
+        "body_s2",
+        "body_buy",
+        "bath_intro",
+        "bath_s1",
+        "bath_s2",
+        "bath_s3",
+        "bath_buy",
+        "baby_intro",
+        "baby_s1",
+        "baby_s2",
+        "baby_buy",
+        "home_intro"
+      ],
+      "settings": {}
     }
   },
   "order": [
