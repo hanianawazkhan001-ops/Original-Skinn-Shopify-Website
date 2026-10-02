@@ -1,0 +1,32 @@
+{%- comment -%} Home: the three-step routine — copied from the test site. Each step is a block. {%- endcomment -%}
+<section class="section soft" id="ritual"><div class="container"><div class="ritual-wrap"><div class="ritual-copy"><h2>{{ section.settings.heading }}</h2><p>{{ section.settings.text }}</p><div class="steps">
+{%- for block in section.blocks -%}
+<div class="step" {{ block.shopify_attributes }}><div class="step-num">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</div><div><strong>{{ block.settings.title }}</strong><span>{{ block.settings.text }}</span></div></div>
+{%- endfor -%}
+</div><div style="margin-top:28px"><a class="btn primary" href="{{ section.settings.button_link }}">{{ section.settings.button_label }}</a></div></div><div class="ritual-image">{% render 'os-img', image: section.settings.image, fallback: 'photo-salt-scrub.jpg', alt: section.settings.image_alt, width: 1400, lazy: true %}</div></div></div></section>
+
+{% schema %}
+{
+  "name": "Three-step routine",
+  "max_blocks": 5,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "A routine people can actually follow." },
+    { "type": "text", "id": "text", "label": "Text", "default": "Three steps. That's the whole routine." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Build your ritual →" },
+    { "type": "text", "id": "button_link", "label": "Button link", "default": "#concerns" },
+    { "type": "image_picker", "id": "image", "label": "Photo" },
+    { "type": "text", "id": "image_alt", "label": "Photo description", "default": "Original Skinn Grapefruit Salt Scrub with fresh grapefruit" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Step title", "default": "Cleanse gently" },
+        { "type": "textarea", "id": "text", "label": "Step text", "default": "Start with our Gentle Foaming Face Wash, or the Mandarin & Geranium Shower Gel for body." }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Three-step routine" }]
+}
+{% endschema %}

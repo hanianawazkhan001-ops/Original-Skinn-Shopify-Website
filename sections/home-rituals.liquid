@@ -1,0 +1,35 @@
+{%- comment -%} Home: Shop by ritual tiles — copied from the test site. Each tile is a block. {%- endcomment -%}
+<section class="section" id="shop"><div class="container"><div class="section-head"><div><h2>{{ section.settings.heading }}</h2></div></div>
+<div class="categories">
+{%- for block in section.blocks -%}
+<a class="cat {{ block.settings.style }}" href="{{ block.settings.link }}" {{ block.shopify_attributes }}>{% render 'os-img', image: block.settings.image, fallback: block.settings.fallback, alt: block.settings.image_alt, width: 1400, lazy: true %}<div class="cat-title">{{ block.settings.title }}{% if block.settings.subtitle != blank %}<span class="cat-sub">{{ block.settings.subtitle }}</span>{% endif %}</div><div class="cat-label"><span>{{ block.settings.label }}</span></div></a>
+{%- endfor -%}
+</div></div></section>
+
+{% schema %}
+{
+  "name": "Shop by ritual",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Shop by ritual." }
+  ],
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Ritual tile",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo" },
+        { "type": "text", "id": "fallback", "label": "Built-in photo (used when no photo is chosen)", "default": "photo-face.jpg" },
+        { "type": "text", "id": "image_alt", "label": "Photo description", "default": "Face" },
+        { "type": "text", "id": "title", "label": "Ritual name", "default": "Morning & Evening Ritual" },
+        { "type": "text", "id": "subtitle", "label": "Category", "default": "Face" },
+        { "type": "text", "id": "label", "label": "Link text", "default": "Shop face →" },
+        { "type": "text", "id": "link", "label": "Link", "default": "/collections/face" },
+        { "type": "select", "id": "style", "label": "Tile style", "default": "face",
+          "options": [ { "value": "face", "label": "Face" }, { "value": "body", "label": "Body" }, { "value": "bath", "label": "Bath" }, { "value": "baby", "label": "Baby" }, { "value": "home", "label": "Home" }, { "value": "shopall", "label": "Shop all" } ] }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Shop by ritual" }]
+}
+{% endschema %}

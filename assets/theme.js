@@ -53,6 +53,66 @@
   });
 })();
 
+// ---- add to bag (Quick add, ritual buttons) using Shopify's cart ----
+(function(){
+  var root = (window.Shopify && Shopify.routes && Shopify.routes.root) ? Shopify.routes.root : '/';
+  function setCount(n){
+    var el = document.getElementById('bagCount');
+    if(el) el.textContent = n;
+  }
+  function addToBag(variantList, name, btn){
+    var items = String(variantList || '').split(',').filter(Boolean).map(function(id){ return {id: Number(id), quantity: 1}; });
+    if(!items.length){ window.OS.notify('Sorry, this isn’t available right now.'); return; }
+    if(btn) btn.disabled = true;
+    fetch(root + 'cart/add.js', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+      body: JSON.stringify({items: items})
+    }).then(function(r){
+      return r.json().then(function(data){ if(!r.ok) throw data; return data; });
+    }).then(function(){
+      return fetch(root + 'cart.js', {headers: {'Accept': 'application/json'}}).then(function(r){ return r.json(); });
+    }).then(function(cart){
+      setCount(cart.item_count);
+      window.OS.notify((name || 'Item') + ' added to bag');
+      document.dispatchEvent(new CustomEvent('os:cart-updated', {detail: cart}));
+    }).catch(function(err){
+      window.OS.notify((err && err.description) ? err.description : 'Sorry, that couldn’t be added. Please try again.');
+    }).then(function(){ if(btn) btn.disabled = false; });
+  }
+  window.OS.addToBag = addToBag;
+
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest ? e.target.closest('.quickadd, .concern-add') : null;
+    if(!btn || !btn.dataset.variants) return;
+    e.preventDefault();
+    var list = btn.dataset.variants;
+    var card = btn.closest('.concern-card');
+    var extra = card ? card.querySelector('.concern-night') : null;
+    if(extra && extra.checked && extra.dataset.variant) list += ',' + extra.dataset.variant;
+    addToBag(list, btn.dataset.product, btn);
+  });
+
+  // Face Ritual: "Add Night Moisturiser & Serum" checkbox changes the price and button wording
+  document.querySelectorAll('.concern-night').forEach(function(box){
+    var card = box.closest('.concern-card');
+    var btn = card.querySelector('.concern-add');
+    var price = card.querySelector('.concern-price');
+    var base = {price: price.innerHTML, label: btn.textContent, name: btn.dataset.product};
+    box.addEventListener('change', function(){
+      if(box.checked){
+        price.innerHTML = box.dataset.price;
+        btn.textContent = box.dataset.label;
+        btn.dataset.product = box.dataset.name;
+      } else {
+        price.innerHTML = base.price;
+        btn.textContent = base.label;
+        btn.dataset.product = base.name;
+      }
+    });
+  });
+})();
+
 // ---- scroll-reveal: elements slide/rise/pop into place as you scroll ----
 (function(){
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;

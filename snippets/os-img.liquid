@@ -1,0 +1,16 @@
+{%- comment -%}
+  An <img> for a theme setting that can hold an image chosen in the theme editor.
+  If no image is chosen, the photo that ships with the theme (fallback) is used.
+  Params: image, fallback (asset file name), alt, width (default 1600), lazy (true/false), attrs (extra attributes)
+{%- endcomment -%}
+{%- liquid
+  assign w = width | default: 1600
+  if image != blank
+    assign src = image | image_url: width: w
+    assign alt_text = alt | default: image.alt
+  else
+    assign src = fallback | asset_url
+    assign alt_text = alt
+  endif
+-%}
+<img {% if lazy %}loading="lazy" {% endif %}alt="{{ alt_text | escape }}" src="{{ src }}"{% if attrs %} {{ attrs }}{% endif %}/>

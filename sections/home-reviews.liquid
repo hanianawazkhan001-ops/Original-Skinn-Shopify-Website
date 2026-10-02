@@ -1,0 +1,31 @@
+{%- comment -%}
+  Home: "What customers say" — copied from the test site.
+  NOTE: these three quotes come from the test site. Before launch they must be replaced by real
+  customer reviews from the reviews app (Judge.me) — see the edit guide, item 2 (DMCC Act).
+{%- endcomment -%}
+<section class="section reviews"><div class="container"><h2>{{ section.settings.heading }}</h2><div class="review-grid">
+{%- for block in section.blocks -%}
+<article class="review{% if forloop.first %} featured{% endif %}" {{ block.shopify_attributes }}><blockquote>“{{ block.settings.quote }}”</blockquote><small>{{ block.settings.name }}</small></article>
+{%- endfor -%}
+</div></div></section>
+
+{% schema %}
+{
+  "name": "Customer reviews",
+  "max_blocks": 3,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What customers say." }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "After just a few weeks, my skin felt softer, healthier and more hydrated." },
+        { "type": "text", "id": "name", "label": "Customer name", "default": "Sarah Johnson" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Customer reviews" }]
+}
+{% endschema %}

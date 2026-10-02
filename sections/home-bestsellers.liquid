@@ -1,0 +1,46 @@
+{%- comment -%}
+  Home: Best Sellers — copied from the test site. Each card is a block that picks a product.
+  The card's name, description and link can be changed per card (e.g. the "Whipped Body Butter" card
+  shows a body butter but links to the whole Body collection).
+{%- endcomment -%}
+<section class="section soft" id="bestsellers"><div class="container"><div class="section-head"><div><h2>{{ section.settings.heading }}</h2></div><div><p class="section-intro">{{ section.settings.intro }}</p></div></div>
+<div class="products">
+{%- for block in section.blocks -%}
+{%- assign p = block.settings.product -%}
+{%- if p != blank -%}
+{%- liquid
+  assign title = block.settings.title | default: p.title
+  assign url = block.settings.link | default: p.url
+  assign desc = block.settings.description | default: p.metafields.custom.tagline.value
+  assign alt = block.settings.image_alt | default: p.featured_image.alt | default: title
+-%}
+<article class="product" {{ block.shopify_attributes }}><div class="product-media">{% if block.settings.badge != blank %}<span class="badge">{{ block.settings.badge }}</span>{% endif %}<a class="card-media-link" href="{{ url }}" tabindex="-1" aria-hidden="true"><img loading="lazy" alt="{{ alt | escape }}" src="{{ p.featured_image | image_url: width: 900 }}"/></a></div><div class="product-info"><div class="product-title"><a class="card-title-link" href="{{ url }}">{{ title }}</a></div><div class="product-desc">{{ desc }}</div><div class="product-row"><span class="price">{{ p.selected_or_first_available_variant.price | money }}</span><button class="quickadd" data-product="{{ title | escape }}" data-variants="{{ p.selected_or_first_available_variant.id }}">Quick add</button></div></div></article>
+{%- endif -%}
+{%- endfor -%}
+</div></div></section>
+
+{% schema %}
+{
+  "name": "Best sellers",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Best Sellers." },
+    { "type": "text", "id": "intro", "label": "Intro", "default": "Our most-loved products, ready to add to your bag." }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Product card",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "text", "id": "badge", "label": "Small label on the photo", "default": "Best seller" },
+        { "type": "text", "id": "title", "label": "Name shown (leave empty for the product name)" },
+        { "type": "text", "id": "description", "label": "Short description (leave empty for the product's tagline)" },
+        { "type": "text", "id": "link", "label": "Link (leave empty for the product page)" },
+        { "type": "text", "id": "image_alt", "label": "Photo description" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Best sellers" }]
+}
+{% endschema %}

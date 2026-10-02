@@ -1,0 +1,72 @@
+{%- comment -%}
+  Home: "What's bothering your skin?" — copied from the test site.
+  Each card is a block. "Add the ritual" puts the chosen products in the bag.
+  The Face Ritual card can offer the Night Moisturiser & Serum as an extra.
+{%- endcomment -%}
+<section class="section concerns" id="concerns"><div class="container">
+<div class="section-head"><div><h2>{{ section.settings.heading }}</h2></div><div><p class="section-intro">{{ section.settings.intro }}</p></div></div>
+<div class="concern-grid">
+{%- for block in section.blocks -%}
+{%- liquid
+  assign ids = ''
+  for p in block.settings.products
+    assign ids = ids | append: p.selected_or_first_available_variant.id | append: ','
+  endfor
+  assign up = block.settings.upgrade_product
+-%}
+<article class="concern-card" {{ block.shopify_attributes }}>
+<div class="concern-media">{% render 'os-img', image: block.settings.image, fallback: block.settings.fallback, alt: block.settings.image_alt, width: 1200, lazy: true %}</div>
+<div class="concern-body">
+<h3>{{ block.settings.heading }}</h3>
+<p class="concern-fix">{{ block.settings.fix }}</p>
+<p class="concern-products">{{ block.settings.products_text }}</p>
+<div class="concern-buy">
+<div class="concern-price" data-base="{{ block.settings.price_html | escape }}">{{ block.settings.price_html }}</div>
+<button class="btn primary concern-add" data-product="{{ block.settings.ritual_name | escape }}" data-variants="{{ ids }}" data-label="{{ block.settings.button_label | escape }}" type="button">{{ block.settings.button_label }}</button>
+{%- if up != blank -%}
+<label class="concern-upgrade"><input type="checkbox" class="concern-night" data-variant="{{ up.selected_or_first_available_variant.id }}" data-price="{{ block.settings.upgrade_price_html | escape }}" data-name="{{ block.settings.upgrade_ritual_name | escape }}" data-label="{{ block.settings.upgrade_button_label | escape }}"/> <span>{{ block.settings.upgrade_text }}</span></label>
+{%- else -%}
+<span aria-hidden="true" class="concern-upgrade concern-spacer"><input tabindex="-1" type="checkbox"/> <span>Add Night Moisturiser &amp; Serum for £13 more</span></span>
+{%- endif -%}
+</div>
+</div>
+</article>
+{%- endfor -%}
+</div>
+</div></section>
+
+{% schema %}
+{
+  "name": "Skin concerns",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What’s bothering your skin?" },
+    { "type": "text", "id": "intro", "label": "Intro", "default": "Pick the problem. We’ll show you the ritual." }
+  ],
+  "blocks": [
+    {
+      "type": "concern",
+      "name": "Concern card",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo" },
+        { "type": "text", "id": "fallback", "label": "Built-in photo (used when no photo is chosen)", "default": "photo-salt-scrub.jpg" },
+        { "type": "text", "id": "image_alt", "label": "Photo description", "default": "" },
+        { "type": "text", "id": "heading", "label": "The problem", "default": "Tight, dry skin after showering" },
+        { "type": "text", "id": "fix", "label": "The fix", "default": "Scrub away rough skin, then lock in moisture." },
+        { "type": "text", "id": "products_text", "label": "Products in the ritual (as shown)", "default": "Salt Scrub + Whipped Body Butter" },
+        { "type": "text", "id": "price_html", "label": "Price as shown", "default": "£20", "info": "To show a saving, write <s>£35</s> £32" },
+        { "type": "product_list", "id": "products", "label": "Products added to the bag", "limit": 4 },
+        { "type": "text", "id": "ritual_name", "label": "Ritual name (for the 'added' message)", "default": "Scrub & Butter ritual" },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "Add the ritual" },
+        { "type": "header", "content": "Optional extra (e.g. Night Moisturiser)" },
+        { "type": "product", "id": "upgrade_product", "label": "Extra product" },
+        { "type": "text", "id": "upgrade_text", "label": "Extra checkbox text", "default": "Add Night Moisturiser & Serum for £13 more" },
+        { "type": "text", "id": "upgrade_price_html", "label": "Price shown with the extra", "default": "<s>£50</s> £45" },
+        { "type": "text", "id": "upgrade_ritual_name", "label": "Ritual name with the extra", "default": "Day & Night Face Ritual" },
+        { "type": "text", "id": "upgrade_button_label", "label": "Button label with the extra", "default": "Add the Day & Night Face Ritual" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Skin concerns" }]
+}
+{% endschema %}

@@ -1,14 +1,360 @@
 {
   "sections": {
-    "main": {
-      "type": "coming-soon",
-      "settings": {
-        "eyebrow": "Home page",
-        "text": "The home page sections are added in Step 4."
-      }
+    "hero": {
+      "type": "home-hero",
+      "settings": {}
+    },
+    "tiles": {
+      "type": "home-pillars",
+      "blocks": {
+        "tile1": {
+          "type": "tile",
+          "settings": {
+            "fallback": "pillar-plant-led.jpg",
+            "heading": "Plant-led",
+            "text": "Skincare built around plant oils and butters.",
+            "icon": "none"
+          }
+        },
+        "tile2": {
+          "type": "tile",
+          "settings": {
+            "fallback": "pillar-vegan.jpg",
+            "heading": "Vegan",
+            "text": "Every product, no exceptions.",
+            "icon": "leaf",
+            "icon_left": 48.6,
+            "icon_top": 24.0
+          }
+        },
+        "tile3": {
+          "type": "tile",
+          "settings": {
+            "fallback": "pillar-independent.jpg",
+            "heading": "Independent",
+            "text": "A small UK brand, based in Hampshire.",
+            "icon": "none"
+          }
+        },
+        "tile4": {
+          "type": "tile",
+          "settings": {
+            "fallback": "pillar-safety-assessed.jpg",
+            "heading": "Safety assessed",
+            "text": "Every product professionally safety assessed.",
+            "icon": "shield",
+            "icon_left": 48.4,
+            "icon_top": 24.5
+          }
+        }
+      },
+      "block_order": [
+        "tile1",
+        "tile2",
+        "tile3",
+        "tile4"
+      ],
+      "settings": {}
+    },
+    "concerns": {
+      "type": "home-concerns",
+      "blocks": {
+        "concern1": {
+          "type": "concern",
+          "settings": {
+            "fallback": "photo-salt-scrub.jpg",
+            "image_alt": "Grapefruit Salt Scrub with fresh grapefruit",
+            "heading": "Tight, dry skin after showering",
+            "fix": "Scrub away rough skin, then lock in moisture.",
+            "products_text": "Salt Scrub + Whipped Body Butter",
+            "price_html": "£20",
+            "products": [
+              "grapefruit-salt-scrub",
+              "black-cherry-whipped-body-butter"
+            ],
+            "ritual_name": "Scrub & Butter ritual",
+            "button_label": "Add the ritual"
+          }
+        },
+        "concern2": {
+          "type": "concern",
+          "settings": {
+            "fallback": "photo-candle.jpg",
+            "image_alt": "Summer Glow soy wax candle, lit",
+            "heading": "Can’t switch off at night",
+            "fix": "A lavender soak, then lavender on skin, candle lit.",
+            "products_text": "Bath Soak + Lavender Butter + Candle",
+            "price_html": "£24.50",
+            "products": [
+              "lavender-jojoba-bath-soak",
+              "lavender-whipped-body-butter",
+              "summer-glow-soy-wax-candle"
+            ],
+            "ritual_name": "Evening wind-down ritual",
+            "button_label": "Add the ritual"
+          }
+        },
+        "concern3": {
+          "type": "concern",
+          "settings": {
+            "fallback": "photo-face.jpg",
+            "image_alt": "Day and Night Facial Moisturiser & Serum jars",
+            "heading": "Skin feels tight and tired by midday",
+            "fix": "Cleanse gently, refresh, then moisturise.",
+            "products_text": "Gentle Foaming Face Wash + Facial Toner Mist + Day Moisturiser & Serum",
+            "price_html": "<s>£35</s> £32",
+            "products": [
+              "gentle-foaming-face-wash",
+              "facial-toner-mist",
+              "day-facial-moisturiser-serum"
+            ],
+            "ritual_name": "Face Ritual",
+            "button_label": "Add the Face Ritual",
+            "upgrade_product": "night-facial-moisturiser-serum",
+            "upgrade_text": "Add Night Moisturiser & Serum for £13 more",
+            "upgrade_price_html": "<s>£50</s> £45",
+            "upgrade_ritual_name": "Day & Night Face Ritual",
+            "upgrade_button_label": "Add the Day & Night Face Ritual"
+          }
+        },
+        "concern4": {
+          "type": "concern",
+          "settings": {
+            "fallback": "photo-baby.jpg",
+            "image_alt": "Organic Baby Moisturiser and Lavender & Chamomile Baby Wash",
+            "heading": "A baby bedtime that actually settles",
+            "fix": "Gentle wash, gentle moisturiser, done.",
+            "products_text": "Baby Essentials Bundle",
+            "price_html": "£15",
+            "products": [
+              "baby-essentials-bundle"
+            ],
+            "ritual_name": "Baby Essentials Bundle",
+            "button_label": "Add the ritual"
+          }
+        }
+      },
+      "block_order": [
+        "concern1",
+        "concern2",
+        "concern3",
+        "concern4"
+      ],
+      "settings": {}
+    },
+    "bestsellers": {
+      "type": "home-bestsellers",
+      "blocks": {
+        "card1": {
+          "type": "card",
+          "settings": {
+            "product": "face-moisturiser-duo",
+            "badge": "Face ritual",
+            "description": "Day (Chamomile & Calendula) + Night (Lemon & Cedarwood).",
+            "image_alt": "Day and night face care"
+          }
+        },
+        "card2": {
+          "type": "card",
+          "settings": {
+            "product": "black-cherry-whipped-body-butter",
+            "badge": "Body care",
+            "title": "Whipped Body Butter",
+            "description": "Rich, nourishing moisture with a soft whipped texture.",
+            "link": "/collections/body",
+            "image_alt": "Whipped body butter"
+          }
+        },
+        "card3": {
+          "type": "card",
+          "settings": {
+            "product": "lavender-jojoba-bath-soak",
+            "badge": "Bath ritual",
+            "description": "A calming mineral soak with lavender flowers and jojoba.",
+            "image_alt": "Lavender bath salts"
+          }
+        },
+        "card4": {
+          "type": "card",
+          "settings": {
+            "product": "baby-essentials-bundle",
+            "badge": "Baby care",
+            "description": "Organic Baby Moisturiser and Lavender & Chamomile Baby Wash.",
+            "image_alt": "Baby care products"
+          }
+        }
+      },
+      "block_order": [
+        "card1",
+        "card2",
+        "card3",
+        "card4"
+      ],
+      "settings": {}
+    },
+    "rituals": {
+      "type": "home-rituals",
+      "blocks": {
+        "tile1": {
+          "type": "tile",
+          "settings": {
+            "style": "face",
+            "fallback": "photo-face.jpg",
+            "image_alt": "Face",
+            "title": "Morning & Evening Ritual",
+            "subtitle": "Face",
+            "label": "Shop face →",
+            "link": "/collections/face"
+          }
+        },
+        "tile2": {
+          "type": "tile",
+          "settings": {
+            "style": "body",
+            "fallback": "photo-body.jpg",
+            "image_alt": "Body",
+            "title": "Soft Skin Ritual",
+            "subtitle": "Body",
+            "label": "Shop body →",
+            "link": "/collections/body"
+          }
+        },
+        "tile3": {
+          "type": "tile",
+          "settings": {
+            "style": "bath",
+            "fallback": "photo-bath.jpg",
+            "image_alt": "Bath & Shower",
+            "title": "Bath Ritual",
+            "subtitle": "Bath & Shower",
+            "label": "Shop bath & shower →",
+            "link": "/collections/bath-shower"
+          }
+        },
+        "tile4": {
+          "type": "tile",
+          "settings": {
+            "style": "baby",
+            "fallback": "photo-baby.jpg",
+            "image_alt": "Baby",
+            "title": "Bedtime Ritual",
+            "subtitle": "Baby",
+            "label": "Shop baby →",
+            "link": "/collections/baby"
+          }
+        },
+        "tile5": {
+          "type": "tile",
+          "settings": {
+            "style": "home",
+            "fallback": "photo-home-fragrance.jpg",
+            "image_alt": "Home Fragrance",
+            "title": "Home Ritual",
+            "subtitle": "Home Fragrance",
+            "label": "Shop home fragrance →",
+            "link": "/collections/home-fragrance"
+          }
+        },
+        "tile6": {
+          "type": "tile",
+          "settings": {
+            "style": "shopall",
+            "fallback": "photo-shop-all.jpg",
+            "image_alt": "Shop All",
+            "title": "Shop All",
+            "subtitle": "",
+            "label": "Shop all →",
+            "link": "/collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "tile1",
+        "tile2",
+        "tile3",
+        "tile4",
+        "tile5",
+        "tile6"
+      ],
+      "settings": {}
+    },
+    "routine": {
+      "type": "home-routine",
+      "blocks": {
+        "step1": {
+          "type": "step",
+          "settings": {
+            "title": "Cleanse gently",
+            "text": "Start with our Gentle Foaming Face Wash, or the Mandarin & Geranium Shower Gel for body."
+          }
+        },
+        "step2": {
+          "type": "step",
+          "settings": {
+            "title": "Refresh",
+            "text": "Mist your face with Facial Toner Mist, or scrub and soak in the bath."
+          }
+        },
+        "step3": {
+          "type": "step",
+          "settings": {
+            "title": "Lock in softness",
+            "text": "Finish with Day or Night Moisturiser & Serum on your face, whipped body butter on your body."
+          }
+        }
+      },
+      "block_order": [
+        "step1",
+        "step2",
+        "step3"
+      ],
+      "settings": {}
+    },
+    "reviews": {
+      "type": "home-reviews",
+      "blocks": {
+        "review1": {
+          "type": "review",
+          "settings": {
+            "quote": "After just a few weeks, my skin felt softer, healthier and more hydrated.",
+            "name": "Sarah Johnson"
+          }
+        },
+        "review2": {
+          "type": "review",
+          "settings": {
+            "quote": "My skin now feels refreshed and naturally radiant.",
+            "name": "Jessica Andre"
+          }
+        },
+        "review3": {
+          "type": "review",
+          "settings": {
+            "quote": "I love how clean and nourishing these products feel.",
+            "name": "Emma Williams"
+          }
+        }
+      },
+      "block_order": [
+        "review1",
+        "review2",
+        "review3"
+      ],
+      "settings": {}
+    },
+    "newsletter": {
+      "type": "home-newsletter",
+      "settings": {}
     }
   },
   "order": [
-    "main"
+    "hero",
+    "tiles",
+    "concerns",
+    "bestsellers",
+    "rituals",
+    "routine",
+    "reviews",
+    "newsletter"
   ]
 }
