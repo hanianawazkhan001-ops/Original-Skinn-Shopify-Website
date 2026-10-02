@@ -7,6 +7,8 @@
   assign brand = settings.brand_name | default: 'Original Skinn'
   if template.name == 'index'
     assign tab_title = 'Home'
+  elsif template.name == 'cart'
+    assign tab_title = 'Basket'
   else
     assign tab_title = page_title
   endif

@@ -85,7 +85,7 @@
   window.OS.addToBag = addToBag;
 
   document.addEventListener('click', function(e){
-    var btn = e.target.closest ? e.target.closest('.quickadd, .concern-add, .card-add, .rs-add, .cr-add') : null;
+    var btn = e.target.closest ? e.target.closest('.quickadd, .concern-add, .card-add, .rs-add, .cr-add, .cs-add') : null;
     if(!btn) return;
     var list = btn.dataset.variants || '';
     var strip = (btn.classList.contains('rs-add') && !list) ? btn.closest('.ritual-strip') : null;
@@ -244,6 +244,69 @@
     for(var i = 0; i < n; i++) list.push(add.dataset.variant);
     window.OS.addToBag(list.join(','), add.dataset.product, add);
   });
+})();
+
+// ---- bag page: change quantities, remove, order note, ritual suggestion (Shopify's cart) ----
+(function(){
+  if(!document.getElementById('osCart')) return;
+  var root = (window.Shopify && Shopify.routes && Shopify.routes.root) ? Shopify.routes.root : '/';
+  var JSON_HEADERS = {'Content-Type': 'application/json', 'Accept': 'application/json'};
+  function shell(){ return document.getElementById('osCart'); }
+  function setCount(n){ var el = document.getElementById('bagCount'); if(el) el.textContent = n; }
+  function asJson(r){ return r.json().then(function(d){ if(!r.ok) throw d; return d; }); }
+  // fetch the bag section again from Shopify and swap it in, so every number comes from the real cart
+  function rerender(){
+    var cur = shell();
+    if(!cur) return Promise.resolve();
+    var noteOpen = !!cur.querySelector('.basket-note[open]');
+    return fetch(root + 'cart?section_id=' + encodeURIComponent(cur.dataset.section))
+      .then(function(r){ return r.text(); })
+      .then(function(html){
+        var fresh = new DOMParser().parseFromString(html, 'text/html').getElementById('osCart');
+        var now = shell();
+        if(fresh && now){
+          if(noteOpen){ var d = fresh.querySelector('.basket-note'); if(d) d.open = true; }
+          now.parentNode.replaceChild(fresh, now);
+        }
+      });
+  }
+  function change(key, quantity){
+    var s = shell();
+    if(s) s.classList.add('is-updating');
+    return fetch(root + 'cart/change.js', {method: 'POST', headers: JSON_HEADERS, body: JSON.stringify({id: key, quantity: quantity})})
+      .then(asJson)
+      .then(function(cart){ setCount(cart.item_count); return rerender(); })
+      .catch(function(err){ window.OS.notify((err && err.description) ? err.description : 'Sorry, your bag couldn’t be updated. Please try again.'); return rerender(); })
+      .then(function(){ var s2 = shell(); if(s2) s2.classList.remove('is-updating'); });
+  }
+  function qtyOf(item){
+    var input = item.querySelector('.basket-qty input');
+    var n = parseInt(input && input.value || '1', 10);
+    return (n && n > 0) ? n : 1;
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest ? e.target.closest('#osCart .qty-minus, #osCart .qty-plus, #osCart .remove-item') : null;
+    if(!btn) return;
+    var item = btn.closest('.basket-item');
+    if(!item || !item.dataset.key) return;
+    var q = qtyOf(item);
+    if(btn.classList.contains('remove-item')) return change(item.dataset.key, 0);
+    var next = btn.classList.contains('qty-plus') ? q + 1 : Math.max(1, q - 1);
+    if(next === q) return;
+    item.querySelector('.basket-qty input').value = next;
+    change(item.dataset.key, next);
+  });
+  document.addEventListener('change', function(e){
+    var t = e.target;
+    if(t.matches && t.matches('#osCart .basket-qty input')){
+      var item = t.closest('.basket-item');
+      if(item && item.dataset.key){ var q = qtyOf(item); t.value = q; change(item.dataset.key, q); }
+    } else if(t.id === 'cartNote'){
+      fetch(root + 'cart/update.js', {method: 'POST', headers: JSON_HEADERS, body: JSON.stringify({note: t.value})});
+    }
+  });
+  // something was added (e.g. the "Complete your ritual" button): show the new bag
+  document.addEventListener('os:cart-updated', function(){ rerender(); });
 })();
 
 // ---- scroll-reveal: elements slide/rise/pop into place as you scroll ----

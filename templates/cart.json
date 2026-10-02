@@ -1,11 +1,84 @@
 {
   "sections": {
     "main": {
-      "type": "coming-soon",
-      "settings": {
-        "eyebrow": "Your bag",
-        "text": "The bag is added in Step 7."
-      }
+      "type": "main-cart",
+      "blocks": {
+        "suggest_1": {
+          "type": "suggest",
+          "settings": {
+            "category": "Face",
+            "product": "gentle-foaming-face-wash",
+            "why": "Step 1 of the Face Ritual."
+          }
+        },
+        "suggest_2": {
+          "type": "suggest",
+          "settings": {
+            "category": "Face",
+            "product": "facial-toner-mist",
+            "why": "Step 2 of the Face Ritual."
+          }
+        },
+        "suggest_3": {
+          "type": "suggest",
+          "settings": {
+            "category": "Body",
+            "product": "grapefruit-salt-scrub",
+            "why": "Scrub first, then butter: the Soft Skin Ritual."
+          }
+        },
+        "suggest_4": {
+          "type": "suggest",
+          "settings": {
+            "category": "Body",
+            "product": "lavender-jojoba-bath-soak",
+            "why": "Soak, then butter: part of the Bath Ritual."
+          }
+        },
+        "suggest_5": {
+          "type": "suggest",
+          "settings": {
+            "category": "Bath & Shower",
+            "product": "lavender-whipped-body-butter",
+            "why": "Finish the Bath Ritual with butter."
+          }
+        },
+        "suggest_6": {
+          "type": "suggest",
+          "settings": {
+            "category": "Bath & Shower",
+            "product": "lavender-jojoba-bath-soak",
+            "why": "Step 2 of the Bath Ritual."
+          }
+        },
+        "suggest_7": {
+          "type": "suggest",
+          "settings": {
+            "category": "Baby",
+            "product": "organic-baby-moisturiser",
+            "why": "Wash, then moisturise: the Bedtime Ritual."
+          }
+        },
+        "suggest_8": {
+          "type": "suggest",
+          "settings": {
+            "category": "Baby",
+            "product": "lavender-chamomile-baby-wash",
+            "why": "Wash, then moisturise: the Bedtime Ritual."
+          }
+        }
+      },
+      "block_order": [
+        "suggest_1",
+        "suggest_2",
+        "suggest_3",
+        "suggest_4",
+        "suggest_5",
+        "suggest_6",
+        "suggest_7",
+        "suggest_8"
+      ],
+      "settings": {}
     }
   },
   "order": [

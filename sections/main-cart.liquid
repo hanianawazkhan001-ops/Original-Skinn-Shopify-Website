@@ -1,0 +1,270 @@
+{%- comment -%}
+  Bag page — copied from the test site's "Your Basket" page, now using the real Shopify cart.
+  - Free-delivery bar: threshold and charge are section settings (£30 / £3.95). The real delivery
+    charge at checkout comes from Settings > Shipping and delivery, so keep the two the same.
+  - Items are listed oldest first, like the test site (Shopify's own order is newest first).
+  - "Complete your ritual" suggestion: each "Suggestion" block says which category in the bag
+    it goes with (e.g. Face) and which product to suggest — the same list as the test site.
+{%- endcomment -%}
+{%- liquid
+  assign subtotal = cart.items_subtotal_price
+  assign threshold = section.settings.free_threshold | times: 100
+  assign charge = section.settings.delivery_charge | times: 100 | round
+  assign free = false
+  if subtotal >= threshold
+    assign free = true
+  endif
+  assign delivery = charge
+  if free or subtotal == 0
+    assign delivery = 0
+  endif
+  assign grand = subtotal | plus: delivery
+  assign bar = subtotal | times: 100.0 | divided_by: threshold
+  if bar > 100
+    assign bar = 100
+  endif
+
+  # Work out the "Complete your ritual" suggestion (same rules as the test site).
+  assign in_bag = ' '
+  assign names = ''
+  assign cats = ''
+  for item in cart.items reversed
+    assign in_bag = in_bag | append: item.product.handle | append: ' '
+    assign names = names | append: item.product.title | append: ' | '
+    capture c
+      render 'product-cats', product: item.product, mode: 'label'
+    endcapture
+    assign ck = '|' | append: c | append: '|'
+    assign cats_check = '|' | append: cats
+    unless cats_check contains ck
+      assign cats = cats | append: c | append: '|'
+    endunless
+  endfor
+  assign kinds = section.settings.kinds | split: ','
+  assign cand_ids = ''
+  assign cand_handles = ' '
+  assign cat_list = cats | split: '|'
+  for c in cat_list
+    for block in section.blocks
+      assign sp = block.settings.product
+      if block.type == 'suggest' and block.settings.category == c and sp != blank
+        assign hk = ' ' | append: sp.handle | append: ' '
+        assign skip = false
+        if in_bag contains hk or cand_handles contains hk
+          assign skip = true
+        endif
+        for k in kinds
+          assign kk = k | strip
+          if kk != blank and sp.title contains kk and names contains kk
+            assign skip = true
+          endif
+        endfor
+        unless skip
+          assign cand_ids = cand_ids | append: block.id | append: ','
+          assign cand_handles = cand_handles | append: sp.handle | append: ' '
+        endunless
+      endif
+    endfor
+  endfor
+  assign cand_list = cand_ids | split: ','
+  assign pick = ''
+  if cand_list.size > 0
+    if subtotal < threshold
+      assign best_price = 0
+      for bid in cand_list
+        for block in section.blocks
+          if block.id == bid
+            assign p = block.settings.product.price
+            assign reach = subtotal | plus: p
+            if reach >= threshold
+              if pick == blank or p < best_price
+                assign pick = bid
+                assign best_price = p
+              endif
+            endif
+          endif
+        endfor
+      endfor
+      if pick == blank
+        for bid in cand_list
+          for block in section.blocks
+            if block.id == bid
+              assign p = block.settings.product.price
+              if pick == blank or p > best_price
+                assign pick = bid
+                assign best_price = p
+              endif
+            endif
+          endfor
+        endfor
+      endif
+    else
+      assign pick = cand_list.first
+    endif
+  endif
+  for block in section.blocks
+    if block.id == pick
+      assign sug = block
+    endif
+  endfor
+-%}
+<section class="basket-hero">
+<div class="basket-hero-inner">
+<span>{{ section.settings.kicker }}</span>
+<h1>{{ section.settings.heading }}</h1>
+<p>{{ section.settings.subheading }}</p>
+</div>
+</section>
+<section class="basket-shell" id="osCart" data-section="{{ section.id }}">
+<form action="{{ routes.cart_url }}" method="post" id="osCartForm" novalidate></form>
+<div class="basket-layout">
+<div class="basket-items">
+<div class="basket-items-head">
+<span>{{ cart.item_count }} {% if cart.item_count == 1 %}item{% else %}items{% endif %}</span>
+<a href="{{ section.settings.continue_link | default: routes.all_products_collection_url }}">Continue shopping →</a>
+</div>
+{%- for item in cart.items reversed -%}
+{%- liquid
+  capture cat
+    render 'product-cats', product: item.product, mode: 'label'
+  endcapture
+  assign sub = item.product.metafields.custom.tagline.value
+  if item.product.variants.size > 1
+    if sub != blank
+      assign sub = sub | append: ' · ' | append: item.variant.title
+    else
+      assign sub = item.variant.title
+    endif
+  endif
+-%}
+<article class="basket-item" data-key="{{ item.key }}">
+<div class="basket-image">
+<img loading="lazy" alt="{{ item.product.title | escape }}" src="{{ item.image | image_url: width: 400 }}"/>
+</div>
+<div class="basket-copy">
+<div class="basket-item-top">
+<div>
+<span class="basket-category">{{ cat }}</span>
+<h2>{{ item.product.title }}</h2>
+<p>{{ sub }}</p>
+</div>
+<button aria-label="Remove {{ item.product.title | escape }}" class="remove-item" type="button">Remove</button>
+</div>
+<div class="basket-item-bottom">
+<div aria-label="Quantity" class="basket-qty">
+<button aria-label="Decrease quantity" class="qty-minus" type="button">−</button>
+<input aria-label="Quantity" inputmode="numeric" value="{{ item.quantity }}"/>
+<button aria-label="Increase quantity" class="qty-plus" type="button">+</button>
+</div>
+<strong class="line-price">{{ item.final_line_price | money }}</strong>
+</div>
+</div>
+</article>
+{%- endfor -%}
+{%- if cart.item_count == 0 %}
+<div class="basket-empty">
+<h2>{{ section.settings.empty_heading }}</h2>
+<p>{{ section.settings.empty_text }}</p>
+</div>
+{%- endif %}
+</div>
+<aside class="basket-summary">
+<div class="delivery-progress">
+<div class="delivery-icon">
+<svg viewBox="0 0 24 24"><path d="M1.5 6.5h12v9h-12z"></path><path d="M13.5 9.5h4l2.5 3v3h-6.5z"></path><circle cx="6" cy="18" r="1.75"></circle><circle cx="17.5" cy="18" r="1.75"></circle></svg>
+</div>
+<div class="dp-text">
+<strong id="deliveryMsg">{% if free %}You’ve unlocked free UK delivery{% else %}Add {{ threshold | minus: subtotal | money }} more for free UK delivery{% endif %}</strong>
+<div class="dp-bar" aria-hidden="true"><span id="deliveryBar" style="width: {{ bar }}%;"></span></div>
+<span>{{ section.settings.delivery_line }}</span>
+</div>
+</div>
+<div class="cart-suggest" id="cartSuggest"{% if pick == blank %} hidden{% endif %}>
+{%- if pick != blank -%}
+{%- liquid
+  assign sp = sug.settings.product
+  assign sname = sp.metafields.custom.short_name.value | default: sp.title
+  assign why = sug.settings.why
+  assign reach = subtotal | plus: sp.price
+  if free == false and reach >= threshold
+    assign why = why | append: ' Unlocks free UK delivery.'
+  endif
+-%}
+<span class="cs-kicker">Complete your ritual</span>
+<div class="cs-row">
+<img loading="lazy" alt="" id="csImg" src="{% if sug.settings.image != blank %}{{ sug.settings.image | image_url: width: 200 }}{% else %}{{ sp.featured_image | image_url: width: 200 }}{% endif %}"/>
+<div class="cs-text"><strong id="csName">{{ sname }}</strong><span id="csWhy">{{ why }}</span></div>
+<button class="cs-add" id="csAdd" type="button" data-variants="{{ sp.selected_or_first_available_variant.id }}" data-product="{{ sname | escape }}">Add — {{ sp.price | money_without_trailing_zeros }}</button>
+</div>
+{%- endif -%}
+</div>
+<div class="summary-card">
+<span class="summary-kicker">Order summary</span>
+<div class="summary-row">
+<span>Subtotal</span>
+<strong id="subtotal">{{ subtotal | money }}</strong>
+</div>
+<div class="summary-row">
+<span>Delivery</span>
+<strong id="deliveryCost">{% if delivery == 0 %}Free{% else %}{{ delivery | money }}{% endif %}</strong>
+</div>
+<div class="summary-row total">
+<span>Total</span>
+<strong id="total">{{ grand | money }}</strong>
+</div>
+<p class="summary-note">{{ section.settings.summary_note }}</p>
+<button class="checkout-btn" form="osCartForm" name="checkout" type="submit"{% if cart.item_count == 0 %} disabled{% endif %}>Checkout →</button>
+<div class="secure-note">
+<svg viewBox="0 0 24 24"><rect height="10" rx="2" width="14" x="5" y="10"></rect><path d="M8 10V7a4 4 0 018 0v3"></path></svg>
+<span>Secure checkout</span>
+</div>
+</div>
+<details class="basket-note"{% if cart.note != blank %} open{% endif %}>
+<summary>Add an order note <span>+</span></summary>
+<div>
+<textarea aria-label="Order note" form="osCartForm" id="cartNote" name="note" placeholder="Anything you'd like us to know?" rows="4">{{ cart.note }}</textarea>
+</div>
+</details>
+</aside>
+</div>
+</section>
+{%- style -%}
+.basket-empty{padding:34px 0;border-bottom:1px solid var(--line)}
+.basket-empty h2{margin:0;font-family:Georgia,"Times New Roman",serif;font-size:24px;line-height:1.08;font-weight:400;letter-spacing:-.03em}
+.basket-empty p{margin:7px 0 0;color:#707a75;font-size:10px;line-height:1.5}
+.checkout-btn[disabled]{opacity:.45;cursor:not-allowed}
+#osCart.is-updating .basket-items,#osCart.is-updating .basket-summary{opacity:.6;pointer-events:none;transition:opacity .15s ease}
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "Bag page",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Small heading", "default": "Original Skinn" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Your Basket" },
+    { "type": "text", "id": "subheading", "label": "Text under the heading", "default": "Review your items before checkout." },
+    { "type": "text", "id": "continue_link", "label": "'Continue shopping' link", "info": "Leave empty for the Shop All page." },
+    { "type": "text", "id": "empty_heading", "label": "Empty bag: heading", "default": "Your basket is empty" },
+    { "type": "text", "id": "empty_text", "label": "Empty bag: text", "default": "Browse the shop to find your next favourite." },
+    { "type": "header", "content": "Free delivery bar" },
+    { "type": "number", "id": "free_threshold", "label": "Free UK delivery from (£)", "default": 30, "info": "Keep this the same as your shipping rates in Settings > Shipping and delivery." },
+    { "type": "text", "id": "delivery_charge", "label": "Delivery charge under that (£)", "default": "3.95" },
+    { "type": "text", "id": "delivery_line", "label": "Line under the bar", "default": "Free UK delivery on orders over £30." },
+    { "type": "textarea", "id": "summary_note", "label": "Note under the total", "default": "Taxes included where applicable. Delivery is calculated before payment if your basket falls below the free-delivery threshold." },
+    { "type": "header", "content": "Complete your ritual" },
+    { "type": "text", "id": "kinds", "label": "Product kinds (comma separated)", "default": "Body Butter,Salt Scrub,Bath Soak,Face Wash,Toner Mist,Baby Moisturiser,Baby Wash", "info": "If the bag already has a product of a kind, another of the same kind isn't suggested." }
+  ],
+  "blocks": [
+    {
+      "type": "suggest",
+      "name": "Suggestion",
+      "settings": [
+        { "type": "text", "id": "category", "label": "When the bag has this category", "default": "Face", "info": "Face, Body, Bath & Shower, Baby or Home Fragrance." },
+        { "type": "product", "id": "product", "label": "Suggest this product" },
+        { "type": "text", "id": "why", "label": "Reason shown", "default": "Step 1 of the Face Ritual." },
+        { "type": "image_picker", "id": "image", "label": "Photo (leave empty for the product photo)" }
+      ]
+    }
+  ]
+}
+{% endschema %}
