@@ -44,6 +44,10 @@
 <div class="product-info-panel">
 <span class="product-kicker" id="pdKicker">{{ cat_label }}</span>
 <h1 id="pdName">{{ product.title }}</h1>
+{%- if product.metafields.judgeme.badge != blank %}
+{% render 'reviews-style' %}
+<div class="jdgm-widget jdgm-preview-badge os-rating" data-id="{{ product.id }}">{{ product.metafields.judgeme.badge }}</div>
+{%- endif %}
 <p class="product-subtitle" id="pdTag">{{ mf.tagline.value }}</p>
 <div class="product-price-row">
 <strong id="pdPrice">{{ v.price | money }}</strong>
@@ -155,6 +159,26 @@
 </div>
 </div>
 </section>
+{%- liquid
+  assign app_blocks = 0
+  for block in section.blocks
+    if block.type == '@app'
+      assign app_blocks = app_blocks | plus: 1
+    endif
+  endfor
+  assign legacy_widget = product.metafields.judgeme.widget
+-%}
+{%- if app_blocks > 0 or legacy_widget != blank %}
+{% render 'reviews-style' %}
+<section class="also-like os-reviews" id="reviews">
+<h2>{{ section.settings.reviews_heading }}</h2>
+{%- if app_blocks > 0 -%}
+{%- for block in section.blocks -%}{%- if block.type == '@app' -%}{% render block %}{%- endif -%}{%- endfor -%}
+{%- else %}
+<div id="judgeme_product_reviews" class="jdgm-widget jdgm-review-widget" data-id="{{ product.id }}">{{ legacy_widget }}</div>
+{%- endif %}
+</section>
+{%- endif %}
 <section class="also-like">
 <h2>{{ section.settings.also_heading }}</h2>
 <div class="also-grid" id="pdAlso">
@@ -194,7 +218,11 @@
     { "type": "text", "id": "ingredients_note", "label": "Note under the ingredients", "default": "Always check the ingredient list on the packaging — it is the final reference." },
     { "type": "text", "id": "delivery_text", "label": "Delivery & returns text", "default": "Free UK delivery on orders over £30." },
     { "type": "text", "id": "delivery_link", "label": "Delivery & Returns page link", "default": "/pages/delivery-returns" },
-    { "type": "text", "id": "also_heading", "label": "'You may also like' heading", "default": "You may also like" }
+    { "type": "text", "id": "also_heading", "label": "'You may also like' heading", "default": "You may also like" },
+    { "type": "text", "id": "reviews_heading", "label": "Reviews heading", "default": "Reviews", "info": "Shown above the reviews app's widget (Judge.me)." }
+  ],
+  "blocks": [
+    { "type": "@app" }
   ]
 }
 {% endschema %}
