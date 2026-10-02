@@ -167,8 +167,14 @@
     endif
   endfor
   assign legacy_widget = product.metafields.judgeme.widget
+  assign show_reviews = false
+  if app_blocks > 0
+    assign show_reviews = true
+  elsif section.settings.judgeme and legacy_widget != blank
+    assign show_reviews = true
+  endif
 -%}
-{%- if app_blocks > 0 or section.settings.judgeme %}
+{%- if show_reviews %}
 {% render 'reviews-style' %}
 <section class="also-like os-reviews" id="reviews">
 <h2>{{ section.settings.reviews_heading }}</h2>
@@ -220,7 +226,7 @@
     { "type": "text", "id": "delivery_link", "label": "Delivery & Returns page link", "default": "/pages/delivery-returns" },
     { "type": "text", "id": "also_heading", "label": "'You may also like' heading", "default": "You may also like" },
     { "type": "header", "content": "Reviews" },
-    { "type": "checkbox", "id": "judgeme", "label": "Show Judge.me reviews and stars", "default": false, "info": "Needs the Judge.me app with its app embed switched on (Theme settings > App embeds)." },
+    { "type": "checkbox", "id": "judgeme", "label": "Show Judge.me stars under the product name", "default": false, "info": "Needs the Judge.me app embed switched on. Add the review box itself with Add block > Judge.me > Review widget." },
     { "type": "text", "id": "reviews_heading", "label": "Reviews heading", "default": "Reviews" }
   ],
   "blocks": [
