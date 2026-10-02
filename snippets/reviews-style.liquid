@@ -1,10 +1,11 @@
 {%- comment -%} Makes the reviews app (Judge.me) match the site: fonts, forest-green stars and pill buttons. {%- endcomment -%}
 {%- style -%}
-.os-reviews .jdgm-widget,.os-app-reviews .jdgm-widget,.os-rating{font-family:inherit;color:var(--forest)}
-.os-reviews .jdgm-rev-widg__title{display:none}
-.jdgm-star{color:var(--forest)!important}
+.os-reviews .jdgm-widget,.os-app-reviews .jdgm-widget,.os-rating,.os-reviews .jm-text,.os-app-reviews .jm-text{font-family:var(--sans)!important;color:var(--forest)!important}
+.os-reviews .jdgm-rev-widg__title,.os-reviews .jm-review-widget-minimal-header__title,.os-reviews .jdgm-empty-state{display:none!important}
+.jdgm-star,.jm-star{color:var(--forest)!important}
 .os-rating{margin:-4px 0 12px;font-size:12px}
 .os-reviews .jdgm-rev-widg,.os-app-reviews .jdgm-widget{border-color:var(--line)!important}
 .os-reviews .jdgm-rev__title,.os-app-reviews .jdgm-carousel-item__review-title{font-family:Georgia,"Times New Roman",serif;font-weight:400}
-.os-reviews .jdgm-write-rev-link,.os-reviews .jdgm-btn,.os-app-reviews .jdgm-btn{background:var(--forest)!important;border-color:var(--forest)!important;color:#fff!important;border-radius:999px!important;font-size:9.5px!important;font-weight:700!important;letter-spacing:.12em;text-transform:uppercase}
+.os-reviews .jdgm-write-rev-link,.os-reviews .jdgm-btn,.os-app-reviews .jdgm-btn,.os-reviews .jm-button--primary,.os-app-reviews .jm-button--primary{background:var(--forest)!important;border-color:var(--forest)!important;color:#fff!important;border-radius:999px!important;min-height:44px;padding:0 22px!important;font-family:var(--sans)!important;font-size:9.5px!important;font-weight:700!important;letter-spacing:.12em;text-transform:uppercase}
+.os-reviews .jm-button--primary:hover,.os-app-reviews .jm-button--primary:hover{background:var(--forest2)!important}
 {%- endstyle -%}
