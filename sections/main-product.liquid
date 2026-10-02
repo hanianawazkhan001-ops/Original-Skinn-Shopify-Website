@@ -1,0 +1,200 @@
+{%- comment -%}
+  Product page — copied from the test site (one layout for every product).
+  Words come from the product in Shopify: description, plus the product's extra fields
+  (custom.tagline, benefits, how_to_use, ingredients, details, ritual_handles, breadcrumb, short_name).
+{%- endcomment -%}
+{%- liquid
+  assign v = product.selected_or_first_available_variant
+  assign mf = product.metafields.custom
+  assign crumb = mf.breadcrumb.value
+  if crumb == blank
+    capture crumb
+      render 'product-cats', product: product, mode: 'label'
+    endcapture
+  endif
+  capture cat_label
+    render 'product-cats', product: product, mode: 'label'
+  endcapture
+  capture crumb_handle
+    render 'product-cats', product: product, mode: 'first-handle'
+  endcapture
+  if crumb_handle == blank
+    assign crumb_url = routes.all_products_collection_url
+  else
+    assign crumb_url = routes.collections_url | append: '/' | append: crumb_handle
+  endif
+-%}
+<nav aria-label="Breadcrumb" class="product-breadcrumbs">
+<a href="{{ routes.root_url }}">Home</a>
+<span>›</span>
+<a href="{{ crumb_url }}" id="pdCrumbCat">{{ crumb }}</a>
+<span>›</span>
+<span id="pdCrumbName">{{ product.title }}</span>
+</nav>
+<section class="product-top">
+<div class="product-gallery">
+<div class="product-main-image" id="mainProductImageWrap">
+<span class="product-badge" id="pdBadge"{% unless product.tags contains 'best-seller' %} hidden{% endunless %}>Best Seller</span>
+<img alt="Original Skinn {{ product.title | escape }}" id="mainProductImage" src="{{ product.featured_image | image_url: width: 1400 }}"/>
+</div>
+<div aria-label="Product images" class="product-thumbs" id="pdThumbs">
+{%- for img in product.images -%}<button aria-label="View image {{ forloop.index }}" class="product-thumb{% if forloop.first %} active{% endif %}" data-src="{{ img | image_url: width: 1400 }}" type="button"><img alt="" loading="lazy" src="{{ img | image_url: width: 300 }}"/></button>{%- endfor -%}
+</div>
+</div>
+<div class="product-info-panel">
+<span class="product-kicker" id="pdKicker">{{ cat_label }}</span>
+<h1 id="pdName">{{ product.title }}</h1>
+<p class="product-subtitle" id="pdTag">{{ mf.tagline.value }}</p>
+<div class="product-price-row">
+<strong id="pdPrice">{{ v.price | money }}</strong>
+<span class="product-size" id="pdSize">{% unless v.title == 'Default Title' %}{{ v.title }}{% endunless %}</span>
+<span>Tax included.</span>
+</div>
+<div class="product-summary">
+{%- assign desc = product.description | strip -%}
+{%- if desc contains '<p' -%}{{ desc | replace_first: '<p>', '<p id="pdDesc">' }}{%- else -%}<p id="pdDesc">{{ desc }}</p>{%- endif -%}
+</div>
+<div class="product-benefits" id="pdBenefits">{% for b in mf.benefits.value %}<div><span>✓</span> {{ b | escape }}</div>{% endfor %}</div>
+<div class="pd-sizes" id="pdSizes" role="group" aria-label="Size"{% if product.variants.size < 2 %} hidden{% endif %}>
+{%- if product.variants.size > 1 -%}{%- for vv in product.variants -%}<button type="button" class="pd-size{% if vv.id == v.id %} active{% endif %}" data-variant="{{ vv.id }}" data-price="{{ vv.price | money }}" data-size="{{ vv.title | escape }}"{% unless vv.available %} disabled{% endunless %}>{{ vv.title }}</button>{%- endfor -%}{%- endif -%}
+</div>
+<div class="product-purchase">
+<div aria-label="Quantity" class="qty-control">
+<button aria-label="Decrease quantity" id="qtyMinus" type="button">−</button>
+<input aria-label="Quantity" id="qtyInput" inputmode="numeric" value="1"/>
+<button aria-label="Increase quantity" id="qtyPlus" type="button">+</button>
+</div>
+<button class="add-to-cart" id="pdAdd" type="button" data-variant="{{ v.id }}" data-product="{{ product.title | escape }}"{% unless product.available %} disabled{% endunless %}>{% if product.available %}Add to bag · {{ v.price | money }}{% else %}Sold out{% endif %}</button>
+</div>
+<div class="delivery-note">
+<span aria-hidden="true" class="delivery-note-icon">
+<svg viewBox="0 0 24 24"><path d="M1.5 6.5h12v9h-12z"></path><path d="M13.5 9.5h4l2.5 3v3h-6.5z"></path><circle cx="6" cy="18" r="1.75"></circle><circle cx="17.5" cy="18" r="1.75"></circle></svg>
+</span>
+<span>{{ section.settings.delivery_note }}</span>
+</div>
+{%- liquid
+  assign partners = ''
+  assign total = 0
+  assign names = ''
+  assign ids = ''
+  assign count = 0
+  for h in mf.ritual_handles.value
+    assign q = all_products[h]
+    if q != blank and q.id != product.id
+      assign count = count | plus: 1
+      assign total = total | plus: q.price
+    endif
+  endfor
+-%}
+<section class="complete-ritual" aria-label="Complete your ritual" id="pdRitual"{% if count == 0 %} hidden{% endif %}>
+<span class="cr-kicker">Complete your ritual</span>
+<div class="cr-tiles" id="pdRitualTiles"{% if count == 1 %} style="grid-template-columns: 1fr;"{% endif %}>
+{%- for h in mf.ritual_handles.value -%}
+{%- assign q = all_products[h] -%}
+{%- if q != blank and q.id != product.id -%}
+{%- liquid
+  assign qname = q.metafields.custom.short_name.value | default: q.title
+  if names != blank
+    assign names = names | append: ' + '
+  endif
+  assign names = names | append: qname
+  assign ids = ids | append: q.selected_or_first_available_variant.id | append: ','
+  case q.handle
+    when 'gentle-foaming-face-wash'
+      assign step = 'Step 1 · Cleanse'
+    when 'facial-toner-mist'
+      assign step = 'Step 2 · Refresh'
+    when 'day-facial-moisturiser-serum', 'night-facial-moisturiser-serum'
+      assign step = 'Step 3 · Moisturise'
+    when 'grapefruit-salt-scrub', 'rose-geranium-salt-scrub'
+      assign step = 'Scrub'
+    when 'lavender-jojoba-bath-soak', 'ylang-rose-bath-soak'
+      assign step = 'Soak'
+    when 'lavender-whipped-body-butter', 'rose-whipped-body-butter'
+      assign step = 'Butter'
+    when 'organic-baby-moisturiser'
+      assign step = 'Moisturise'
+    when 'lavender-chamomile-baby-wash'
+      assign step = 'Wash'
+    when 'summer-glow-soy-wax-candle'
+      assign step = 'Candle'
+    when 'aromatherapy-car-blend-wild-citrus'
+      assign step = 'On the go'
+    else
+      capture step
+        render 'product-cats', product: q, mode: 'label'
+      endcapture
+  endcase
+-%}
+<div class="cr-tile"><a class="cr-img" href="{{ q.url }}" tabindex="-1" aria-hidden="true"><img alt="" loading="lazy" src="{{ q.featured_image | image_url: width: 300 }}"/></a><div><span class="cr-step">{{ step }}</span><a class="cr-name card-title-link" href="{{ q.url }}">{{ qname }}</a><span class="cr-price">{{ q.price | money_without_trailing_zeros }}</span></div></div>
+{%- endif -%}
+{%- endfor %}
+</div>
+<button class="cr-add" data-product="{{ names | escape }}" data-variants="{{ ids }}" id="pdRitualAdd" type="button">{% if count > 1 %}Add both — {% else %}Add — {% endif %}{{ total | money_without_trailing_zeros }}</button>
+<p class="cr-note">{{ section.settings.ritual_note }}</p>
+</section>
+<div class="product-accordions">
+<details open="">
+<summary>How to use <span>+</span></summary>
+<div class="accordion-copy" id="pdHow">{% for h in mf.how_to_use.value %}<p>{{ h | escape }}</p>{% endfor %}</div>
+</details>
+<details>
+<summary>Ingredients <span>+</span></summary>
+<div class="accordion-copy" id="pdIngr">{% render 'product-ingredients', text: mf.ingredients.value, note: section.settings.ingredients_note %}</div>
+</details>
+<details>
+<summary>Details <span>+</span></summary>
+<div class="accordion-copy" id="pdDetails"><ul class="detail-list">{% for d in mf.details.value %}<li>{{ d | escape }}</li>{% endfor %}</ul></div>
+</details>
+<details>
+<summary>Delivery &amp; returns <span>+</span></summary>
+<div class="accordion-copy">
+<p>{{ section.settings.delivery_text }} See our <a href="{{ section.settings.delivery_link }}">Delivery &amp; Returns page</a> for dispatch times and how to return an item.</p>
+</div>
+</details>
+</div>
+</div>
+</section>
+<section class="also-like">
+<h2>{{ section.settings.also_heading }}</h2>
+<div class="also-grid" id="pdAlso">
+{%- liquid
+  assign pool = collections.all.products | sort: 'id'
+  assign shown = 0
+  assign used = ' ' | append: product.handle | append: ' '
+-%}
+{%- for q in pool -%}{%- if shown < 4 -%}
+{%- capture qlabel -%}{% render 'product-cats', product: q, mode: 'label' %}{%- endcapture -%}
+{%- assign key = ' ' | append: q.handle | append: ' ' -%}
+{%- unless used contains key -%}{%- if qlabel == cat_label -%}
+{%- render 'shop-card', product: q, plain: true -%}{%- assign shown = shown | plus: 1 -%}{%- assign used = used | append: q.handle | append: ' ' -%}
+{%- endif -%}{%- endunless -%}
+{%- endif -%}{%- endfor -%}
+{%- for q in pool -%}{%- if shown < 4 -%}
+{%- assign key = ' ' | append: q.handle | append: ' ' -%}
+{%- unless used contains key -%}{%- if mf.ritual_handles.value contains q.handle -%}
+{%- render 'shop-card', product: q, plain: true -%}{%- assign shown = shown | plus: 1 -%}{%- assign used = used | append: q.handle | append: ' ' -%}
+{%- endif -%}{%- endunless -%}
+{%- endif -%}{%- endfor -%}
+{%- for q in pool -%}{%- if shown < 4 -%}
+{%- assign key = ' ' | append: q.handle | append: ' ' -%}
+{%- unless used contains key -%}{%- if q.tags contains 'best-seller' -%}
+{%- render 'shop-card', product: q, plain: true -%}{%- assign shown = shown | plus: 1 -%}{%- assign used = used | append: q.handle | append: ' ' -%}
+{%- endif -%}{%- endunless -%}
+{%- endif -%}{%- endfor -%}
+</div>
+</section>
+
+{% schema %}
+{
+  "name": "Product page",
+  "settings": [
+    { "type": "text", "id": "delivery_note", "label": "Delivery line under the button", "default": "<strong>Free UK delivery</strong> on orders over £30." },
+    { "type": "text", "id": "ritual_note", "label": "Note under 'Complete your ritual'", "default": "Add one more item to unlock free UK delivery." },
+    { "type": "text", "id": "ingredients_note", "label": "Note under the ingredients", "default": "Always check the ingredient list on the packaging — it is the final reference." },
+    { "type": "text", "id": "delivery_text", "label": "Delivery & returns text", "default": "Free UK delivery on orders over £30." },
+    { "type": "text", "id": "delivery_link", "label": "Delivery & Returns page link", "default": "/pages/delivery-returns" },
+    { "type": "text", "id": "also_heading", "label": "'You may also like' heading", "default": "You may also like" }
+  ]
+}
+{% endschema %}

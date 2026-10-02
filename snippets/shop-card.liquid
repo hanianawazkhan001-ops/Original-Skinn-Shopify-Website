@@ -1,41 +1,19 @@
 {%- comment -%}
   A product card on the shop pages — copied from the test site.
-  Params: product, order (position in the list)
+  Params: product, order (position in the list), plain (true = no badge or sort data, as in 'You may also like')
 {%- endcomment -%}
+{%- capture cat_keys -%}{% render 'product-cats', product: product, mode: 'keys' %}{%- endcapture -%}
+{%- capture cat_label -%}{% render 'product-cats', product: product, mode: 'label' %}{%- endcapture -%}
 {%- liquid
-  assign handles = product.collections | map: 'handle' | join: ' ' | prepend: ' ' | append: ' '
-  assign cat_keys = ''
-  assign cat_names = ''
-  if handles contains ' face '
-    assign cat_keys = cat_keys | append: ' face'
-    assign cat_names = cat_names | append: '|Face'
-  endif
-  if handles contains ' body ' or handles contains ' body-and-hair '
-    assign cat_keys = cat_keys | append: ' body'
-    assign cat_names = cat_names | append: '|Body'
-  endif
-  if handles contains ' bath-shower ' or handles contains ' bath-and-shower '
-    assign cat_keys = cat_keys | append: ' bath'
-    assign cat_names = cat_names | append: '|Bath & Shower'
-  endif
-  if handles contains ' baby '
-    assign cat_keys = cat_keys | append: ' baby'
-    assign cat_names = cat_names | append: '|Baby'
-  endif
-  if handles contains ' home-fragrance '
-    assign cat_keys = cat_keys | append: ' home'
-    assign cat_names = cat_names | append: '|Home Fragrance'
-  endif
-  assign cat_label = cat_names | remove_first: '|' | replace: '|', ' · '
-  if cat_label == blank
-    assign cat_label = product.type
-  endif
   assign v = product.selected_or_first_available_variant
   assign card_title = product.metafields.custom.card_title.value | default: product.title
+  if plain
+    assign card_title = product.title
+  endif
 -%}
-<article class="shop-card" data-category="{{ cat_keys | strip }}" data-name="{{ card_title | downcase | escape }}" data-order="{{ order }}" data-price="{{ v.price | divided_by: 100.0 }}">
+<article class="shop-card"{% unless plain %} data-category="{{ cat_keys }}" data-name="{{ card_title | downcase | escape }}" data-order="{{ order }}" data-price="{{ v.price | divided_by: 100.0 }}"{% endunless %}>
 <div class="shop-image">
-{%- if product.tags contains 'best-seller' %}
+{%- if product.tags contains 'best-seller' and plain != true %}
 <span class="shop-badge">Best Seller</span>
 {%- endif %}
 <a class="card-media-link" href="{{ product.url }}" tabindex="-1" aria-hidden="true"><img loading="lazy" alt="{{ card_title | escape }}" src="{{ product.featured_image | image_url: width: 900 }}"/></a>

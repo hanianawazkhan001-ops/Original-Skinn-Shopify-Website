@@ -1,0 +1,57 @@
+{%- comment -%}
+  Prints a product's shop categories, worked out from the collections it is in.
+  Params: product, mode ('label' → "Face · Bath & Shower", 'keys' → "face bath", 'first-handle' → "face")
+{%- endcomment -%}
+{%- liquid
+  assign handles = product.collections | map: 'handle' | join: ' ' | prepend: ' ' | append: ' '
+  assign keys = ''
+  assign names = ''
+  assign first = ''
+  if handles contains ' face '
+    assign keys = keys | append: ' face'
+    assign names = names | append: '|Face'
+    if first == blank
+      assign first = 'face'
+    endif
+  endif
+  if handles contains ' body ' or handles contains ' body-and-hair '
+    assign keys = keys | append: ' body'
+    assign names = names | append: '|Body'
+    if first == blank
+      assign first = 'body'
+    endif
+  endif
+  if handles contains ' bath-shower ' or handles contains ' bath-and-shower '
+    assign keys = keys | append: ' bath'
+    assign names = names | append: '|Bath & Shower'
+    if first == blank
+      assign first = 'bath-shower'
+    endif
+  endif
+  if handles contains ' baby '
+    assign keys = keys | append: ' baby'
+    assign names = names | append: '|Baby'
+    if first == blank
+      assign first = 'baby'
+    endif
+  endif
+  if handles contains ' home-fragrance '
+    assign keys = keys | append: ' home'
+    assign names = names | append: '|Home Fragrance'
+    if first == blank
+      assign first = 'home-fragrance'
+    endif
+  endif
+  assign label = names | remove_first: '|' | replace: '|', ' · '
+  if label == blank
+    assign label = product.type
+  endif
+  case mode
+    when 'keys'
+      echo keys | strip
+    when 'first-handle'
+      echo first
+    else
+      echo label
+  endcase
+-%}

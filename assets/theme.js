@@ -61,7 +61,9 @@
     if(el) el.textContent = n;
   }
   function addToBag(variantList, name, btn){
-    var items = String(variantList || '').split(',').filter(Boolean).map(function(id){ return {id: Number(id), quantity: 1}; });
+    var counts = {}, order = [];
+    String(variantList || '').split(',').filter(Boolean).forEach(function(id){ if(!counts[id]){ counts[id] = 0; order.push(id); } counts[id]++; });
+    var items = order.map(function(id){ return {id: Number(id), quantity: counts[id]}; });
     if(!items.length){ window.OS.notify('Sorry, this isn’t available right now.'); return; }
     if(btn) btn.disabled = true;
     fetch(root + 'cart/add.js', {
@@ -83,7 +85,7 @@
   window.OS.addToBag = addToBag;
 
   document.addEventListener('click', function(e){
-    var btn = e.target.closest ? e.target.closest('.quickadd, .concern-add, .card-add, .rs-add') : null;
+    var btn = e.target.closest ? e.target.closest('.quickadd, .concern-add, .card-add, .rs-add, .cr-add') : null;
     if(!btn) return;
     var list = btn.dataset.variants || '';
     var strip = (btn.classList.contains('rs-add') && !list) ? btn.closest('.ritual-strip') : null;
@@ -205,6 +207,43 @@
       });
     });
   }
+})();
+
+// ---- product page: photos, sizes, quantity, Add to bag, Complete your ritual (copied from the test site) ----
+(function(){
+  var add = document.getElementById('pdAdd');
+  if(!add) return;
+  var main = document.getElementById('mainProductImage');
+  var priceEl = document.getElementById('pdPrice');
+  var sizeEl = document.getElementById('pdSize');
+  var input = document.getElementById('qtyInput');
+  document.querySelectorAll('#pdThumbs .product-thumb').forEach(function(t){
+    t.addEventListener('click', function(){
+      if(main && t.dataset.src) main.src = t.dataset.src;
+      document.querySelectorAll('#pdThumbs .product-thumb').forEach(function(b){ b.classList.remove('active'); });
+      t.classList.add('active');
+    });
+  });
+  document.querySelectorAll('#pdSizes .pd-size').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('#pdSizes .pd-size').forEach(function(x){ x.classList.remove('active'); });
+      b.classList.add('active');
+      add.dataset.variant = b.dataset.variant;
+      if(priceEl) priceEl.textContent = b.dataset.price;
+      if(sizeEl) sizeEl.textContent = b.dataset.size;
+      add.textContent = 'Add to bag · ' + b.dataset.price;
+    });
+  });
+  function qty(){ var n = parseInt(input && input.value || '1', 10); return (n && n > 0) ? n : 1; }
+  var minus = document.getElementById('qtyMinus'), plus = document.getElementById('qtyPlus');
+  if(minus) minus.addEventListener('click', function(){ input.value = Math.max(1, qty() - 1); });
+  if(plus) plus.addEventListener('click', function(){ input.value = qty() + 1; });
+  if(input) input.addEventListener('change', function(){ input.value = qty(); });
+  add.addEventListener('click', function(){
+    var n = qty(), list = [];
+    for(var i = 0; i < n; i++) list.push(add.dataset.variant);
+    window.OS.addToBag(list.join(','), add.dataset.product, add);
+  });
 })();
 
 // ---- scroll-reveal: elements slide/rise/pop into place as you scroll ----
