@@ -1,11 +1,8 @@
 {
   "sections": {
     "main": {
-      "type": "coming-soon",
-      "settings": {
-        "eyebrow": "Page not found",
-        "text": "Sorry, we couldn’t find that page."
-      }
+      "type": "main-404",
+      "settings": {}
     }
   },
   "order": [

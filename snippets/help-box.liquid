@@ -1,0 +1,11 @@
+{%- comment -%} The "Need help?" box at the bottom of information pages. Params: style ('delivery-help' | 'faq-contact'), kicker, heading, text, link_label, link {%- endcomment -%}
+{%- if heading != blank -%}
+<section class="{{ style | default: 'delivery-help' }}">
+<span>{{ kicker }}</span>
+<h2>{{ heading }}</h2>
+<p>{{ text }}</p>
+{%- if link_label != blank %}
+<a href="{{ link }}"{% if link contains '#shop' %} data-scroll-to="shop"{% endif %}>{{ link_label }}</a>
+{%- endif %}
+</section>
+{%- endif -%}

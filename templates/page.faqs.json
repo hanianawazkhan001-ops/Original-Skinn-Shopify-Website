@@ -1,0 +1,192 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-faqs",
+      "settings": {
+        "hero_kicker": "Original Skinn",
+        "hero_heading": "FAQs",
+        "hero_text": "Everything you may want to know about our products, ingredients, orders and delivery.",
+        "help_kicker": "Still need a hand?",
+        "help_heading": "We’re happy to help.",
+        "help_text": "If your question isn’t covered here, get in touch with Original Skinn and we’ll point you in the right direction.",
+        "help_link_label": "Contact us →",
+        "help_link": "/pages/contact"
+      },
+      "blocks": {
+        "group_1": {
+          "type": "group",
+          "settings": {
+            "kicker": "Our range",
+            "heading": "Products & ingredients",
+            "jump_label": "Products",
+            "anchor": "products"
+          }
+        },
+        "q_1": {
+          "type": "question",
+          "settings": {
+            "question": "What makes Original Skinn products different?",
+            "answer": "<p>Original Skinn is an independent skincare brand with a plant-led approach. Our range is designed around simple everyday rituals for face, body, bath, baby and home.</p>"
+          }
+        },
+        "q_2": {
+          "type": "question",
+          "settings": {
+            "question": "Are your products natural and vegan?",
+            "answer": "<p>All our products are vegan. Our skincare range is plant-led, built around plant oils and butters with essential oils for scent. Our home fragrance range and Black Cherry Body Butter use fragrance oils. The full ingredient list is on every product page and on the packaging.</p>"
+          }
+        },
+        "q_3": {
+          "type": "question",
+          "settings": {
+            "question": "Where can I find the full ingredient list?",
+            "answer": "<p>Each product page includes an Ingredients section. The ingredient list on the product packaging should always be treated as the final reference.</p>"
+          }
+        },
+        "q_4": {
+          "type": "question",
+          "settings": {
+            "question": "How should I store my products?",
+            "answer": "<p>Keep products closed when not in use and store them away from excessive heat, direct sunlight and moisture unless the packaging says otherwise.</p>"
+          }
+        },
+        "q_5": {
+          "type": "question",
+          "settings": {
+            "question": "How long will a product last once opened?",
+            "answer": "<p>Please follow the period-after-opening or expiry information shown on the product packaging, as this can vary between products.</p>"
+          }
+        },
+        "group_2": {
+          "type": "group",
+          "settings": {
+            "kicker": "Everyday care",
+            "heading": "Skin & how to use",
+            "jump_label": "Skin & use",
+            "anchor": "skin"
+          }
+        },
+        "q_6": {
+          "type": "question",
+          "settings": {
+            "question": "Are your products suitable for sensitive skin?",
+            "answer": "<p>Everyone’s skin is different. Check the ingredient list before use and consider patch testing a small area first. Stop using a product if irritation occurs.</p>"
+          }
+        },
+        "q_7": {
+          "type": "question",
+          "settings": {
+            "question": "How do I know which face product to choose?",
+            "answer": "<p>Our Day Facial Moisturiser &amp; Serum is designed for the morning, while the Night Facial Moisturiser &amp; Serum is for your evening routine. The Face Moisturiser Duo pairs both together.</p>"
+          }
+        },
+        "q_8": {
+          "type": "question",
+          "settings": {
+            "question": "How often should I use a salt scrub?",
+            "answer": "<p>Follow the directions on the individual product page and packaging. Avoid using a scrub on broken, irritated or freshly shaved skin.</p>"
+          }
+        },
+        "q_9": {
+          "type": "question",
+          "settings": {
+            "question": "Can I use your products during pregnancy?",
+            "answer": "<p>If you are pregnant, breastfeeding or have a particular health concern, check the ingredient list and ask a qualified healthcare professional if you are unsure whether a product is suitable for you.</p>"
+          }
+        },
+        "group_3": {
+          "type": "group",
+          "settings": {
+            "kicker": "Little ones",
+            "heading": "Baby care",
+            "jump_label": "Baby",
+            "anchor": "baby"
+          }
+        },
+        "q_10": {
+          "type": "question",
+          "settings": {
+            "question": "What is included in the Baby Essentials Bundle?",
+            "answer": "<p>The Baby Essentials Bundle brings together our Organic Baby Moisturiser and Lavender &amp; Chamomile Baby Wash as an easy everyday pairing.</p>"
+          }
+        },
+        "q_11": {
+          "type": "question",
+          "settings": {
+            "question": "Can I use the baby range from birth?",
+            "answer": "<p>Please follow the age guidance and directions on the individual product packaging. If you are unsure about using a product on a newborn or a child with a skin condition, ask a healthcare professional first.</p>"
+          }
+        },
+        "q_12": {
+          "type": "question",
+          "settings": {
+            "question": "What should I do if my baby has very sensitive skin?",
+            "answer": "<p>Check the full ingredient list before use and follow the product directions carefully. For eczema, allergies or another diagnosed skin condition, seek advice from an appropriate healthcare professional.</p>"
+          }
+        },
+        "group_4": {
+          "type": "group",
+          "settings": {
+            "kicker": "Shopping with us",
+            "heading": "Orders & delivery",
+            "jump_label": "Orders & delivery",
+            "anchor": "orders"
+          }
+        },
+        "q_13": {
+          "type": "question",
+          "settings": {
+            "question": "Do you offer free UK delivery?",
+            "answer": "<p>Yes. Free delivery is available on UK orders over £30.</p>"
+          }
+        },
+        "q_14": {
+          "type": "question",
+          "settings": {
+            "question": "Can I change or cancel an order?",
+            "answer": "<p>If you need to change something, contact us as soon as possible. We can only make changes before an order has been processed or dispatched.</p>"
+          }
+        },
+        "q_15": {
+          "type": "question",
+          "settings": {
+            "question": "What if there is a problem with my order?",
+            "answer": "<p>Please contact us with your order details and a description of the issue so we can look into it for you.</p>"
+          }
+        },
+        "q_16": {
+          "type": "question",
+          "settings": {
+            "question": "Where can I find your returns information?",
+            "answer": "<p>You can find the full policy on our Delivery &amp; Returns page. If you are unsure about anything, contact us before sending an item back.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "group_1",
+        "q_1",
+        "q_2",
+        "q_3",
+        "q_4",
+        "q_5",
+        "group_2",
+        "q_6",
+        "q_7",
+        "q_8",
+        "q_9",
+        "group_3",
+        "q_10",
+        "q_11",
+        "q_12",
+        "group_4",
+        "q_13",
+        "q_14",
+        "q_15",
+        "q_16"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

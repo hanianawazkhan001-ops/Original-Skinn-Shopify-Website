@@ -1,0 +1,133 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-legal",
+      "settings": {
+        "hero_kicker": "Original Skinn",
+        "hero_heading": "Privacy Policy",
+        "hero_text": "How we collect, use and protect personal information when you browse, shop with or contact Original Skinn.",
+        "style": "privacy",
+        "updated": "21 September 2026",
+        "nav_label": "Privacy policy sections"
+      },
+      "blocks": {
+        "part_1": {
+          "type": "part",
+          "settings": {
+            "heading": "Who we are",
+            "nav_label": "Who we are",
+            "anchor": "who",
+            "body": "<p>This privacy policy explains how <strong>Original Skinn</strong> handles personal information in connection with our website, customer orders and customer enquiries.</p><p>For privacy questions, please contact us through our <a href=\"/pages/contact\">Contact page</a>.</p>"
+          }
+        },
+        "part_2": {
+          "type": "part",
+          "settings": {
+            "heading": "Information we collect",
+            "nav_label": "Information we collect",
+            "anchor": "data",
+            "body": "<p>Depending on how you use our website, we may collect information such as:</p><ul>\n<li>your name, email address, telephone number and delivery or billing address;</li>\n<li>order details, products purchased and transaction information;</li>\n<li>messages or information you send through our contact form;</li>\n<li>technical information such as IP address, browser type, device information and website usage data;</li>\n<li>marketing preferences where you choose to receive updates from us.</li>\n</ul><p>Payment card details are normally processed by our payment provider rather than stored directly by Original Skinn.</p>"
+          }
+        },
+        "part_3": {
+          "type": "part",
+          "settings": {
+            "heading": "How we use your information",
+            "nav_label": "How we use it",
+            "anchor": "use",
+            "body": "<p>We may use personal information to:</p><ul>\n<li>process, fulfil and manage your orders;</li>\n<li>take payment and deal with refunds where appropriate;</li>\n<li>communicate with you about an order or enquiry;</li>\n<li>provide customer service and deal with complaints;</li>\n<li>operate, maintain and improve our website;</li>\n<li>help prevent fraud, misuse or security issues;</li>\n<li>meet legal, tax, accounting and regulatory obligations;</li>\n<li>send marketing where you have consented or where another lawful basis applies.</li>\n</ul><p>Our lawful basis will depend on the purpose. This may include performing a contract with you, complying with a legal obligation, our legitimate interests in operating and improving the business, or your consent where required.</p>"
+          }
+        },
+        "part_4": {
+          "type": "part",
+          "settings": {
+            "heading": "Who we share information with",
+            "nav_label": "Who we share it with",
+            "anchor": "sharing",
+            "body": "<p>We may share personal information with trusted service providers where needed to run the business, for example:</p><ul>\n<li>website and ecommerce platform providers;</li>\n<li>payment processors;</li>\n<li>delivery and courier companies;</li>\n<li>email, hosting, analytics and IT providers;</li>\n<li>professional advisers such as accountants or legal advisers;</li>\n<li>public authorities where we are legally required to do so.</li>\n</ul><p>We only share information where there is a business or legal reason to do so and expect service providers to handle it appropriately.</p>"
+          }
+        },
+        "part_5": {
+          "type": "part",
+          "settings": {
+            "heading": "International transfers",
+            "nav_label": "",
+            "anchor": "transfers",
+            "body": "<p>Some of our service providers may process information outside the UK. Where this happens, we take steps intended to ensure that an appropriate level of protection is in place, using recognised legal safeguards where required.</p>"
+          }
+        },
+        "part_6": {
+          "type": "part",
+          "settings": {
+            "heading": "How long we keep information",
+            "nav_label": "How long we keep it",
+            "anchor": "retention",
+            "body": "<p>We keep personal information only for as long as reasonably necessary for the purpose it was collected, including to fulfil orders, answer enquiries, maintain appropriate business records and meet legal or accounting requirements.</p><p>Different types of information may be kept for different periods.</p>"
+          }
+        },
+        "part_7": {
+          "type": "part",
+          "settings": {
+            "heading": "Your privacy rights",
+            "nav_label": "Your rights",
+            "anchor": "rights",
+            "body": "<p>Depending on the circumstances, UK data protection law may give you rights including the right to:</p><ul>\n<li>ask for access to personal information we hold about you;</li>\n<li>ask us to correct inaccurate information;</li>\n<li>ask us to erase information in certain circumstances;</li>\n<li>ask us to restrict certain processing;</li>\n<li>object to certain uses of your information;</li>\n<li>receive certain information in a portable format;</li>\n<li>withdraw consent where we rely on consent.</li>\n</ul>",
+            "extra_html": "<div class=\"rights-callout\">\n<strong>Your right to object</strong>\n<p>You can object to direct marketing at any time. You may also have a right to object to other processing based on legitimate interests, depending on the circumstances.</p>\n</div>"
+          }
+        },
+        "part_8": {
+          "type": "part",
+          "settings": {
+            "heading": "Cookies & website technology",
+            "nav_label": "Cookies",
+            "anchor": "cookies",
+            "body": "<p>Our website may use cookies and similar technologies to keep the site working, remember preferences, understand website use and support relevant marketing features.</p><p>More detail is in our Cookie Policy and in the website cookie settings.</p>"
+          }
+        },
+        "part_9": {
+          "type": "part",
+          "settings": {
+            "heading": "Keeping information secure",
+            "nav_label": "",
+            "anchor": "security",
+            "body": "<p>We use reasonable organisational and technical measures designed to protect personal information against accidental loss, misuse, unauthorised access, alteration or disclosure.</p>"
+          }
+        },
+        "part_10": {
+          "type": "part",
+          "settings": {
+            "heading": "Contact & complaints",
+            "nav_label": "Contact & complaints",
+            "anchor": "contact",
+            "body": "<p>If you have a question about this policy or want to exercise a privacy right, please contact us through our <a href=\"/pages/contact\">Contact page</a>.</p><p>You also have the right to raise a concern with the UK Information Commissioner’s Office (ICO) if you are unhappy with how your personal information has been handled.</p>"
+          }
+        },
+        "part_11": {
+          "type": "part",
+          "settings": {
+            "heading": "Changes to this policy",
+            "nav_label": "",
+            "anchor": "changes",
+            "body": "<p>We may update this policy from time to time to reflect changes to our services, systems or legal requirements. The latest version will be published on this page with an updated date.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "part_1",
+        "part_2",
+        "part_3",
+        "part_4",
+        "part_5",
+        "part_6",
+        "part_7",
+        "part_8",
+        "part_9",
+        "part_10",
+        "part_11"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

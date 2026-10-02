@@ -1,0 +1,26 @@
+{%- comment -%}
+  The leafy hero at the top of the information pages (same markup as the test site).
+  Params: style ('delivery' | 'faq' | 'contact' | 'privacy' | 'terms' | 'cookie'), kicker, heading, text
+{%- endcomment -%}
+{%- liquid
+  case style
+    when 'faq'
+      assign leaf_a = 'faq-leaf faq-leaf-left'
+      assign leaf_b = 'faq-leaf faq-leaf-right'
+    when 'contact'
+      assign leaf_a = 'contact-leaf contact-leaf-a'
+      assign leaf_b = 'contact-leaf contact-leaf-b'
+    else
+      assign leaf_a = style | append: '-leaf leaf-a'
+      assign leaf_b = style | append: '-leaf leaf-b'
+  endcase
+-%}
+<section class="{{ style }}-hero">
+<div aria-hidden="true" class="{{ leaf_a }}"></div>
+<div aria-hidden="true" class="{{ leaf_b }}"></div>
+<div class="{{ style }}-hero-inner">
+<span>{{ kicker }}</span>
+<h1>{{ heading }}</h1>
+<p>{{ text }}</p>
+</div>
+</section>

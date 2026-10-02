@@ -1,0 +1,134 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-legal",
+      "settings": {
+        "hero_kicker": "Original Skinn",
+        "hero_heading": "Cookie Policy",
+        "hero_text": "How Original Skinn uses cookies and similar technologies when you visit our website.",
+        "style": "cookie",
+        "updated": "21 September 2026",
+        "nav_label": "Cookie policy sections"
+      },
+      "blocks": {
+        "part_1": {
+          "type": "part",
+          "settings": {
+            "heading": "What are cookies?",
+            "nav_label": "What cookies are",
+            "anchor": "cookie-what",
+            "body": "<p>Cookies are small files or pieces of information that a website can store on your device when you visit it. They can help a website remember information about your visit, keep shopping features working and understand how the website is used.</p><p>Similar technologies may also be used to store or access information on a device. In this policy, we use the word “cookies” to cover cookies and similar technologies unless we say otherwise.</p>"
+          }
+        },
+        "part_2": {
+          "type": "part",
+          "settings": {
+            "heading": "How we use cookies",
+            "nav_label": "Types we use",
+            "anchor": "cookie-types",
+            "body": "<p>Original Skinn may use cookies for different purposes. Some are required for the website to work properly, while others may support preferences, analytics or marketing.</p>",
+            "extra_html": "<div class=\"cookie-type-grid\">\n<div>\n<span>Essential</span>\n<strong>Strictly necessary</strong>\n<p>Used for core website functions such as your basket, checkout and security.</p>\n</div>\n<div>\n<span>Optional</span>\n<strong>Preferences</strong>\n<p>May remember choices that make the website more convenient to use.</p>\n</div>\n<div>\n<span>Optional</span>\n<strong>Analytics</strong>\n<p>May help us understand how visitors use the website and where we can improve it.</p>\n</div>\n<div>\n<span>Optional</span>\n<strong>Marketing</strong>\n<p>May be used to measure campaigns or support more relevant advertising.</p>\n</div>\n</div>"
+          }
+        },
+        "part_3": {
+          "type": "part",
+          "settings": {
+            "heading": "Strictly necessary cookies",
+            "nav_label": "Strictly necessary",
+            "anchor": "cookie-necessary",
+            "body": "<p>These cookies are used where they are necessary to provide a service you have asked for or to keep the website secure and functioning.</p><p>Examples may include cookies that:</p><ul>\n<li>remember products added to your basket;</li>\n<li>allow the checkout process to work;</li>\n<li>help keep your session secure;</li>\n<li>help pages load and function correctly;</li>\n<li>remember your cookie choices.</li>\n</ul><p>Because these cookies are required for core functionality, they may operate without optional-cookie consent where the law allows.</p>"
+          }
+        },
+        "part_4": {
+          "type": "part",
+          "settings": {
+            "heading": "Preference cookies",
+            "nav_label": "Preferences",
+            "anchor": "cookie-preferences",
+            "body": "<p>Preference cookies can help remember choices you make, such as website settings or other features intended to make your experience more convenient.</p><p>Where these cookies are not strictly necessary, we will use them only in accordance with your cookie choices.</p>"
+          }
+        },
+        "part_5": {
+          "type": "part",
+          "settings": {
+            "heading": "Analytics & performance",
+            "nav_label": "Analytics",
+            "anchor": "cookie-analytics",
+            "body": "<p>Analytics technologies may help us understand how people use the Original Skinn website, for example which pages are visited, how visitors move through the site and whether technical issues occur.</p><p>Where consent is required, analytics cookies will not be used until you have made the relevant choice through our cookie controls.</p>"
+          }
+        },
+        "part_6": {
+          "type": "part",
+          "settings": {
+            "heading": "Marketing cookies",
+            "nav_label": "Marketing",
+            "anchor": "cookie-marketing",
+            "body": "<p>Marketing technologies may be used to understand the effectiveness of advertising, measure campaigns or help show more relevant content or advertising on other services.</p><p>Where consent is required, marketing cookies will not be used unless you choose to allow them.</p>"
+          }
+        },
+        "part_7": {
+          "type": "part",
+          "settings": {
+            "heading": "Third-party cookies",
+            "nav_label": "Third parties",
+            "anchor": "cookie-thirdparty",
+            "body": "<p>Some website features may be provided by third-party services, such as our ecommerce platform, payment services, analytics tools or marketing providers. These providers may place or access their own cookies where relevant to the service they provide.</p><p>Information about optional third-party cookies is available in the website’s cookie settings.</p>"
+          }
+        },
+        "part_8": {
+          "type": "part",
+          "settings": {
+            "heading": "Your cookie choices",
+            "nav_label": "Your choices",
+            "anchor": "cookie-choices",
+            "body": "<p>Where optional cookies require your permission, you can choose whether to allow them. You can change or withdraw that choice at any time through the website’s cookie settings.</p>",
+            "extra_html": "<div class=\"cookie-callout\">\n<strong>You stay in control</strong>\n<p>Rejecting optional cookies does not stop the core shopping functions of the website from working. Strictly necessary cookies may still be used where they are needed to provide the service you request.</p>\n</div>\n<p>You can also control cookies through your browser settings, including deleting existing cookies or blocking certain categories of cookies. Blocking all cookies may affect parts of the website that rely on essential storage.</p>"
+          }
+        },
+        "part_9": {
+          "type": "part",
+          "settings": {
+            "heading": "Cookies & personal information",
+            "nav_label": "",
+            "anchor": "cookie-data",
+            "body": "<p>Some cookies may involve the processing of personal information, such as device identifiers or website usage data. For more information about how Original Skinn handles personal information, please read our <a href=\"/pages/privacy\">Privacy Policy</a>.</p>"
+          }
+        },
+        "part_10": {
+          "type": "part",
+          "settings": {
+            "heading": "Changes to this policy",
+            "nav_label": "Changes",
+            "anchor": "cookie-changes",
+            "body": "<p>We may update this Cookie Policy from time to time, for example if the technologies used on the website change or legal requirements are updated. The latest version will appear on this page.</p>"
+          }
+        },
+        "part_11": {
+          "type": "part",
+          "settings": {
+            "heading": "Contact us",
+            "nav_label": "",
+            "anchor": "cookie-contact",
+            "body": "<p>If you have a question about this policy or how cookies are used on the Original Skinn website, please use our <a href=\"/pages/contact\">Contact page</a>.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "part_1",
+        "part_2",
+        "part_3",
+        "part_4",
+        "part_5",
+        "part_6",
+        "part_7",
+        "part_8",
+        "part_9",
+        "part_10",
+        "part_11"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

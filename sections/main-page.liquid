@@ -1,0 +1,27 @@
+{%- comment -%}
+  Any other page (e.g. a new page Alex adds in Online Store > Pages): the leafy hero with the
+  page title, then the page's own text from the Pages editor, styled like the policy pages.
+{%- endcomment -%}
+{%- render 'page-hero', style: 'delivery', kicker: section.settings.hero_kicker, heading: page.title, text: section.settings.hero_text -%}
+<section class="privacy-shell">
+<article class="privacy-content page-rte">
+<section>
+{{ page.content }}
+</section>
+</article>
+</section>
+{%- style -%}
+.page-rte{max-width:760px;margin:0 auto}
+.page-rte h2,.page-rte h3{font-family:Georgia,"Times New Roman",serif;font-weight:400;color:var(--forest)}
+.page-rte img{max-width:100%;height:auto;border-radius:18px}
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "Page",
+  "settings": [
+    { "type": "text", "id": "hero_kicker", "label": "Small heading", "default": "Original Skinn" },
+    { "type": "textarea", "id": "hero_text", "label": "Text under the heading" }
+  ]
+}
+{% endschema %}

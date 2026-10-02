@@ -1,0 +1,123 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-story",
+      "settings": {
+        "hero_kicker": "What goes in",
+        "hero_heading": "Our ingredients",
+        "hero_text": "We build our skincare around plant oils, butters and essential oils. Here are the ones you'll see most often. The full ingredient list for every product is on its product page and on the label.",
+        "help_kicker": "Questions about an ingredient?",
+        "help_heading": "We're happy to help.",
+        "help_text": "If you'd like to check something before you buy, get in touch and we'll point you in the right direction.",
+        "help_link_label": "Contact us →",
+        "help_link": "/pages/contact"
+      },
+      "blocks": {
+        "card_1": {
+          "type": "card",
+          "settings": {
+            "icon": "jar",
+            "heading": "Shea butter",
+            "text": "Rich and creamy. The base of our whipped body butters and salt scrubs."
+          }
+        },
+        "card_2": {
+          "type": "card",
+          "settings": {
+            "icon": "bean",
+            "heading": "Cocoa butter",
+            "text": "Adds a firm, silky melt to our body butters."
+          }
+        },
+        "card_3": {
+          "type": "card",
+          "settings": {
+            "icon": "drop",
+            "heading": "Jojoba oil",
+            "text": "Light and quick to absorb. In our body butters and Lavender Bath Soak."
+          }
+        },
+        "card_4": {
+          "type": "card",
+          "settings": {
+            "icon": "nut",
+            "heading": "Sweet almond & avocado oils",
+            "text": "Softening oils in our facial moisturisers & serums."
+          }
+        },
+        "card_5": {
+          "type": "card",
+          "settings": {
+            "icon": "flower",
+            "heading": "Chamomile & calendula",
+            "text": "Gentle botanicals in our Day Moisturiser, face wash and Lavender & Chamomile Baby Wash."
+          }
+        },
+        "card_6": {
+          "type": "card",
+          "settings": {
+            "icon": "salt",
+            "heading": "Sea salt",
+            "text": "Polishes skin in our salt scrubs."
+          }
+        },
+        "card_7": {
+          "type": "card",
+          "settings": {
+            "icon": "bottle",
+            "heading": "Essential oils",
+            "text": "Lavender, grapefruit, geranium, sweet orange, lemon and cedarwood scent our skincare."
+          }
+        },
+        "card_8": {
+          "type": "card",
+          "settings": {
+            "icon": "leaf",
+            "heading": "Witch hazel",
+            "text": "The refreshing base of our Facial Toner Mist."
+          }
+        },
+        "note_1": {
+          "type": "note",
+          "settings": {
+            "kicker": "Allergens",
+            "heading": "About allergens",
+            "text": "Essential oils naturally contain fragrance allergens such as linalool and limonene. These are marked with * in every ingredient list so you can check before you buy."
+          }
+        },
+        "note_2": {
+          "type": "note",
+          "settings": {
+            "kicker": "Fragrance",
+            "heading": "Fragrance oils",
+            "text": "Our Black Cherry Body Butter and our home fragrance range (candles, room sprays, diffusers, car blends) use fragrance oils, listed as Parfum where they apply to skin."
+          }
+        },
+        "note_3": {
+          "type": "note",
+          "settings": {
+            "kicker": "Good to know",
+            "heading": "Patch test",
+            "text": "Everyone's skin is different. Try a small amount on your inner arm first and stop using any product if irritation occurs."
+          }
+        }
+      },
+      "block_order": [
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4",
+        "card_5",
+        "card_6",
+        "card_7",
+        "card_8",
+        "note_1",
+        "note_2",
+        "note_3"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

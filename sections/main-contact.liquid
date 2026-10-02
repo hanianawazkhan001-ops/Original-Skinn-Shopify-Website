@@ -1,0 +1,98 @@
+{%- comment -%}
+  Contact page — copied from the test site. The form is Shopify's contact form: messages are
+  emailed to the store's sender/contact email (Settings > Notifications / Store details).
+  The cards on the right are blocks.
+{%- endcomment -%}
+{%- assign hero_heading = section.settings.hero_heading | default: page.title -%}
+{%- render 'page-hero', style: 'contact', kicker: section.settings.hero_kicker, heading: hero_heading, text: section.settings.hero_text -%}
+<section class="contact-shell">
+<div class="contact-layout">
+<div class="contact-form-wrap">
+<span class="contact-kicker">{{ section.settings.kicker }}</span>
+<h2>{{ section.settings.heading }}</h2>
+<p class="contact-intro">{{ section.settings.intro }}</p>
+{%- form 'contact', class: 'contact-form', id: 'ContactForm' -%}
+{%- if form.posted_successfully? %}
+<p class="contact-status" role="status">{{ section.settings.success }}</p>
+{%- elsif form.errors %}
+<div class="contact-status contact-error" role="alert">{{ form.errors | default_errors }}</div>
+{%- endif %}
+<div class="contact-row">
+<label>
+<span>Name</span>
+<input autocomplete="name" name="contact[name]" placeholder="Your name" required="" type="text" value="{{ form.name }}"/>
+</label>
+<label>
+<span>Email</span>
+<input autocomplete="email" name="contact[email]" placeholder="Your email" required="" type="email" value="{{ form.email }}"/>
+</label>
+</div>
+<div class="contact-row">
+<label>
+<span>Order number <em>optional</em></span>
+<input name="contact[order_number]" placeholder="e.g. #1234" type="text"/>
+</label>
+<label>
+<span>What can we help with?</span>
+<select name="contact[topic]">
+<option>Choose a topic</option>
+{%- assign topics = section.settings.topics | newline_to_br | split: '<br />' -%}
+{%- for t in topics -%}{%- assign tt = t | strip -%}{%- if tt != blank %}
+<option>{{ tt }}</option>
+{%- endif -%}{%- endfor %}
+</select>
+</label>
+</div>
+<label class="message-field">
+<span>Message</span>
+<textarea name="contact[body]" placeholder="How can we help?" required="" rows="7">{{ form.body }}</textarea>
+</label>
+<button class="contact-submit" type="submit">Send message →</button>
+{%- endform -%}
+</div>
+<aside class="contact-side">
+{%- for block in section.blocks %}
+<div class="contact-side-card" {{ block.shopify_attributes }}>
+<h3>{{ block.settings.heading }}</h3>
+<p>{{ block.settings.text }}</p>
+{%- if block.settings.link_label != blank %}
+<a href="{{ block.settings.link }}">{{ block.settings.link_label }}</a>
+{%- endif %}
+</div>
+{%- endfor %}
+</aside>
+</div>
+</section>
+{%- style -%}
+.contact-status{margin:0;padding:14px 16px;border:1px solid #dce3d9;border-radius:14px;background:#eef2e9;color:var(--forest);font-size:12px;line-height:1.5}
+.contact-error ul{margin:0;padding-left:18px}
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "Contact page",
+  "settings": [
+    { "type": "text", "id": "hero_kicker", "label": "Small heading", "default": "Original Skinn" },
+    { "type": "text", "id": "hero_heading", "label": "Heading", "info": "Leave empty to use the page title." },
+    { "type": "textarea", "id": "hero_text", "label": "Text under the heading", "default": "Questions about a product, your order, or anything else? Send us a message and we’ll be happy to help." },
+    { "type": "header", "content": "Form" },
+    { "type": "text", "id": "kicker", "label": "Small heading", "default": "Get in touch" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Send us a message." },
+    { "type": "textarea", "id": "intro", "label": "Text above the form", "default": "Fill in the form below and include your order number if your message is about an existing order." },
+    { "type": "textarea", "id": "topics", "label": "Topics (one per line)", "default": "My order\nDelivery\nReturns\nProduct question\nIngredients\nOther" },
+    { "type": "text", "id": "success", "label": "Message after sending", "default": "Thank you — your message has been sent. We’ll get back to you as soon as we can." }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Side card",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Order help" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "If your message is about an order, include the order number so we can help you more quickly." },
+        { "type": "text", "id": "link_label", "label": "Link label" },
+        { "type": "text", "id": "link", "label": "Link" }
+      ]
+    }
+  ]
+}
+{% endschema %}

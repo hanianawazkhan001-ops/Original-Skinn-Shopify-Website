@@ -1,0 +1,21 @@
+{%- comment -%} "Page not found" — the leafy hero and help box from the information pages. {%- endcomment -%}
+{%- render 'page-hero', style: 'delivery', kicker: section.settings.hero_kicker, heading: section.settings.heading, text: section.settings.text -%}
+<section class="about-shell">
+{%- render 'help-box', style: 'delivery-help', kicker: section.settings.help_kicker, heading: section.settings.help_heading, text: section.settings.help_text, link_label: section.settings.help_link_label, link: routes.all_products_collection_url %}
+</section>
+
+{% schema %}
+{
+  "name": "Page not found",
+  "settings": [
+    { "type": "text", "id": "hero_kicker", "label": "Small heading", "default": "Original Skinn" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Page not found" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Sorry, we couldn’t find that page. It may have moved, or the link may be out of date." },
+    { "type": "header", "content": "Help box" },
+    { "type": "text", "id": "help_kicker", "label": "Small heading", "default": "Keep browsing" },
+    { "type": "text", "id": "help_heading", "label": "Heading", "default": "Find your ritual." },
+    { "type": "textarea", "id": "help_text", "label": "Text", "default": "Browse our full range for face, body, bath and baby, plus home fragrance." },
+    { "type": "text", "id": "help_link_label", "label": "Link label", "default": "Shop all →" }
+  ]
+}
+{% endschema %}

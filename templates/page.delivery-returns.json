@@ -1,0 +1,107 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-delivery",
+      "settings": {
+        "hero_kicker": "Original Skinn",
+        "hero_heading": "Delivery & Returns",
+        "hero_text": "Simple information about receiving your order and what to do if something isn’t quite right.",
+        "help_kicker": "Need help with an order?",
+        "help_heading": "We’re here to help.",
+        "help_text": "If you have a delivery or returns question, send us your order number and a short description of the issue.",
+        "help_link_label": "Contact us →",
+        "help_link": "/pages/contact",
+        "hl_kicker": "UK DELIVERY",
+        "hl_heading": "Free delivery on UK orders over £30.",
+        "hl_text": "Any delivery charge for smaller orders will be shown clearly before checkout."
+      },
+      "blocks": {
+        "col_1": {
+          "type": "column",
+          "settings": {
+            "kicker": "Delivery",
+            "heading": "Receiving your order"
+          }
+        },
+        "point_1_1": {
+          "type": "point",
+          "settings": {
+            "heading": "UK delivery",
+            "text": "We deliver across the UK. Free delivery applies when your order total is over £30."
+          }
+        },
+        "point_1_2": {
+          "type": "point",
+          "settings": {
+            "heading": "Dispatch & delivery times",
+            "text": "Estimated dispatch and delivery timings will be shown during checkout and in your order confirmation where available."
+          }
+        },
+        "point_1_3": {
+          "type": "point",
+          "settings": {
+            "heading": "Tracking",
+            "text": "If tracking is available for your order, the details will be sent to the email address used at checkout."
+          }
+        },
+        "point_1_4": {
+          "type": "point",
+          "settings": {
+            "heading": "Delivery problems",
+            "text": "If your parcel is delayed, missing or arrives damaged, contact us with your order number so we can look into it."
+          }
+        },
+        "col_2": {
+          "type": "column",
+          "settings": {
+            "kicker": "Returns",
+            "heading": "If you need to return something"
+          }
+        },
+        "point_2_1": {
+          "type": "point",
+          "settings": {
+            "heading": "Before returning an item",
+            "text": "Please contact us first with your order number and the reason for the return. We’ll confirm the next steps before anything is sent back."
+          }
+        },
+        "point_2_2": {
+          "type": "point",
+          "settings": {
+            "heading": "Product condition",
+            "text": "Return eligibility may depend on the condition of the product and whether it has been opened or used. We’ll confirm this with you when you contact us."
+          }
+        },
+        "point_2_3": {
+          "type": "point",
+          "settings": {
+            "heading": "Damaged or incorrect items",
+            "text": "If something arrives damaged or you receive the wrong item, let us know as soon as possible and include photos where helpful."
+          }
+        },
+        "point_2_4": {
+          "type": "point",
+          "settings": {
+            "heading": "Refunds",
+            "text": "Where a refund is due, it will be returned to the original payment method after the return has been reviewed."
+          }
+        }
+      },
+      "block_order": [
+        "col_1",
+        "point_1_1",
+        "point_1_2",
+        "point_1_3",
+        "point_1_4",
+        "col_2",
+        "point_2_1",
+        "point_2_2",
+        "point_2_3",
+        "point_2_4"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

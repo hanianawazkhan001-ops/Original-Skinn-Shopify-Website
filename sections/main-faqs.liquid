@@ -1,0 +1,81 @@
+{%- comment -%}
+  FAQs page — copied from the test site. Add a "Group" block to start a new group (it is numbered
+  automatically and gets a link in the bar at the top), then "Question" blocks under it.
+{%- endcomment -%}
+{%- assign hero_heading = section.settings.hero_heading | default: page.title -%}
+{%- render 'page-hero', style: 'faq', kicker: section.settings.hero_kicker, heading: hero_heading, text: section.settings.hero_text -%}
+<section class="faq-shell">
+<nav aria-label="FAQ categories" class="faq-jump">
+{%- for block in section.blocks -%}{%- if block.type == 'group' and block.settings.jump_label != blank %}
+<a href="#{{ block.settings.anchor | default: block.id | handleize }}">{{ block.settings.jump_label }}</a>
+{%- endif -%}{%- endfor %}
+</nav>
+{%- assign g = 0 -%}
+{%- for block in section.blocks -%}
+{%- if block.type == 'group' -%}
+{%- if g > 0 %}
+</div>
+</div>
+{%- endif -%}
+{%- assign g = g | plus: 1 %}
+<div class="faq-group" id="{{ block.settings.anchor | default: block.id | handleize }}" {{ block.shopify_attributes }}>
+<div class="faq-group-title">
+<span>{% if g < 10 %}0{% endif %}{{ g }}</span>
+<div>
+<p>{{ block.settings.kicker }}</p>
+<h2>{{ block.settings.heading }}</h2>
+</div>
+</div>
+<div class="faq-list">
+{%- elsif block.type == 'question' %}
+<details {{ block.shopify_attributes }}>
+<summary>{{ block.settings.question }}<span>+</span></summary>
+<div class="faq-answer">
+{{ block.settings.answer }}
+</div>
+</details>
+{%- endif -%}
+{%- endfor -%}
+{%- if g > 0 %}
+</div>
+</div>
+{%- endif -%}
+{%- render 'help-box', style: 'faq-contact', kicker: section.settings.help_kicker, heading: section.settings.help_heading, text: section.settings.help_text, link_label: section.settings.help_link_label, link: section.settings.help_link %}
+</section>
+
+{% schema %}
+{
+  "name": "FAQs page",
+  "settings": [
+    { "type": "text", "id": "hero_kicker", "label": "Small heading", "default": "Original Skinn" },
+    { "type": "text", "id": "hero_heading", "label": "Heading", "info": "Leave empty to use the page title." },
+    { "type": "textarea", "id": "hero_text", "label": "Text under the heading", "default": "Everything you may want to know about our products, ingredients, orders and delivery." },
+    { "type": "header", "content": "Help box at the bottom" },
+    { "type": "text", "id": "help_kicker", "label": "Small heading", "default": "Still need a hand?" },
+    { "type": "text", "id": "help_heading", "label": "Heading", "default": "We’re happy to help." },
+    { "type": "textarea", "id": "help_text", "label": "Text", "default": "If your question isn’t covered here, get in touch with Original Skinn and we’ll point you in the right direction." },
+    { "type": "text", "id": "help_link_label", "label": "Link label", "default": "Contact us →" },
+    { "type": "text", "id": "help_link", "label": "Link" }
+  ],
+  "blocks": [
+    {
+      "type": "group",
+      "name": "Group",
+      "settings": [
+        { "type": "text", "id": "kicker", "label": "Small heading", "default": "Our range" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Products & ingredients" },
+        { "type": "text", "id": "jump_label", "label": "Label in the bar at the top", "default": "Products" },
+        { "type": "text", "id": "anchor", "label": "Link name (no spaces)", "info": "Used for the link in the bar at the top, e.g. products." }
+      ]
+    },
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Your question?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Your answer.</p>" }
+      ]
+    }
+  ]
+}
+{% endschema %}

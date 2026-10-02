@@ -1,11 +1,8 @@
 {
   "sections": {
     "main": {
-      "type": "coming-soon",
-      "settings": {
-        "eyebrow": "Search",
-        "text": "Search results are styled in Step 8."
-      }
+      "type": "main-search",
+      "settings": {}
     }
   },
   "order": [

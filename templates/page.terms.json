@@ -1,0 +1,152 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-legal",
+      "settings": {
+        "hero_kicker": "Original Skinn",
+        "hero_heading": "Terms & Conditions",
+        "hero_text": "The terms that apply when you browse our website or place an order with Original Skinn.",
+        "style": "terms",
+        "updated": "21 September 2026",
+        "nav_label": "Terms and conditions sections"
+      },
+      "blocks": {
+        "part_1": {
+          "type": "part",
+          "settings": {
+            "heading": "About these terms",
+            "nav_label": "About these terms",
+            "anchor": "terms-about",
+            "body": "<p>These Terms &amp; Conditions apply to your use of the Original Skinn website and to purchases made through it.</p><p>By placing an order, you agree to these terms. Nothing in these terms affects any rights you have under applicable consumer law.</p>"
+          }
+        },
+        "part_2": {
+          "type": "part",
+          "settings": {
+            "heading": "Orders",
+            "nav_label": "Orders",
+            "anchor": "terms-orders",
+            "body": "<p>When you place an order, you are making an offer to purchase the products in your basket. An order is accepted when we send you a dispatch confirmation email.</p><p>We may refuse or cancel an order where, for example, a product is unavailable, there is an obvious pricing error, payment cannot be authorised, or we reasonably suspect fraudulent activity.</p><p>If we cancel an order after payment has been taken, any amount due back to you will be refunded to the original payment method.</p>"
+          }
+        },
+        "part_3": {
+          "type": "part",
+          "settings": {
+            "heading": "Prices & payment",
+            "nav_label": "Prices & payment",
+            "anchor": "terms-prices",
+            "body": "<p>Product prices are shown on the website at the time you place your order. Any delivery charge will be shown before you complete checkout.</p><p>We take reasonable care to make sure prices are correct. If an obvious pricing error occurs, we may contact you to correct it before the order is fulfilled.</p><p>Payment must be made using one of the payment methods made available at checkout.</p>"
+          }
+        },
+        "part_4": {
+          "type": "part",
+          "settings": {
+            "heading": "Products & availability",
+            "nav_label": "Products",
+            "anchor": "terms-products",
+            "body": "<p>We aim to describe and photograph products as accurately as reasonably possible. Colours and appearance may vary slightly depending on your screen and from batch to batch where natural ingredients are used.</p><p>All products are subject to availability. We may withdraw or change products from time to time.</p><p>Please read product labels, ingredient lists and usage instructions before use. Stop using a product if irritation occurs.</p>"
+          }
+        },
+        "part_5": {
+          "type": "part",
+          "settings": {
+            "heading": "Delivery",
+            "nav_label": "Delivery",
+            "anchor": "terms-delivery",
+            "body": "<p>We deliver to the locations shown at checkout. Free UK delivery is available on orders over £30.</p><p>Any estimated dispatch or delivery times are provided in good faith. Where the law requires a specific delivery timeframe, your statutory rights continue to apply.</p><p>If a parcel is delayed, lost or arrives damaged, please contact us with your order number so we can investigate.</p><p>More information is available on our <a href=\"/pages/delivery-returns\">Delivery &amp; Returns page</a>.</p>"
+          }
+        },
+        "part_6": {
+          "type": "part",
+          "settings": {
+            "heading": "Cancellations & returns",
+            "nav_label": "Cancellations & returns",
+            "anchor": "terms-returns",
+            "body": "<p>For most online purchases, UK consumers have a legal right to cancel within 14 days of receiving the goods, subject to certain exceptions.</p><p>After telling us you wish to cancel, you will normally have a further 14 days to return the goods.</p><p>Some products may not be returnable once opened where they were supplied sealed and are not suitable for return for health protection or hygiene reasons.</p><p>Please contact us before returning anything so we can confirm the correct return process.</p>"
+          }
+        },
+        "part_7": {
+          "type": "part",
+          "settings": {
+            "heading": "Faulty, damaged or incorrect goods",
+            "nav_label": "Faulty goods",
+            "anchor": "terms-faulty",
+            "body": "<p>If a product is faulty, not as described, damaged on arrival or the wrong item has been sent, please contact us as soon as possible.</p><p>Your rights in relation to faulty goods are protected by UK consumer law. These terms do not limit those rights.</p>"
+          }
+        },
+        "part_8": {
+          "type": "part",
+          "settings": {
+            "heading": "Discounts & promotions",
+            "nav_label": "",
+            "anchor": "terms-promotions",
+            "body": "<p>Promotional codes, offers and discounts may have their own conditions, expiry dates or product exclusions. Unless stated otherwise, only one promotional code may be used per order.</p><p>We may withdraw or amend a promotion where reasonably necessary, provided this does not affect orders already accepted.</p>"
+          }
+        },
+        "part_9": {
+          "type": "part",
+          "settings": {
+            "heading": "Website use & intellectual property",
+            "nav_label": "Website use",
+            "anchor": "terms-website",
+            "body": "<p>The website and its content, including branding, text, graphics, photographs and design, may be protected by intellectual property rights.</p><p>You may use the website for personal shopping and information purposes. You must not reproduce, copy or commercially exploit website content without permission where rights apply.</p><p>You must not misuse the website, attempt unauthorised access, introduce malicious code or interfere with its normal operation.</p>"
+          }
+        },
+        "part_10": {
+          "type": "part",
+          "settings": {
+            "heading": "Our responsibility to you",
+            "nav_label": "Liability",
+            "anchor": "terms-liability",
+            "body": "<p>We do not exclude or limit liability where it would be unlawful to do so, including liability for death or personal injury caused by negligence, fraud, or rights that cannot legally be excluded.</p><p>Where permitted by law, we are not responsible for losses that were not reasonably foreseeable when the contract was formed or for business losses where you are purchasing as a consumer.</p>"
+          }
+        },
+        "part_11": {
+          "type": "part",
+          "settings": {
+            "heading": "Privacy",
+            "nav_label": "",
+            "anchor": "terms-privacy",
+            "body": "<p>We handle personal information in accordance with our <a href=\"/pages/privacy\">Privacy Policy</a>.</p>"
+          }
+        },
+        "part_12": {
+          "type": "part",
+          "settings": {
+            "heading": "Changes to these terms",
+            "nav_label": "",
+            "anchor": "terms-changes",
+            "body": "<p>We may update these terms from time to time. The terms that apply to an order are the version in force when that order is placed.</p>"
+          }
+        },
+        "part_13": {
+          "type": "part",
+          "settings": {
+            "heading": "Governing law & contact",
+            "nav_label": "Governing law",
+            "anchor": "terms-law",
+            "body": "<p>These terms are governed by the laws that apply to your purchase in the United Kingdom, including any mandatory consumer protections that apply where you live.</p><p>Original Skinn is a trading name of OriginalSkin Ltd, a company registered in England and Wales (company no. 15919300). Registered office: Pepys Cottage Bounce, Hook, South Warnborough, Hampshire, RG29 1RX.</p><p>If you have a question about these terms or an order, please use our <a href=\"/pages/contact\">Contact page</a>.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "part_1",
+        "part_2",
+        "part_3",
+        "part_4",
+        "part_5",
+        "part_6",
+        "part_7",
+        "part_8",
+        "part_9",
+        "part_10",
+        "part_11",
+        "part_12",
+        "part_13"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

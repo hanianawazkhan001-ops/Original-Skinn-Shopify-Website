@@ -1,0 +1,56 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-story",
+      "settings": {
+        "hero_kicker": "Our story",
+        "hero_heading": "About Original Skinn",
+        "hero_text": "Original Skinn is a small, independent skincare brand based in Hampshire. We make simple, plant-led skincare that is easy to use every day, and we keep our range small on purpose so every product earns its place.",
+        "help_kicker": "Find your routine",
+        "help_heading": "Two or three products. That's it.",
+        "help_text": "Start with a ritual for your face, your body, the bath or bedtime.",
+        "help_link_label": "Shop by ritual →",
+        "help_link": "/#shop"
+      },
+      "blocks": {
+        "row_1": {
+          "type": "row",
+          "settings": {
+            "fallback": "about-1.jpg",
+            "alt": "Original Skinn whipped body butters, made in small batches",
+            "heading": "Made in small batches",
+            "text": "Our whipped body butters, salt scrubs, balms and candles are made by hand in small batches, and our Night Facial Moisturiser is hand-blended with essential oils. Small batches mean fresher products and closer care over every jar."
+          }
+        },
+        "row_2": {
+          "type": "row",
+          "settings": {
+            "fallback": "about-2.jpg",
+            "alt": "Original Skinn Day and Night facial moisturisers",
+            "heading": "Vegan and safety assessed",
+            "text": "Every Original Skinn product is vegan, and every cosmetic we sell has been professionally safety assessed under UK cosmetics law. Full ingredient lists are on every product page and every label.",
+            "link_label": "Read about our ingredients →",
+            "link": "/pages/ingredients"
+          }
+        },
+        "row_3": {
+          "type": "row",
+          "settings": {
+            "fallback": "about-3.jpg",
+            "alt": "The Original Skinn range for face, body, bath and baby",
+            "heading": "Built around rituals",
+            "text": "Good skincare doesn't need ten steps. Our rituals pair two or three products that work well together — for your face, your body, the bath and bedtime — so you can build a routine you'll actually keep."
+          }
+        }
+      },
+      "block_order": [
+        "row_1",
+        "row_2",
+        "row_3"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

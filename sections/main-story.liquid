@@ -1,0 +1,118 @@
+{%- comment -%}
+  About Us and Ingredients pages — copied from the test site.
+  Blocks: "Photo + text row" (numbered automatically, every second row flips),
+  "Ingredient card" and "Note". Cards next to each other share one grid; notes too.
+{%- endcomment -%}
+{%- assign hero_heading = section.settings.hero_heading | default: page.title -%}
+{%- render 'page-hero', style: 'delivery', kicker: section.settings.hero_kicker, heading: hero_heading, text: section.settings.hero_text -%}
+<section class="about-shell">
+{%- assign open = '' -%}
+{%- assign r = 0 -%}
+{%- for block in section.blocks -%}
+{%- liquid
+  assign want = ''
+  if block.type == 'card'
+    assign want = 'cards'
+  elsif block.type == 'note'
+    assign want = 'notes'
+  endif
+-%}
+{%- if open != want -%}
+{%- if open != blank %}
+</div>
+{%- endif -%}
+{%- if want == 'cards' %}
+<div class="ingr-grid">
+{%- elsif want == 'notes' %}
+<div class="ingr-notes">
+{%- endif -%}
+{%- assign open = want -%}
+{%- endif -%}
+{%- case block.type -%}
+{%- when 'row' -%}
+{%- assign r = r | plus: 1 %}
+<article class="about-row{% if r == 2 or r == 4 or r == 6 or r == 8 %} about-row--flip{% endif %}" {{ block.shopify_attributes }}>
+<div class="about-media"><img alt="{{ block.settings.alt | escape }}" src="{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 1200 }}{% else %}{{ block.settings.fallback | asset_url }}{% endif %}" loading="lazy"/></div>
+<div class="about-copy">
+<span class="about-kicker">{% if r < 10 %}0{% endif %}{{ r }}</span>
+<h2>{{ block.settings.heading }}</h2>
+<p>{{ block.settings.text }}</p>
+{%- if block.settings.link_label != blank %}
+<a class="about-link" href="{{ block.settings.link }}">{{ block.settings.link_label }}</a>
+{%- endif %}
+</div>
+</article>
+{%- when 'card' %}
+<article class="ingr-card" {{ block.shopify_attributes }}><span class="ingr-icon" aria-hidden="true">{% render 'ingr-icon', name: block.settings.icon %}</span><h3>{{ block.settings.heading }}</h3><p>{{ block.settings.text }}</p></article>
+{%- when 'note' %}
+<section class="ingr-note" {{ block.shopify_attributes }}>
+<span class="about-kicker">{{ block.settings.kicker }}</span>
+<h2>{{ block.settings.heading }}</h2>
+<p>{{ block.settings.text }}</p>
+</section>
+{%- endcase -%}
+{%- endfor -%}
+{%- if open != blank %}
+</div>
+{%- endif -%}
+{%- render 'help-box', style: 'delivery-help', kicker: section.settings.help_kicker, heading: section.settings.help_heading, text: section.settings.help_text, link_label: section.settings.help_link_label, link: section.settings.help_link %}
+</section>
+
+{% schema %}
+{
+  "name": "Story page",
+  "settings": [
+    { "type": "text", "id": "hero_kicker", "label": "Small heading", "default": "Our story" },
+    { "type": "text", "id": "hero_heading", "label": "Heading", "info": "Leave empty to use the page title." },
+    { "type": "textarea", "id": "hero_text", "label": "Text under the heading" },
+    { "type": "header", "content": "Help box at the bottom" },
+    { "type": "text", "id": "help_kicker", "label": "Small heading" },
+    { "type": "text", "id": "help_heading", "label": "Heading", "info": "Leave empty to hide the box." },
+    { "type": "textarea", "id": "help_text", "label": "Text" },
+    { "type": "text", "id": "help_link_label", "label": "Link label" },
+    { "type": "text", "id": "help_link", "label": "Link" }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Photo + text row",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo" },
+        { "type": "text", "id": "fallback", "label": "Built-in photo (used when no photo is picked)", "default": "about-1.jpg" },
+        { "type": "text", "id": "alt", "label": "Photo description (for screen readers)" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Made in small batches" },
+        { "type": "textarea", "id": "text", "label": "Text" },
+        { "type": "text", "id": "link_label", "label": "Link label" },
+        { "type": "text", "id": "link", "label": "Link" }
+      ]
+    },
+    {
+      "type": "card",
+      "name": "Ingredient card",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "jar", "options": [
+          { "value": "jar", "label": "Jar" },
+          { "value": "bean", "label": "Bean" },
+          { "value": "drop", "label": "Drop" },
+          { "value": "nut", "label": "Nut" },
+          { "value": "flower", "label": "Flower" },
+          { "value": "salt", "label": "Salt crystals" },
+          { "value": "bottle", "label": "Bottle" },
+          { "value": "leaf", "label": "Leaf" }
+        ] },
+        { "type": "text", "id": "heading", "label": "Ingredient", "default": "Shea butter" },
+        { "type": "textarea", "id": "text", "label": "Text" }
+      ]
+    },
+    {
+      "type": "note",
+      "name": "Note",
+      "settings": [
+        { "type": "text", "id": "kicker", "label": "Small heading", "default": "Good to know" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Patch test" },
+        { "type": "textarea", "id": "text", "label": "Text" }
+      ]
+    }
+  ]
+}
+{% endschema %}
