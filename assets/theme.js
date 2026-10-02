@@ -83,6 +83,15 @@
     }).then(function(){ if(btn) btn.disabled = false; });
   }
   window.OS.addToBag = addToBag;
+  function bundleVariant(btn, both, label){
+    var map = {};
+    try{ map = JSON.parse(btn.dataset.bundle) || {}; }catch(err){ return ''; }
+    var keys = Object.keys(map);
+    if(!keys.length) return '';
+    if(both && btn.dataset.bundleUp && map[btn.dataset.bundleUp]) return String(map[btn.dataset.bundleUp]);
+    if(label && map[label]) return String(map[label]);
+    return String(map[keys[0]]);
+  }
 
   document.addEventListener('click', function(e){
     var btn = e.target.closest ? e.target.closest('.quickadd, .concern-add, .card-add, .rs-add, .cr-add, .cs-add') : null;
@@ -100,10 +109,18 @@
       }
       list = ids.join(',');
     }
-    if(!list) return;
-    e.preventDefault();
     var card = btn.closest('.concern-card');
     var extra = card ? card.querySelector('.concern-night') : null;
+    if(btn.dataset.bundle){
+      // a ritual bundle: add one item at the ritual price (Day / Night / Day & Night etc.)
+      var stripEl = btn.closest('.ritual-strip');
+      var both = (extra && extra.checked) || !!(stripEl && stripEl.querySelector('.rs-both:checked'));
+      var nameEl = stripEl ? stripEl.querySelector('.rs-var-name') : null;
+      var bv = bundleVariant(btn, both, nameEl ? nameEl.textContent.trim() : '');
+      if(bv){ e.preventDefault(); addToBag(bv, btn.dataset.product, btn); return; }
+    }
+    if(!list) return;
+    e.preventDefault();
     if(extra && extra.checked && extra.dataset.variant) list += ',' + extra.dataset.variant;
     addToBag(list, btn.dataset.product, btn);
   });

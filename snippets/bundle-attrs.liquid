@@ -1,0 +1,10 @@
+{%- comment -%}
+  Extra attributes for a ritual button that adds a ritual bundle (one item at the ritual price).
+  Params: bundle (product), upgrade (name of the bundle option used when the extra box is ticked, e.g. "Day & Night")
+  Output: data-bundle="{"Day":123,"Night":456,...}" (escaped) and data-bundle-up="..."
+{%- endcomment -%}
+{%- if bundle != blank -%}
+{%- capture map -%}{ {%- for v in bundle.variants -%}{%- if v.available -%}"{{ v.title | replace: '"', '' }}":{{ v.id }},{%- endif -%}{%- endfor -%} }{%- endcapture -%}
+{%- assign map = map | replace: ', }', ' }' | replace: ',}', '}' -%}
+ data-bundle="{{ map | escape }}"{% if upgrade != blank %} data-bundle-up="{{ upgrade | escape }}"{% endif %}
+{%- endif -%}

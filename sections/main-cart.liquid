@@ -31,6 +31,11 @@
   for item in cart.items reversed
     assign in_bag = in_bag | append: item.product.handle | append: ' '
     assign names = names | append: item.product.title | append: ' | '
+    # a ritual bundle counts as the products inside it
+    for bh in item.product.metafields.custom.includes.value
+      assign in_bag = in_bag | append: bh | append: ' '
+      assign names = names | append: all_products[bh].title | append: ' | '
+    endfor
     capture c
       render 'product-cats', product: item.product, mode: 'label'
     endcapture

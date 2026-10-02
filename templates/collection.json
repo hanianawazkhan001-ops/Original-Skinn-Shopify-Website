@@ -55,7 +55,8 @@
             "upgrade_total_html": "<s>£50</s> £45",
             "upgrade_small": "Saves £5.",
             "upgrade_button_label": "Add the Day & Night Face Ritual",
-            "upgrade_ritual_name": "Day & Night Face Ritual"
+            "upgrade_ritual_name": "Day & Night Face Ritual",
+            "bundle": "face-ritual"
           }
         },
         "body_intro": {
@@ -138,7 +139,8 @@
             "total_html": "<s>£26</s> £24",
             "small": "Saves £2 and unlocks free delivery with one more item.",
             "button_label": "Add the full Bath Ritual",
-            "ritual_name": "Bath Ritual"
+            "ritual_name": "Bath Ritual",
+            "bundle": "bath-ritual"
           }
         },
         "baby_intro": {

@@ -91,7 +91,7 @@
     assign add_ids = add_ids | append: ap.selected_or_first_available_variant.id | append: ','
   endfor
 -%}
-<button class="btn primary rs-add"{% if add_ids != blank %} data-variants="{{ add_ids }}"{% endif %} data-product="{{ buy.settings.ritual_name | escape }}" data-base-name="{{ buy.settings.ritual_name | escape }}" data-base-label="{{ buy.settings.button_label | escape }}" data-base-total="{{ buy.settings.total_html | escape }}" data-base-small="{{ buy.settings.small | escape }}"{% if buy.settings.upgrade %} data-up-name="{{ buy.settings.upgrade_ritual_name | escape }}" data-up-label="{{ buy.settings.upgrade_button_label | escape }}" data-up-total="{{ buy.settings.upgrade_total_html | escape }}" data-up-small="{{ buy.settings.upgrade_small | escape }}"{% endif %} type="button">{{ buy.settings.button_label }}</button>{% if buy.settings.upgrade %}<label class="rs-upgrade"><input type="checkbox" class="rs-both"/> <span>Add <span class="rs-other">{{ buy.settings.upgrade_other_label }}</span> {{ buy.settings.upgrade_text }}</span></label>{% endif %}</div>
+<button class="btn primary rs-add"{% if add_ids != blank %} data-variants="{{ add_ids }}"{% endif %}{% render 'bundle-attrs', bundle: buy.settings.bundle, upgrade: buy.settings.bundle_upgrade %} data-product="{{ buy.settings.ritual_name | escape }}" data-base-name="{{ buy.settings.ritual_name | escape }}" data-base-label="{{ buy.settings.button_label | escape }}" data-base-total="{{ buy.settings.total_html | escape }}" data-base-small="{{ buy.settings.small | escape }}"{% if buy.settings.upgrade %} data-up-name="{{ buy.settings.upgrade_ritual_name | escape }}" data-up-label="{{ buy.settings.upgrade_button_label | escape }}" data-up-total="{{ buy.settings.upgrade_total_html | escape }}" data-up-small="{{ buy.settings.upgrade_small | escape }}"{% endif %} type="button">{{ buy.settings.button_label }}</button>{% if buy.settings.upgrade %}<label class="rs-upgrade"><input type="checkbox" class="rs-both"/> <span>Add <span class="rs-other">{{ buy.settings.upgrade_other_label }}</span> {{ buy.settings.upgrade_text }}</span></label>{% endif %}</div>
 </div>
 {%- endif %}
 </section>
@@ -162,6 +162,8 @@
         { "type": "text", "id": "button_label", "label": "Button label", "default": "Add the Face Ritual" },
         { "type": "text", "id": "ritual_name", "label": "Name for the 'added' message", "default": "Face Ritual" },
         { "type": "product_list", "id": "add_products", "label": "Products added to the bag", "info": "Leave empty to add the products shown in the steps.", "limit": 5 },
+        { "type": "product", "id": "bundle", "label": "Ritual bundle (one item at the ritual price)", "info": "If set, this is added instead. Its options should match the step choice labels, e.g. Day / Night." },
+        { "type": "text", "id": "bundle_upgrade", "label": "Bundle option used with the upgrade", "default": "Day & Night" },
         { "type": "header", "content": "Optional upgrade checkbox" },
         { "type": "checkbox", "id": "upgrade", "label": "Show upgrade checkbox", "default": false },
         { "type": "text", "id": "upgrade_other_label", "label": "Upgrade: product label", "default": "Night" },
