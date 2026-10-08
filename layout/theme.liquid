@@ -12,8 +12,13 @@
   else
     assign tab_title = page_title
   endif
+  # product SEO titles from the store already end in "| Original Skinn"
+  assign full_title = tab_title | append: ' | ' | append: brand
+  if tab_title contains brand
+    assign full_title = tab_title
+  endif
 -%}
-<title>{{ tab_title }} | {{ brand }}</title>
+<title>{{ full_title }}</title>
 <meta name="description" content="{{ page_description | default: settings.meta_description | escape }}">
 <link rel="canonical" href="{{ canonical_url }}">
 <link rel="icon" type="image/png" href="{{ 'logo.png' | asset_url }}">
