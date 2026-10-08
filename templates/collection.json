@@ -145,7 +145,7 @@
             "collection": "bath-shower",
             "kicker": "Bath Ritual",
             "total_html": "<s>£26</s> £24",
-            "small": "Saves £2 and unlocks free delivery with one more item.",
+            "small": "Saves £2. Add £6 more for free UK delivery.",
             "button_label": "Add the full Bath Ritual",
             "ritual_name": "Bath Ritual",
             "bundle": "bath-ritual"
@@ -194,7 +194,7 @@
           "settings": {
             "collection": "home-fragrance",
             "heading": "Home Ritual",
-            "text": "Candles and car blends to finish the evening. These use fragrance oils, so they sit outside our plant-led skincare range."
+            "text": "Soy wax candles and car blends, scented with essential oils."
           }
         }
       },

@@ -234,7 +234,22 @@
 {%- endfor %}
 </div>
 <button class="cr-add" data-product="{{ names | escape }}" data-variants="{{ ids }}" id="pdRitualAdd" type="button">{% if count > 1 %}Add both — {% else %}Add — {% endif %}{{ total | money_without_trailing_zeros }}</button>
-<p class="cr-note">{{ section.settings.ritual_note }}</p>
+{%- liquid
+  assign thr = section.settings.free_threshold | times: 100
+  assign in_bag_now = cart.items_subtotal_price
+  # the product on this page plus the ritual partners
+  assign after = in_bag_now | plus: v.price | plus: total
+  assign cr_note = ''
+  if in_bag_now < thr
+    if after >= thr
+      assign cr_note = section.settings.ritual_note_unlock
+    else
+      assign left = thr | minus: after | money
+      assign cr_note = section.settings.ritual_note_away | replace: '[amount]', left
+    endif
+  endif
+-%}
+{%- if cr_note != blank %}<p class="cr-note">{{ cr_note }}</p>{% endif %}
 </section>
 {%- endif %}
 <div class="product-accordions">
@@ -338,10 +353,12 @@
 {
   "name": "Product page",
   "settings": [
-    { "type": "text", "id": "delivery_note", "label": "Delivery line under the button", "default": "<strong>Free UK delivery</strong> on orders over £30." },
-    { "type": "text", "id": "ritual_note", "label": "Note under 'Complete your ritual'", "default": "Add one more item to unlock free UK delivery." },
+    { "type": "text", "id": "delivery_note", "label": "Delivery line under the button", "default": "<strong>Free UK delivery</strong> on orders of £30 or more." },
+    { "type": "number", "id": "free_threshold", "label": "Free UK delivery from (£)", "default": 30, "info": "Keep this the same as the bag page and your shipping rates." },
+    { "type": "text", "id": "ritual_note_unlock", "label": "Note when 'Complete your ritual' reaches free delivery", "default": "The full ritual unlocks free UK delivery." },
+    { "type": "text", "id": "ritual_note_away", "label": "Note when it doesn't yet", "default": "With the full ritual, you’re [amount] away from free UK delivery.", "info": "[amount] is replaced with what's left to spend." },
     { "type": "text", "id": "ingredients_note", "label": "Note under the ingredients", "default": "Always check the ingredient list on the packaging — it is the final reference." },
-    { "type": "text", "id": "delivery_text", "label": "Delivery & returns text", "default": "Free UK delivery on orders over £30." },
+    { "type": "text", "id": "delivery_text", "label": "Delivery & returns text", "default": "Free UK delivery on orders of £30 or more." },
     { "type": "text", "id": "delivery_link", "label": "Delivery & Returns page link", "default": "/pages/delivery-returns" },
     { "type": "text", "id": "also_heading", "label": "'You may also like' heading", "default": "You may also like" },
     { "type": "header", "content": "Reviews" },

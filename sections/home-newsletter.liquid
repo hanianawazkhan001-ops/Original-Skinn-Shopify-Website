@@ -8,14 +8,14 @@
 <input aria-label="Email address" autocomplete="email" placeholder="Your email address" required="" type="email" name="contact[email]"/><button type="submit">Join the list</button>
 {%- if form.posted_successfully? -%}{%- assign signup_msg = section.settings.success -%}{%- elsif form.errors -%}{%- assign signup_msg = 'Please check your email address and try again.' -%}{%- endif -%}
 {%- endform -%}
-<div class="signup-msg" id="signupMsg" role="status">{{ signup_msg }}</div><p class="signup-privacy">By joining you agree to our <a href="{{ section.settings.privacy_link }}">Privacy Policy</a>.</p></div></div></div></section>
+<div class="signup-msg" id="signupMsg" role="status">{{ signup_msg }}</div><p class="signup-privacy">See our <a href="{{ section.settings.privacy_link }}">Privacy Policy</a>.</p></div></div></div></section>
 
 {% schema %}
 {
   "name": "Newsletter",
   "settings": [
     { "type": "text", "id": "heading", "label": "Heading", "default": "A little skincare inspiration in your inbox." },
-    { "type": "text", "id": "text", "label": "Text", "default": "New launches, simple skincare tips and the occasional offer. No spam." },
+    { "type": "text", "id": "text", "label": "Text", "default": "We’ll email you about new products and offers. Unsubscribe at any time." },
     { "type": "text", "id": "success", "label": "Thank-you message", "default": "Thank you — you’re on the list." },
     { "type": "text", "id": "privacy_link", "label": "Privacy Policy link", "default": "/pages/privacy" }
   ],

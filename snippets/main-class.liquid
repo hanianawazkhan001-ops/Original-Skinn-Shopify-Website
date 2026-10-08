@@ -2,8 +2,10 @@
 {%- capture key -%}{% render 'page-key' %}{%- endcapture -%}
 {%- liquid
   case template.name
-    when 'collection', 'list-collections'
+    when 'collection'
       echo 'shop-page'
+    when 'list-collections', 'blog', 'article'
+      echo 'about-page'
     when 'product'
       echo 'product-page'
     when 'cart'

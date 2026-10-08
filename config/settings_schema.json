@@ -11,7 +11,7 @@
     "name": "Brand",
     "settings": [
       { "type": "text", "id": "brand_name", "label": "Brand name", "default": "Original Skinn" },
-      { "type": "textarea", "id": "meta_description", "label": "Default search description", "default": "Small-batch, plant-led, vegan skincare and home fragrance from an independent Hampshire brand. Free UK delivery over £30." }
+      { "type": "textarea", "id": "meta_description", "label": "Default search description", "default": "Small-batch, plant-led, vegan skincare and home fragrance from an independent Hampshire brand. Free UK delivery on orders of £30 or more." }
     ]
   }
 ]

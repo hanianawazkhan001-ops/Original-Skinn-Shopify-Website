@@ -11,7 +11,9 @@
   "sections": {
     "hero": {
       "type": "home-hero",
-      "settings": {}
+      "settings": {
+        "heading": "Plant-led, vegan skincare from a small Hampshire brand."
+      }
     },
     "tiles": {
       "type": "home-pillars",
@@ -90,8 +92,8 @@
           "settings": {
             "fallback": "photo-candle.jpg",
             "image_alt": "Summer Glow soy wax candle, lit",
-            "heading": "Can’t switch off at night",
-            "fix": "A lavender soak, then lavender on skin, candle lit.",
+            "heading": "Make time to wind down",
+            "fix": "A warm lavender soak, a rich butter that leaves skin soft, and a candle to finish.",
             "products_text": "Bath Soak + Lavender Butter + Candle",
             "price_html": "£24.50",
             "products": [
@@ -108,8 +110,8 @@
           "settings": {
             "fallback": "photo-face.jpg",
             "image_alt": "Day and Night Facial Moisturiser & Serum jars",
-            "heading": "Skin feels tight and tired by midday",
-            "fix": "Cleanse gently, refresh, then moisturise.",
+            "heading": "Skin feels dry by midday",
+            "fix": "Cleanse, mist, moisturise. Skin feels comfortable and soft straight away.",
             "products_text": "Gentle Foaming Face Wash + Facial Toner Mist + Day Moisturiser & Serum",
             "price_html": "<s>£35</s> £32",
             "products": [
@@ -134,8 +136,8 @@
           "settings": {
             "fallback": "photo-baby.jpg",
             "image_alt": "Organic Baby Moisturiser and Lavender & Chamomile Baby Wash",
-            "heading": "A baby bedtime that actually settles",
-            "fix": "Gentle wash, gentle moisturiser, done.",
+            "heading": "Soft, gentle bath time",
+            "fix": "A mild, soap-free wash, then a light organic moisturiser that leaves little skin feeling soft.",
             "products_text": "Baby Essentials Bundle",
             "price_html": "£15",
             "products": [
@@ -152,7 +154,10 @@
         "concern3",
         "concern4"
       ],
-      "settings": {}
+      "settings": {
+        "heading": "Find your ritual.",
+        "intro": "Pick what fits your day. We’ll show you what to use."
+      }
     },
     "bestsellers": {
       "type": "home-bestsellers",
@@ -202,7 +207,9 @@
         "card3",
         "card4"
       ],
-      "settings": {}
+      "settings": {
+        "heading": "Where to start"
+      }
     },
     "rituals": {
       "type": "home-rituals",
@@ -324,39 +331,15 @@
     },
     "reviews": {
       "type": "home-reviews",
-      "blocks": {
-        "review1": {
-          "type": "review",
-          "settings": {
-            "quote": "After just a few weeks, my skin felt softer, healthier and more hydrated.",
-            "name": "Sarah Johnson"
-          }
-        },
-        "review2": {
-          "type": "review",
-          "settings": {
-            "quote": "My skin now feels refreshed and naturally radiant.",
-            "name": "Jessica Andre"
-          }
-        },
-        "review3": {
-          "type": "review",
-          "settings": {
-            "quote": "I love how clean and nourishing these products feel.",
-            "name": "Emma Williams"
-          }
-        }
-      },
-      "block_order": [
-        "review1",
-        "review2",
-        "review3"
-      ],
+      "blocks": {},
+      "block_order": [],
       "settings": {}
     },
     "newsletter": {
       "type": "home-newsletter",
-      "settings": {}
+      "settings": {
+        "text": "We’ll email you about new products and offers. Unsubscribe at any time."
+      }
     }
   },
   "order": [

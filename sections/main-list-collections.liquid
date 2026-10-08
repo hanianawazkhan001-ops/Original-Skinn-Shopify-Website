@@ -1,0 +1,13 @@
+{%- comment -%}
+  /collections (the list of all collections) isn't part of the design, so it sends people to Shop All.
+{%- endcomment -%}
+<meta http-equiv="refresh" content="0; url={{ routes.all_products_collection_url }}">
+<script>location.replace({{ routes.all_products_collection_url | json }});</script>
+{%- render 'page-hero', style: 'delivery', kicker: 'Original Skinn', heading: 'Shop All', text: '' -%}
+<section class="privacy-shell"><article class="privacy-content"><section><p><a href="{{ routes.all_products_collection_url }}">See all products →</a></p></section></article></section>
+
+{% schema %}
+{
+  "name": "All collections"
+}
+{% endschema %}

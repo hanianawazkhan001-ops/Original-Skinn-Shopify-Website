@@ -1,0 +1,30 @@
+{%- comment -%}
+  A journal post — the leafy hero with the post title, then the post text, styled like the policy pages.
+{%- endcomment -%}
+{%- capture post_date -%}{{ article.published_at | date: '%-d %B %Y' }}{%- endcapture -%}
+{%- render 'page-hero', style: 'delivery', kicker: blog.title, heading: article.title, text: post_date -%}
+<section class="privacy-shell">
+<article class="privacy-content page-rte">
+<section>
+{%- if article.image %}
+<p>{{ article.image | image_url: width: 1400 | image_tag: loading: 'lazy', alt: article.image.alt }}</p>
+{%- endif %}
+{{ article.content }}
+<p><a href="{{ blog.url }}">{{ section.settings.back_label }}</a></p>
+</section>
+</article>
+</section>
+{%- style -%}
+.page-rte{max-width:760px;margin:0 auto}
+.page-rte h2,.page-rte h3{font-family:Georgia,"Times New Roman",serif;font-weight:400;color:var(--forest)}
+.page-rte img{max-width:100%;height:auto;border-radius:18px}
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "Journal post",
+  "settings": [
+    { "type": "text", "id": "back_label", "label": "Link back to the journal", "default": "← Back to the journal" }
+  ]
+}
+{% endschema %}

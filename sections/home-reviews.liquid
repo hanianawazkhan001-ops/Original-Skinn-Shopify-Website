@@ -1,9 +1,7 @@
 {%- comment -%}
   Home: "What customers say" — copied from the test site.
-  NOTE: these three quotes come from the test site. Before launch they must be replaced by real
-  customer reviews (DMCC Act): either type in genuine reviews, or add the reviews app's block
-  (e.g. Judge.me "Reviews carousel") to this section — when an app block is added, it replaces
-  the typed quotes.
+  Shows only real reviews (DMCC Act): add the reviews app's block (e.g. Judge.me "Reviews carousel")
+  or type in genuine reviews as Review blocks. With no blocks the section is hidden.
 {%- endcomment -%}
 {%- liquid
   assign app_blocks = 0
@@ -13,6 +11,7 @@
     endif
   endfor
 -%}
+{%- if section.blocks.size > 0 -%}
 <section class="section reviews"><div class="container"><h2>{{ section.settings.heading }}</h2>
 {%- if app_blocks > 0 -%}
 {% render 'reviews-style' %}
@@ -25,6 +24,7 @@
 </div>
 {%- endif -%}
 </div></section>
+{%- endif -%}
 
 {% schema %}
 {

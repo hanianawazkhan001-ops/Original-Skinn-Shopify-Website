@@ -1,11 +1,8 @@
 {
   "sections": {
     "main": {
-      "type": "coming-soon",
-      "settings": {
-        "eyebrow": "Collections",
-        "text": "Collection pages are added in Step 5."
-      }
+      "type": "main-list-collections",
+      "settings": {}
     }
   },
   "order": [

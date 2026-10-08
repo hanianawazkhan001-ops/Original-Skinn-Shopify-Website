@@ -1,11 +1,8 @@
 {
   "sections": {
     "main": {
-      "type": "coming-soon",
-      "settings": {
-        "eyebrow": "Journal",
-        "text": "Blog pages are styled in Step 8."
-      }
+      "type": "main-blog",
+      "settings": {}
     }
   },
   "order": [

@@ -1,0 +1,43 @@
+{%- comment -%}
+  Journal (blog) list — uses the same leafy hero and text styling as the policy pages.
+  Shows each post's title, date and a short excerpt.
+{%- endcomment -%}
+{%- render 'page-hero', style: 'delivery', kicker: section.settings.hero_kicker, heading: blog.title, text: section.settings.hero_text -%}
+<section class="privacy-shell">
+<article class="privacy-content page-rte">
+{%- paginate blog.articles by 12 -%}
+{%- for article in blog.articles %}
+<section class="journal-item">
+<h2><a href="{{ article.url }}">{{ article.title }}</a></h2>
+<p class="journal-date">{{ article.published_at | date: '%-d %B %Y' }}</p>
+<p>{{ article.excerpt_or_content | strip_html | truncatewords: 40 }}</p>
+<p><a href="{{ article.url }}">{{ section.settings.read_more }}</a></p>
+</section>
+{%- else %}
+<section><p>{{ section.settings.empty_text }}</p></section>
+{%- endfor -%}
+{%- if paginate.pages > 1 %}
+<p class="journal-pages">{% if paginate.previous %}<a href="{{ paginate.previous.url }}">← Newer posts</a>{% endif %}{% if paginate.previous and paginate.next %} · {% endif %}{% if paginate.next %}<a href="{{ paginate.next.url }}">Older posts →</a>{% endif %}</p>
+{%- endif -%}
+{%- endpaginate -%}
+</article>
+</section>
+{%- style -%}
+.page-rte{max-width:760px;margin:0 auto}
+.page-rte h2,.page-rte h3{font-family:Georgia,"Times New Roman",serif;font-weight:400;color:var(--forest)}
+.page-rte h2 a{color:inherit;text-decoration:none}
+.journal-item+.journal-item{margin-top:28px;padding-top:28px;border-top:1px solid var(--line)}
+.journal-date{font-size:11px;color:#7a867f}
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "Journal",
+  "settings": [
+    { "type": "text", "id": "hero_kicker", "label": "Small heading", "default": "Original Skinn" },
+    { "type": "textarea", "id": "hero_text", "label": "Text under the heading" },
+    { "type": "text", "id": "read_more", "label": "Link under each post", "default": "Read more →" },
+    { "type": "text", "id": "empty_text", "label": "Text when there are no posts yet", "default": "New posts are on their way." }
+  ]
+}
+{% endschema %}
