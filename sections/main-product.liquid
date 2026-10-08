@@ -1,11 +1,106 @@
 {%- comment -%}
   Product page — copied from the test site (one layout for every product).
-  Words come from the product in Shopify: description, plus the product's extra fields
-  (custom.tagline, benefits, how_to_use, ingredients, details, ritual_handles, breadcrumb, short_name).
+  The words come from the product in Shopify. The title is split into the name and the line under
+  it ("Rose Whipped Body Butter – Nourishing & Romantic"). The description is split at its
+  headings: the text before the first heading is the summary; "What You'll Notice" becomes the
+  ticks; "How to Use", "Ingredients", "The Details", "Dispatch" and "FAQ" go into the tabs below.
+  The product's own fields (custom.tagline, benefits, how_to_use, ingredients, details,
+  ritual_handles, breadcrumb, short_name) are used instead when they are filled in.
 {%- endcomment -%}
+{% capture nl %}
+{% endcapture %}
 {%- liquid
   assign v = product.selected_or_first_available_variant
   assign mf = product.metafields.custom
+  capture p_name
+    render 'product-name', product: product, part: 'name'
+  endcapture
+  capture p_tag
+    render 'product-name', product: product, part: 'tagline'
+  endcapture
+
+  # split the description at its headings
+  assign desc = product.description | default: ''
+  assign parts = desc | split: '<h3>'
+  assign intro = parts.first | default: ''
+  assign p_benefits = ''
+  assign p_how = ''
+  assign p_ingr = ''
+  assign p_details = ''
+  assign p_dispatch = ''
+  assign p_faq = ''
+  assign p_more = ''
+  for part in parts offset: 1
+    assign hb = part | split: '</h3>'
+    assign head_raw = hb.first
+    assign head_text = head_raw | strip_html | strip
+    assign head = head_text | downcase
+    assign body = part | remove_first: head_raw | remove_first: '</h3>' | strip
+    if head contains 'notice' or head contains 'love it' or head contains 'benefit'
+      assign items = body | split: '</li>'
+      for it in items
+        assign x = it | strip_html | replace: '&amp;', '&' | replace: '&#39;', "'" | replace: '&quot;', '"' | replace: '&nbsp;', ' ' | strip
+        if x != blank
+          assign p_benefits = p_benefits | append: x | append: '|~|'
+        endif
+      endfor
+    elsif head contains 'how to use'
+      assign p_how = p_how | append: body
+    elsif head contains 'ingredient'
+      assign p_ingr = body | replace: '</p>', nl | replace: '<br>', nl | replace: '<br/>', nl | replace: '<br />', nl | strip_html | replace: '&amp;', '&' | replace: '&#39;', "'" | replace: '&quot;', '"' | replace: '&nbsp;', ' ' | strip
+    elsif head contains 'detail'
+      assign p_details = body | strip_html | replace: '&amp;', '&' | replace: '&#39;', "'" | replace: '&quot;', '"' | replace: '&nbsp;', ' ' | strip
+    elsif head contains 'dispatch' or head contains 'delivery'
+      assign p_dispatch = p_dispatch | append: body
+    elsif head == 'faq' or head contains 'faqs' or head contains 'question'
+      assign p_faq = p_faq | append: body
+    elsif head contains 'care' or head contains 'safety' or head contains 'warning'
+      assign p_how = p_how | append: '<p><strong>' | append: head_text | append: '</strong></p>' | append: body
+    elsif head contains 'includ'
+      assign inc_p = '<p>' | append: head_text | append: ': '
+      assign body2 = body | replace_first: '<p>', inc_p
+      assign p_more = p_more | append: body2
+    else
+      assign p_more = p_more | append: body
+    endif
+  endfor
+
+  assign benefit_list = mf.benefits.value
+  if benefit_list == blank
+    assign benefit_list = p_benefits | split: '|~|'
+  endif
+  assign detail_list = mf.details.value
+  if detail_list == blank
+    assign detail_list = ''
+    assign dbits = p_details | split: ' · '
+    for d in dbits
+      assign x = d | strip
+      assign last = x | slice: -1
+      if last == '.'
+        assign len = x.size | minus: 1
+        assign x = x | slice: 0, len
+      endif
+      if x != blank
+        assign detail_list = detail_list | append: x | append: '|~|'
+      endif
+    endfor
+    assign detail_list = detail_list | split: '|~|'
+  endif
+  assign ingr_text = mf.ingredients.value | default: p_ingr
+  assign ingr_text = ingr_text | replace: '.*', '.__NL__*' | replace: '__NL__', nl
+
+  # size next to the price, for products that come in one size ("100 ml · ...")
+  assign one_size = ''
+  if product.variants.size == 1 and detail_list.size > 0
+    assign d0 = detail_list.first | strip
+    assign c0 = d0 | slice: 0
+    if '0123456789' contains c0
+      if d0 contains 'ml' or d0 contains ' g' or d0 contains 'g '
+        assign one_size = d0
+      endif
+    endif
+  endif
+
   assign crumb = mf.breadcrumb.value
   if crumb == blank
     capture crumb
@@ -23,19 +118,20 @@
   else
     assign crumb_url = routes.collections_url | append: '/' | append: crumb_handle
   endif
+  assign main_alt = product.featured_image.alt | default: p_name
 -%}
 <nav aria-label="Breadcrumb" class="product-breadcrumbs">
 <a href="{{ routes.root_url }}">Home</a>
 <span>›</span>
 <a href="{{ crumb_url }}" id="pdCrumbCat">{{ crumb }}</a>
 <span>›</span>
-<span id="pdCrumbName">{{ product.title }}</span>
+<span id="pdCrumbName">{{ p_name }}</span>
 </nav>
 <section class="product-top">
 <div class="product-gallery">
 <div class="product-main-image" id="mainProductImageWrap">
 <span class="product-badge" id="pdBadge"{% unless product.tags contains 'best-seller' %} hidden{% endunless %}>Best Seller</span>
-<img alt="Original Skinn {{ product.title | escape }}" id="mainProductImage" src="{{ product.featured_image | image_url: width: 1400 }}"/>
+<img alt="{{ main_alt | escape }}" id="mainProductImage" src="{{ product.featured_image | image_url: width: 1400 }}"/>
 </div>
 <div aria-label="Product images" class="product-thumbs" id="pdThumbs">
 {%- for img in product.images -%}<button aria-label="View image {{ forloop.index }}" class="product-thumb{% if forloop.first %} active{% endif %}" data-src="{{ img | image_url: width: 1400 }}" type="button"><img alt="" loading="lazy" src="{{ img | image_url: width: 300 }}"/></button>{%- endfor -%}
@@ -43,22 +139,22 @@
 </div>
 <div class="product-info-panel">
 <span class="product-kicker" id="pdKicker">{{ cat_label }}</span>
-<h1 id="pdName">{{ product.title }}</h1>
+<h1 id="pdName">{{ p_name }}</h1>
 {%- if section.settings.judgeme %}
 {% render 'reviews-style' %}
 <div class="jdgm-widget jdgm-preview-badge os-rating" data-id="{{ product.id }}">{{ product.metafields.judgeme.badge }}</div>
 {%- endif %}
-<p class="product-subtitle" id="pdTag">{{ mf.tagline.value }}</p>
+<p class="product-subtitle" id="pdTag">{{ p_tag }}</p>
 <div class="product-price-row">
 <strong id="pdPrice">{{ v.price | money }}</strong>
-<span class="product-size" id="pdSize">{% unless v.title == 'Default Title' %}{{ v.title }}{% endunless %}</span>
+<span class="product-size" id="pdSize">{% if v.title == 'Default Title' %}{{ one_size }}{% else %}{{ v.title }}{% endif %}</span>
 <span>Tax included.</span>
 </div>
 <div class="product-summary">
-{%- assign desc = product.description | strip -%}
-{%- if desc contains '<p' -%}{{ desc | replace_first: '<p>', '<p id="pdDesc">' }}{%- else -%}<p id="pdDesc">{{ desc }}</p>{%- endif -%}
+{%- assign summary = intro | append: p_more | remove: '<strong>' | remove: '</strong>' | strip -%}
+{%- if summary contains '<p' -%}{{ summary | replace_first: '<p>', '<p id="pdDesc">' }}{%- else -%}<p id="pdDesc">{{ summary }}</p>{%- endif -%}
 </div>
-<div class="product-benefits" id="pdBenefits">{% for b in mf.benefits.value %}<div><span>✓</span> {{ b | escape }}</div>{% endfor %}</div>
+<div class="product-benefits" id="pdBenefits">{% for b in benefit_list %}{% if b != blank %}<div><span>✓</span> {{ b | escape }}</div>{% endif %}{% endfor %}</div>
 <div class="pd-sizes" id="pdSizes" role="group" aria-label="Size"{% if product.variants.size < 2 %} hidden{% endif %}>
 {%- if product.variants.size > 1 -%}{%- for vv in product.variants -%}<button type="button" class="pd-size{% if vv.id == v.id %} active{% endif %}" data-variant="{{ vv.id }}" data-price="{{ vv.price | money }}" data-size="{{ vv.title | escape }}"{% unless vv.available %} disabled{% endunless %}>{{ vv.title }}</button>{%- endfor -%}{%- endif -%}
 </div>
@@ -68,7 +164,7 @@
 <input aria-label="Quantity" id="qtyInput" inputmode="numeric" value="1"/>
 <button aria-label="Increase quantity" id="qtyPlus" type="button">+</button>
 </div>
-<button class="add-to-cart" id="pdAdd" type="button" data-variant="{{ v.id }}" data-product="{{ product.title | escape }}"{% unless product.available %} disabled{% endunless %}>{% if product.available %}Add to bag · {{ v.price | money }}{% else %}Sold out{% endif %}</button>
+<button class="add-to-cart" id="pdAdd" type="button" data-variant="{{ v.id }}" data-product="{{ p_name | escape }}"{% unless product.available %} disabled{% endunless %}>{% if product.available %}Add to bag · {{ v.price | money }}{% else %}Sold out{% endif %}</button>
 </div>
 <div class="delivery-note">
 <span aria-hidden="true" class="delivery-note-icon">
@@ -90,39 +186,42 @@
     endif
   endfor
 -%}
-<section class="complete-ritual" aria-label="Complete your ritual" id="pdRitual"{% if count == 0 %} hidden{% endif %}>
+{%- if count > 0 %}
+<section class="complete-ritual" aria-label="Complete your ritual" id="pdRitual">
 <span class="cr-kicker">Complete your ritual</span>
 <div class="cr-tiles" id="pdRitualTiles"{% if count == 1 %} style="grid-template-columns: 1fr;"{% endif %}>
 {%- for h in mf.ritual_handles.value -%}
 {%- assign q = all_products[h] -%}
 {%- if q != blank and q.id != product.id -%}
 {%- liquid
-  assign qname = q.metafields.custom.short_name.value | default: q.title
+  capture qname
+    render 'product-name', product: q, part: 'short'
+  endcapture
   if names != blank
     assign names = names | append: ' + '
   endif
   assign names = names | append: qname
   assign ids = ids | append: q.selected_or_first_available_variant.id | append: ','
-  case q.handle
-    when 'gentle-foaming-face-wash'
+  case q.type
+    when 'Face Wash'
       assign step = 'Step 1 · Cleanse'
-    when 'facial-toner-mist'
+    when 'Toner'
       assign step = 'Step 2 · Refresh'
-    when 'day-facial-moisturiser-serum', 'night-facial-moisturiser-serum'
+    when 'Facial Moisturiser'
       assign step = 'Step 3 · Moisturise'
-    when 'grapefruit-salt-scrub', 'rose-geranium-salt-scrub'
+    when 'Salt Scrub'
       assign step = 'Scrub'
-    when 'lavender-jojoba-bath-soak', 'ylang-rose-bath-soak'
+    when 'Bath Soak'
       assign step = 'Soak'
-    when 'lavender-whipped-body-butter', 'rose-whipped-body-butter'
+    when 'Body Butter'
       assign step = 'Butter'
-    when 'organic-baby-moisturiser'
-      assign step = 'Moisturise'
-    when 'lavender-chamomile-baby-wash'
+    when 'Shower Gel', 'Baby Wash'
       assign step = 'Wash'
-    when 'summer-glow-soy-wax-candle'
+    when 'Baby Moisturiser'
+      assign step = 'Moisturise'
+    when 'Candles'
       assign step = 'Candle'
-    when 'aromatherapy-car-blend-wild-citrus'
+    when 'Aromatherapy Car Blend'
       assign step = 'On the go'
     else
       capture step
@@ -137,28 +236,40 @@
 <button class="cr-add" data-product="{{ names | escape }}" data-variants="{{ ids }}" id="pdRitualAdd" type="button">{% if count > 1 %}Add both — {% else %}Add — {% endif %}{{ total | money_without_trailing_zeros }}</button>
 <p class="cr-note">{{ section.settings.ritual_note }}</p>
 </section>
+{%- endif %}
 <div class="product-accordions">
 <details open="">
 <summary>How to use <span>+</span></summary>
-<div class="accordion-copy" id="pdHow">{% for h in mf.how_to_use.value %}<p>{{ h | escape }}</p>{% endfor %}</div>
+<div class="accordion-copy" id="pdHow">{% if mf.how_to_use.value != blank %}{% for h in mf.how_to_use.value %}<p>{{ h | escape }}</p>{% endfor %}{% else %}{{ p_how }}{% endif %}</div>
 </details>
 <details>
 <summary>Ingredients <span>+</span></summary>
-<div class="accordion-copy" id="pdIngr">{% render 'product-ingredients', text: mf.ingredients.value, note: section.settings.ingredients_note %}</div>
+<div class="accordion-copy" id="pdIngr">{% render 'product-ingredients', text: ingr_text, note: section.settings.ingredients_note %}</div>
 </details>
 <details>
 <summary>Details <span>+</span></summary>
-<div class="accordion-copy" id="pdDetails"><ul class="detail-list">{% for d in mf.details.value %}<li>{{ d | escape }}</li>{% endfor %}</ul></div>
+<div class="accordion-copy" id="pdDetails"><ul class="detail-list">{% for d in detail_list %}{% if d != blank %}<li>{{ d | escape }}</li>{% endif %}{% endfor %}</ul></div>
 </details>
 <details>
 <summary>Delivery &amp; returns <span>+</span></summary>
 <div class="accordion-copy">
+{{ p_dispatch }}
 <p>{{ section.settings.delivery_text }} See our <a href="{{ section.settings.delivery_link }}">Delivery &amp; Returns page</a> for dispatch times and how to return an item.</p>
 </div>
 </details>
+{%- if p_faq != blank %}
+<details>
+<summary>FAQs <span>+</span></summary>
+<div class="accordion-copy">{{ p_faq }}</div>
+</details>
+{%- endif %}
 </div>
 </div>
 </section>
+{%- style -%}
+.product-summary p+p{margin-top:10px}
+.accordion-copy ul{margin:0;padding-left:16px;color:#68746e;font-size:11px;line-height:1.7}
+{%- endstyle -%}
 {%- liquid
   assign app_blocks = 0
   for block in section.blocks
@@ -209,6 +320,14 @@
 {%- for q in pool -%}{%- if shown < 4 -%}
 {%- assign key = ' ' | append: q.handle | append: ' ' -%}
 {%- unless used contains key -%}{%- if q.tags contains 'best-seller' -%}
+{%- render 'shop-card', product: q, plain: true -%}{%- assign shown = shown | plus: 1 -%}{%- assign used = used | append: q.handle | append: ' ' -%}
+{%- endif -%}{%- endunless -%}
+{%- endif -%}{%- endfor -%}
+{%- for q in pool -%}{%- if shown < 4 -%}
+{%- assign key = ' ' | append: q.handle | append: ' ' -%}
+{%- unless used contains key -%}
+{%- capture qkeys -%}{% render 'product-cats', product: q, mode: 'first-handle' %}{%- endcapture -%}
+{%- if qkeys == crumb_handle -%}
 {%- render 'shop-card', product: q, plain: true -%}{%- assign shown = shown | plus: 1 -%}{%- assign used = used | append: q.handle | append: ' ' -%}
 {%- endif -%}{%- endunless -%}
 {%- endif -%}{%- endfor -%}

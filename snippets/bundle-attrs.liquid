@@ -1,10 +1,12 @@
 {%- comment -%}
   Extra attributes for a ritual button that adds a ritual bundle (one item at the ritual price).
-  Params: bundle (product), upgrade (name of the bundle option used when the extra box is ticked, e.g. "Day & Night")
-  Output: data-bundle="{"Day":123,"Night":456,...}" (escaped) and data-bundle-up="..."
+  Params: bundle (product), upgrade (name used for the bundle added when the extra box is ticked,
+  e.g. "Day & Night"), upgrade_bundle (optional: a separate bundle product for the ticked box,
+  e.g. the Day & Night Face Ritual)
+  Output: data-bundle="{"Day":123,"Day & Night":456,...}" (escaped) and data-bundle-up="..."
 {%- endcomment -%}
 {%- if bundle != blank -%}
-{%- capture map -%}{ {%- for v in bundle.variants -%}{%- if v.available -%}"{{ v.title | replace: '"', '' }}":{{ v.id }},{%- endif -%}{%- endfor -%} }{%- endcapture -%}
+{%- capture map -%}{ {%- for v in bundle.variants -%}{%- if v.available -%}"{{ v.title | replace: '"', '' }}":{{ v.id }},{%- endif -%}{%- endfor -%}{%- if upgrade_bundle != blank and upgrade != blank and upgrade_bundle.available -%}"{{ upgrade | replace: '"', '' }}":{{ upgrade_bundle.selected_or_first_available_variant.id }},{%- endif -%} }{%- endcapture -%}
 {%- assign map = map | replace: ', }', ' }' | replace: ',}', '}' -%}
- data-bundle="{{ map | escape }}"{% if upgrade != blank %} data-bundle-up="{{ upgrade | escape }}"{% endif %}
+{{ ' ' }}data-bundle="{{ map | escape }}"{% if upgrade != blank %} data-bundle-up="{{ upgrade | escape }}"{% endif %}
 {%- endif -%}

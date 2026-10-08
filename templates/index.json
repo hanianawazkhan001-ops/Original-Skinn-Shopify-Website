@@ -78,8 +78,8 @@
             "products_text": "Salt Scrub + Whipped Body Butter",
             "price_html": "£20",
             "products": [
-              "grapefruit-salt-scrub",
-              "black-cherry-whipped-body-butter"
+              "sweet-citrus-salt-scrub",
+              "cherry-fragranced-whipped-body-butter"
             ],
             "ritual_name": "Scrub & Butter ritual",
             "button_label": "Add the ritual"
@@ -95,8 +95,8 @@
             "products_text": "Bath Soak + Lavender Butter + Candle",
             "price_html": "£24.50",
             "products": [
-              "lavender-jojoba-bath-soak",
-              "lavender-whipped-body-butter",
+              "lavender-bliss-bath-salt",
+              "lavender-fragranced-whipped-body-butter",
               "summer-glow-soy-wax-candle"
             ],
             "ritual_name": "Evening wind-down ritual",
@@ -113,18 +113,20 @@
             "products_text": "Gentle Foaming Face Wash + Facial Toner Mist + Day Moisturiser & Serum",
             "price_html": "<s>£35</s> £32",
             "products": [
-              "gentle-foaming-face-wash",
-              "facial-toner-mist",
-              "day-facial-moisturiser-serum"
+              "gentle-foaming-face-wash-chamomile-lavender",
+              "facial-toner-mist-spray",
+              "original-skinn-light-moisturiser-serum-unfragranced-50ml"
             ],
             "ritual_name": "Face Ritual",
             "button_label": "Add the Face Ritual",
-            "upgrade_product": "night-facial-moisturiser-serum",
+            "upgrade_product": "original-skinn-rich-moisturiser-serum-lemon-cedarwood-50ml",
             "upgrade_text": "Add Night Moisturiser & Serum for £13 more",
             "upgrade_price_html": "<s>£50</s> £45",
             "upgrade_ritual_name": "Day & Night Face Ritual",
             "upgrade_button_label": "Add the Day & Night Face Ritual",
-            "bundle": "face-ritual"
+            "bundle": "face-ritual-cleanse-refresh-moisturise",
+            "bundle_upgrade_product": "day-night-face-ritual-complete-face-routine",
+            "bundle_upgrade": "Day & Night"
           }
         },
         "concern4": {
@@ -137,7 +139,7 @@
             "products_text": "Baby Essentials Bundle",
             "price_html": "£15",
             "products": [
-              "baby-essentials-bundle"
+              "original-skinn-bedtime-bundle-gentle-wash-soothing-moisturiser"
             ],
             "ritual_name": "Baby Essentials Bundle",
             "button_label": "Add the ritual"
@@ -158,7 +160,7 @@
         "card1": {
           "type": "card",
           "settings": {
-            "product": "face-moisturiser-duo",
+            "product": "original-skinn-day-night-facial-set-light-rich",
             "badge": "Face ritual",
             "description": "Day (Chamomile & Calendula) + Night (Lemon & Cedarwood).",
             "image_alt": "Day and night face care"
@@ -167,7 +169,7 @@
         "card2": {
           "type": "card",
           "settings": {
-            "product": "black-cherry-whipped-body-butter",
+            "product": "cherry-fragranced-whipped-body-butter",
             "badge": "Body care",
             "title": "Whipped Body Butter",
             "description": "Rich, nourishing moisture with a soft whipped texture.",
@@ -178,7 +180,7 @@
         "card3": {
           "type": "card",
           "settings": {
-            "product": "lavender-jojoba-bath-soak",
+            "product": "lavender-bliss-bath-salt",
             "badge": "Bath ritual",
             "description": "A calming mineral soak with lavender flowers and jojoba.",
             "image_alt": "Lavender bath salts"
@@ -187,7 +189,7 @@
         "card4": {
           "type": "card",
           "settings": {
-            "product": "baby-essentials-bundle",
+            "product": "original-skinn-bedtime-bundle-gentle-wash-soothing-moisturiser",
             "badge": "Baby care",
             "description": "Organic Baby Moisturiser and Lavender & Chamomile Baby Wash.",
             "image_alt": "Baby care products"

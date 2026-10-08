@@ -6,22 +6,21 @@
 {%- capture cat_label -%}{% render 'product-cats', product: product, mode: 'label' %}{%- endcapture -%}
 {%- liquid
   assign v = product.selected_or_first_available_variant
-  assign card_title = product.metafields.custom.card_title.value | default: product.title
-  if plain
-    assign card_title = product.title
-  endif
 -%}
+{%- capture card_title -%}{% render 'product-name', product: product, part: 'card' %}{%- endcapture -%}
+{%- capture card_tag -%}{% render 'product-name', product: product, part: 'tagline' %}{%- endcapture -%}
+{%- if plain -%}{%- capture card_title -%}{% render 'product-name', product: product, part: 'name' %}{%- endcapture -%}{%- endif -%}
 <article class="shop-card"{% unless plain %} data-category="{{ cat_keys }}" data-name="{{ card_title | downcase | escape }}" data-order="{{ order }}" data-price="{{ v.price | divided_by: 100.0 }}"{% endunless %}>
 <div class="shop-image">
 {%- if product.tags contains 'best-seller' and plain != true %}
 <span class="shop-badge">Best Seller</span>
 {%- endif %}
-<a class="card-media-link" href="{{ product.url }}" tabindex="-1" aria-hidden="true"><img loading="lazy" alt="{{ card_title | escape }}" src="{{ product.featured_image | image_url: width: 900 }}"/></a>
+<a class="card-media-link" href="{{ product.url }}" tabindex="-1" aria-hidden="true"><img loading="lazy" alt="{{ product.featured_image.alt | default: card_title | escape }}" src="{{ product.featured_image | image_url: width: 900 }}"/></a>
 </div>
 <div class="shop-copy">
 <span class="shop-category">{{ cat_label }}</span>
 <h2><a class="card-title-link" href="{{ product.url }}">{{ card_title }}</a></h2>
-<p>{{ product.metafields.custom.tagline.value }}</p>
+<p>{{ card_tag }}</p>
 <div class="shop-bottom">
 <strong>{{ v.price | money }}</strong>
 <div class="card-actions"><button aria-label="Add {{ card_title | escape }} to bag" class="card-add" data-product="{{ card_title | escape }}" data-variants="{{ v.id }}" title="Add to bag" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 2.5 3.5 6v13.5A2 2 0 0 0 5.5 21.5h13a2 2 0 0 0 2-2V6L18 2.5z"/><path d="M3.5 6h17"/><path d="M15.5 10a3.5 3.5 0 0 1-7 0"/></svg></button></div>

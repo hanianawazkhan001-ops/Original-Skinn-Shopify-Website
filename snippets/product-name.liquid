@@ -1,0 +1,28 @@
+{%- comment -%}
+  Splits a product title into the name and the line under it, the way the shop shows them.
+  "Lavender Whipped Body Butter – Softening & Calming" → name "Lavender Whipped Body Butter",
+  tagline "Softening & Calming". A trailing " – Original Skinn" is dropped.
+  The product's own fields win when they are filled in: custom.short_name (name, where part is
+  'short'), custom.card_title (part 'card') and custom.tagline (part 'tagline').
+  Params: product, part ('name' | 'short' | 'card' | 'tagline')
+{%- endcomment -%}
+{%- liquid
+  assign t = product.title | remove: ' – Original Skinn' | remove: ' - Original Skinn' | strip
+  assign bits = t | split: ' – '
+  assign name = bits.first | strip
+  assign tag = ''
+  if bits.size > 1
+    assign tag = t | remove_first: bits.first | remove_first: ' – ' | strip
+  endif
+  case part
+    when 'tagline'
+      assign out = product.metafields.custom.tagline.value | default: tag
+    when 'short'
+      assign out = product.metafields.custom.short_name.value | default: name
+    when 'card'
+      assign out = product.metafields.custom.card_title.value | default: name
+    else
+      assign out = name
+  endcase
+  echo out
+-%}

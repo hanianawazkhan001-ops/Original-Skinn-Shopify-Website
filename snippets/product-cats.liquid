@@ -28,7 +28,7 @@
       assign first = 'bath-shower'
     endif
   endif
-  if handles contains ' baby '
+  if handles contains ' baby ' or handles contains ' baby-shop '
     assign keys = keys | append: ' baby'
     assign names = names | append: '|Baby'
     if first == blank

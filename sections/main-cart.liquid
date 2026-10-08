@@ -133,7 +133,12 @@
   capture cat
     render 'product-cats', product: item.product, mode: 'label'
   endcapture
-  assign sub = item.product.metafields.custom.tagline.value
+  capture sub
+    render 'product-name', product: item.product, part: 'tagline'
+  endcapture
+  capture iname
+    render 'product-name', product: item.product, part: 'name'
+  endcapture
   if item.product.variants.size > 1
     if sub != blank
       assign sub = sub | append: ' · ' | append: item.variant.title
@@ -144,16 +149,16 @@
 -%}
 <article class="basket-item" data-key="{{ item.key }}">
 <div class="basket-image">
-<img loading="lazy" alt="{{ item.product.title | escape }}" src="{{ item.image | image_url: width: 400 }}"/>
+<img loading="lazy" alt="{{ iname | escape }}" src="{{ item.image | image_url: width: 400 }}"/>
 </div>
 <div class="basket-copy">
 <div class="basket-item-top">
 <div>
 <span class="basket-category">{{ cat }}</span>
-<h2>{{ item.product.title }}</h2>
+<h2>{{ iname }}</h2>
 <p>{{ sub }}</p>
 </div>
-<button aria-label="Remove {{ item.product.title | escape }}" class="remove-item" type="button">Remove</button>
+<button aria-label="Remove {{ iname | escape }}" class="remove-item" type="button">Remove</button>
 </div>
 <div class="basket-item-bottom">
 <div aria-label="Quantity" class="basket-qty">
@@ -188,7 +193,9 @@
 {%- if pick != blank -%}
 {%- liquid
   assign sp = sug.settings.product
-  assign sname = sp.metafields.custom.short_name.value | default: sp.title
+  capture sname
+    render 'product-name', product: sp, part: 'short'
+  endcapture
   assign why = sug.settings.why
   assign reach = subtotal | plus: sp.price
   if free == false and reach >= threshold

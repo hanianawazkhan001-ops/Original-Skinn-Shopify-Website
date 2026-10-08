@@ -1,6 +1,7 @@
 {%- comment -%}
   The Ingredients tab, laid out as on the test site.
-  Params: text (the product's ingredients field; one line per product in a set, "Name: list"), note
+  Params: text (one line per product in a set, "Name: list"; a line starting with * is the
+  allergen footnote), note
 {%- endcomment -%}
 {%- assign note_html = '<p class="accordion-note">' | append: note | append: '</p>' -%}
 {%- if text == blank -%}
@@ -14,9 +15,10 @@
 {%- assign name = l | split: ': ' | first -%}
 {%- assign named = false -%}
 {%- if name != l -%}{%- unless name contains ',' -%}{%- assign named = true -%}{%- endunless -%}{%- endif -%}
-{%- if named -%}<p><strong>{{ name | escape }}:</strong> {{ l | remove_first: name | remove_first: ': ' | escape }}</p>{%- else -%}<p>{{ l | escape }}</p>{%- endif -%}
+{%- assign c0 = l | slice: 0 -%}
+{%- if c0 == '*' -%}<p class="accordion-note">{{ l | escape }}</p>{%- elsif named -%}<p><strong>{{ name | escape }}:</strong> {{ l | remove_first: name | remove_first: ': ' | escape }}</p>{%- else -%}<p>{{ l | escape }}</p>{%- endif -%}
 {%- endif -%}{%- endfor -%}{{ note_html }}
 {%- else -%}
-<p>{{ text | escape }}</p>{% if text contains '*' %}<p class="accordion-note">* Naturally occurring in essential oils.</p>{% endif %}{{ note_html }}
+<p>{{ text | escape }}</p>{% if text contains '*' %}{% unless text contains 'aturally' or text contains 'ccur' %}<p class="accordion-note">* Naturally occurring in essential oils.</p>{% endunless %}{% endif %}{{ note_html }}
 {%- endif -%}
 {%- endif -%}

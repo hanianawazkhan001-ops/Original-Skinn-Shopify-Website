@@ -8,10 +8,12 @@
 {%- for block in section.blocks -%}
 {%- assign p = block.settings.product -%}
 {%- if p != blank -%}
+{%- capture p_name -%}{% render 'product-name', product: p, part: 'card' %}{%- endcapture -%}
+{%- capture p_tag -%}{% render 'product-name', product: p, part: 'tagline' %}{%- endcapture -%}
 {%- liquid
-  assign title = block.settings.title | default: p.title
+  assign title = block.settings.title | default: p_name
   assign url = block.settings.link | default: p.url
-  assign desc = block.settings.description | default: p.metafields.custom.tagline.value
+  assign desc = block.settings.description | default: p_tag
   assign alt = block.settings.image_alt | default: p.featured_image.alt | default: title
 -%}
 <article class="product" {{ block.shopify_attributes }}><div class="product-media">{% if block.settings.badge != blank %}<span class="badge">{{ block.settings.badge }}</span>{% endif %}<a class="card-media-link" href="{{ url }}" tabindex="-1" aria-hidden="true"><img loading="lazy" alt="{{ alt | escape }}" src="{{ p.featured_image | image_url: width: 900 }}"/></a></div><div class="product-info"><div class="product-title"><a class="card-title-link" href="{{ url }}">{{ title }}</a></div><div class="product-desc">{{ desc }}</div><div class="product-row"><span class="price">{{ p.selected_or_first_available_variant.price | money }}</span><button class="quickadd" data-product="{{ title | escape }}" data-variants="{{ p.selected_or_first_available_variant.id }}">Quick add</button></div></div></article>

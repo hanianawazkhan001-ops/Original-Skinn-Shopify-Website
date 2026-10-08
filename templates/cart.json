@@ -16,7 +16,7 @@
           "type": "suggest",
           "settings": {
             "category": "Face",
-            "product": "gentle-foaming-face-wash",
+            "product": "gentle-foaming-face-wash-chamomile-lavender",
             "why": "Step 1 of the Face Ritual."
           }
         },
@@ -24,7 +24,7 @@
           "type": "suggest",
           "settings": {
             "category": "Face",
-            "product": "facial-toner-mist",
+            "product": "facial-toner-mist-spray",
             "why": "Step 2 of the Face Ritual."
           }
         },
@@ -32,7 +32,7 @@
           "type": "suggest",
           "settings": {
             "category": "Body",
-            "product": "grapefruit-salt-scrub",
+            "product": "sweet-citrus-salt-scrub",
             "why": "Scrub first, then butter: the Soft Skin Ritual."
           }
         },
@@ -40,7 +40,7 @@
           "type": "suggest",
           "settings": {
             "category": "Body",
-            "product": "lavender-jojoba-bath-soak",
+            "product": "lavender-bliss-bath-salt",
             "why": "Soak, then butter: part of the Bath Ritual."
           }
         },
@@ -48,7 +48,7 @@
           "type": "suggest",
           "settings": {
             "category": "Bath & Shower",
-            "product": "lavender-whipped-body-butter",
+            "product": "lavender-fragranced-whipped-body-butter",
             "why": "Finish the Bath Ritual with butter."
           }
         },
@@ -56,7 +56,7 @@
           "type": "suggest",
           "settings": {
             "category": "Bath & Shower",
-            "product": "lavender-jojoba-bath-soak",
+            "product": "lavender-bliss-bath-salt",
             "why": "Step 2 of the Bath Ritual."
           }
         },
@@ -64,7 +64,7 @@
           "type": "suggest",
           "settings": {
             "category": "Baby",
-            "product": "organic-baby-moisturiser",
+            "product": "original-skinn-all-natural-soothing-baby-moisturiser-100ml",
             "why": "Wash, then moisturise: the Bedtime Ritual."
           }
         },
@@ -72,7 +72,7 @@
           "type": "suggest",
           "settings": {
             "category": "Baby",
-            "product": "lavender-chamomile-baby-wash",
+            "product": "original-skinn-all-natural-gentle-soothing-baby-wash-100ml",
             "why": "Wash, then moisturise: the Bedtime Ritual."
           }
         }

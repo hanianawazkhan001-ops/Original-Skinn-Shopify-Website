@@ -23,7 +23,7 @@
 <p class="concern-products">{{ block.settings.products_text }}</p>
 <div class="concern-buy">
 <div class="concern-price" data-base="{{ block.settings.price_html | escape }}">{{ block.settings.price_html }}</div>
-<button class="btn primary concern-add" data-product="{{ block.settings.ritual_name | escape }}" data-variants="{{ ids }}"{% render 'bundle-attrs', bundle: block.settings.bundle, upgrade: block.settings.bundle_upgrade %} data-label="{{ block.settings.button_label | escape }}" type="button">{{ block.settings.button_label }}</button>
+<button class="btn primary concern-add" data-product="{{ block.settings.ritual_name | escape }}" data-variants="{{ ids }}"{% render 'bundle-attrs', bundle: block.settings.bundle, upgrade: block.settings.bundle_upgrade, upgrade_bundle: block.settings.bundle_upgrade_product %} data-label="{{ block.settings.button_label | escape }}" type="button">{{ block.settings.button_label }}</button>
 {%- if up != blank -%}
 <label class="concern-upgrade"><input type="checkbox" class="concern-night" data-variant="{{ up.selected_or_first_available_variant.id }}" data-price="{{ block.settings.upgrade_price_html | escape }}" data-name="{{ block.settings.upgrade_ritual_name | escape }}" data-label="{{ block.settings.upgrade_button_label | escape }}"/> <span>{{ block.settings.upgrade_text }}</span></label>
 {%- else -%}
@@ -59,6 +59,7 @@
         { "type": "product_list", "id": "products", "label": "Products added to the bag", "limit": 4 },
         { "type": "product", "id": "bundle", "label": "Ritual bundle (one item at the ritual price)", "info": "If set, this is added instead of the products above." },
         { "type": "text", "id": "bundle_upgrade", "label": "Bundle option used with the extra", "default": "Day & Night" },
+        { "type": "product", "id": "bundle_upgrade_product", "label": "Bundle added with the extra (separate product)", "info": "Optional, e.g. the Day & Night Face Ritual." },
         { "type": "text", "id": "ritual_name", "label": "Ritual name (for the 'added' message)", "default": "Scrub & Butter ritual" },
         { "type": "text", "id": "button_label", "label": "Button label", "default": "Add the ritual" },
         { "type": "header", "content": "Optional extra (e.g. Night Moisturiser)" },

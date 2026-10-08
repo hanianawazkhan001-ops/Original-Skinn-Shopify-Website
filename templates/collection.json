@@ -25,7 +25,7 @@
           "settings": {
             "collection": "face",
             "step_label": "Step 1 · Cleanse",
-            "product": "gentle-foaming-face-wash",
+            "product": "gentle-foaming-face-wash-chamomile-lavender",
             "name": "Gentle Foaming Face Wash"
           }
         },
@@ -34,7 +34,7 @@
           "settings": {
             "collection": "face",
             "step_label": "Step 2 · Refresh",
-            "product": "facial-toner-mist"
+            "product": "facial-toner-mist-spray"
           }
         },
         "face_s3": {
@@ -42,11 +42,8 @@
           "settings": {
             "collection": "face",
             "step_label": "Step 3 · Moisturise",
-            "product": "day-facial-moisturiser-serum",
-            "switch_product": "night-facial-moisturiser-serum",
-            "switch_label_a": "Day",
-            "switch_label_b": "Night",
-            "name_suffix": "Moisturiser & Serum"
+            "product": "original-skinn-light-moisturiser-serum-unfragranced-50ml",
+            "name": "Day Moisturiser & Serum"
           }
         },
         "face_buy": {
@@ -65,7 +62,9 @@
             "upgrade_small": "Saves £5.",
             "upgrade_button_label": "Add the Day & Night Face Ritual",
             "upgrade_ritual_name": "Day & Night Face Ritual",
-            "bundle": "face-ritual"
+            "bundle": "face-ritual-cleanse-refresh-moisturise",
+            "bundle_upgrade_product": "day-night-face-ritual-complete-face-routine",
+            "bundle_upgrade": "Day & Night"
           }
         },
         "body_intro": {
@@ -81,7 +80,7 @@
           "settings": {
             "collection": "body",
             "step_label": "Step 1 · Scrub",
-            "product": "grapefruit-salt-scrub",
+            "product": "sweet-citrus-salt-scrub",
             "name": "Salt Scrub",
             "note": "Choose your scent"
           }
@@ -91,7 +90,7 @@
           "settings": {
             "collection": "body",
             "step_label": "Step 2 · Butter",
-            "product": "black-cherry-whipped-body-butter",
+            "product": "cherry-fragranced-whipped-body-butter",
             "name": "Whipped Body Butter",
             "link": "/collections/body",
             "note": "Choose your scent"
@@ -121,7 +120,7 @@
           "settings": {
             "collection": "bath-shower",
             "step_label": "Step 1 · Scrub",
-            "product": "grapefruit-salt-scrub"
+            "product": "sweet-citrus-salt-scrub"
           }
         },
         "bath_s2": {
@@ -129,7 +128,7 @@
           "settings": {
             "collection": "bath-shower",
             "step_label": "Step 2 · Soak",
-            "product": "lavender-jojoba-bath-soak"
+            "product": "lavender-bliss-bath-salt"
           }
         },
         "bath_s3": {
@@ -137,7 +136,7 @@
           "settings": {
             "collection": "bath-shower",
             "step_label": "Step 3 · Butter",
-            "product": "lavender-whipped-body-butter"
+            "product": "lavender-fragranced-whipped-body-butter"
           }
         },
         "bath_buy": {
@@ -165,7 +164,7 @@
           "settings": {
             "collection": "baby",
             "step_label": "Step 1 · Wash",
-            "product": "lavender-chamomile-baby-wash"
+            "product": "original-skinn-all-natural-gentle-soothing-baby-wash-100ml"
           }
         },
         "baby_s2": {
@@ -173,7 +172,7 @@
           "settings": {
             "collection": "baby",
             "step_label": "Step 2 · Moisturise",
-            "product": "organic-baby-moisturiser"
+            "product": "original-skinn-all-natural-soothing-baby-moisturiser-100ml"
           }
         },
         "baby_buy": {
@@ -186,7 +185,7 @@
             "button_label": "Add the Baby Essentials Bundle",
             "ritual_name": "Baby Essentials Bundle",
             "add_products": [
-              "baby-essentials-bundle"
+              "original-skinn-bedtime-bundle-gentle-wash-soothing-moisturiser"
             ]
           }
         },
