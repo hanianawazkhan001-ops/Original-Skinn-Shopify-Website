@@ -1,5 +1,21 @@
-{%- comment -%} Home: hero photo and headline band — copied from the test site. {%- endcomment -%}
-<section class="hero"><div class="hero-shell"><div class="hero-image">{% render 'os-img', image: section.settings.image, fallback: 'home-hero.jpg', alt: section.settings.image_alt, width: 2400 %}</div></div>
+{%- comment -%}
+  Home: hero photo and headline band — copied from the test site.
+  When the photo has a button printed on it (as the live store's hero does), a see-through link sits
+  exactly over that printed button so it can be clicked. Its position and size are % of the photo,
+  set under "Clickable area" in the theme editor. Leave the link empty to switch it off.
+{%- endcomment -%}
+<style>
+  .hero-hotspot{position:absolute;z-index:3;display:block;border-radius:4px;transition:background-color .2s ease,box-shadow .2s ease}
+  .hero-hotspot::before{content:"";position:absolute;inset:-10px -6px}
+  .hero-hotspot:hover{background:rgba(255,255,255,.14);box-shadow:0 10px 24px rgba(34,45,31,.22)}
+  .hero-hotspot:focus-visible{outline:3px solid #fff;outline-offset:3px;box-shadow:0 0 0 6px rgba(34,45,31,.45)}
+  @media (prefers-reduced-motion:reduce){.hero-hotspot{transition:none}}
+</style>
+<section class="hero"><div class="hero-shell"><div class="hero-image">{% render 'os-img', image: section.settings.image, fallback: 'home-hero.jpg', alt: section.settings.image_alt, width: 2400 %}
+{%- if section.settings.image != blank and section.settings.image_link != blank -%}
+<a class="hero-hotspot" href="{{ section.settings.image_link }}" aria-label="{{ section.settings.image_link_label | escape }}" style="left:{{ section.settings.hotspot_left }}%;top:{{ section.settings.hotspot_top }}%;width:{{ section.settings.hotspot_width }}%;height:{{ section.settings.hotspot_height }}%"></a>
+{%- endif -%}
+</div></div>
 <div class="hero-band"><div class="container hero-band-inner"><h1>{{ section.settings.heading }}</h1><a class="btn primary hero-band-btn" href="{{ section.settings.button_link | default: '#shop' }}">{{ section.settings.button_label }}</a></div></div>
 </section>
 
@@ -9,6 +25,14 @@
   "settings": [
     { "type": "image_picker", "id": "image", "label": "Photo", "info": "Leave empty to use the photo from the test site." },
     { "type": "text", "id": "image_alt", "label": "Photo description (for screen readers)", "default": "Original Skinn plant-led, vegan skincare" },
+    { "type": "header", "content": "Clickable area", "info": "Makes the button printed on the photo clickable. Values are % of the photo, measured from its top-left corner." },
+    { "type": "url", "id": "image_link", "label": "Link", "default": "/collections/all", "info": "Leave empty if the photo has no printed button." },
+    { "type": "text", "id": "image_link_label", "label": "Button text (for screen readers)", "default": "Explore our range" },
+    { "type": "number", "id": "hotspot_left", "label": "From the left (%)", "default": 5.6 },
+    { "type": "number", "id": "hotspot_top", "label": "From the top (%)", "default": 63.8 },
+    { "type": "number", "id": "hotspot_width", "label": "Width (%)", "default": 21.9 },
+    { "type": "number", "id": "hotspot_height", "label": "Height (%)", "default": 6.2 },
+    { "type": "header", "content": "Headline band" },
     { "type": "text", "id": "heading", "label": "Headline", "default": "Plant-led, vegan skincare from a small Hampshire brand." },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop by ritual →" },
     { "type": "text", "id": "button_link", "label": "Button link", "default": "#shop", "info": "#shop jumps to the Shop by ritual section." }
