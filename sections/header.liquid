@@ -7,22 +7,29 @@
 {%- endcomment -%}
 {%- if section.settings.desktop_tabs -%}
 <style>
+  /* Computer menu tabs. A small script below (DeskTabs) checks they fit on one line at every
+     width: if not, it first tightens the spacing, then falls back to the ☰ menu. */
   .desk-tabs{display:none}
   @media (min-width:1001px){
-    :root{--header-h:124px}
+    :root{--header-h:var(--tabs-header-h,115px)}
     .header .menu-left{visibility:hidden!important}
-    .desk-tabs{display:flex;align-items:center;justify-content:center;gap:28px;height:44px;margin-top:-6px;padding:0 24px;border-top:1px solid var(--line);font-size:13px;letter-spacing:.02em}
+    .desk-tabs{--tab-gap:clamp(18px,2.1vw,30px);display:flex;align-items:center;justify-content:center;gap:var(--tab-gap);height:44px;margin-top:-6px;padding:0 24px;border-top:1px solid var(--line);font-size:13px;letter-spacing:.02em;overflow:hidden}
+    .desk-tabs-group{display:flex;align-items:center;gap:var(--tab-gap);flex:none}
     .desk-tabs a{position:relative;color:var(--forest);text-decoration:none;padding:6px 0;white-space:nowrap}
     .desk-tabs a::after{content:"";position:absolute;left:0;right:100%;bottom:2px;height:1px;background:var(--forest);transition:right .25s ease}
     .desk-tabs a:hover::after,.desk-tabs a[aria-current="page"]::after{right:0}
     .desk-tabs a[aria-current="page"]{font-weight:600}
     .desk-tabs a:focus-visible{outline:2px solid var(--forest);outline-offset:4px;border-radius:2px}
-    .desk-tabs .desk-tabs-sep{width:1px;height:16px;background:var(--line)}
+    .desk-tabs .desk-tabs-sep{flex:none;width:1px;height:16px;background:var(--line)}
     .desk-tabs .desk-tabs-info a{color:var(--muted,#5f6d66)}
-    .desk-tabs-group{display:flex;align-items:center;gap:28px}
+    html.os-tabs-compact .desk-tabs{--tab-gap:14px;font-size:12px;letter-spacing:0;padding:0 14px}
+    html.os-tabs-off{--header-h:78px}
+    html.os-tabs-off .desk-tabs{display:none}
+    html.os-tabs-off .header .menu-left{visibility:visible!important}
     #concerns,#shop,.page-section [id]{scroll-margin-top:calc(var(--announce-h) + var(--header-h) + 12px)}
     .basket-summary{top:calc(var(--announce-h) + var(--header-h) + 16px)}
   }
+  @media (min-width:1001px) and (hover:none){.desk-tabs a:hover::after{right:100%}.desk-tabs a[aria-current="page"]::after{right:0}}
   @media (min-width:1001px) and (prefers-reduced-motion:reduce){.desk-tabs a::after{transition:none}}
 </style>
 {%- endif -%}
@@ -66,6 +73,72 @@
 </nav>
 {%- endif -%}
 </header>
+
+{%- if section.settings.desktop_tabs -%}
+<script>
+  (function () {
+    /* Keeps the computer menu tabs on one tidy line at every screen width.
+       full    – normal spacing
+       compact – tighter spacing and slightly smaller text when the full row doesn't fit
+       off     – the ☰ menu instead, when even the compact row doesn't fit
+       It also matches the page's top space to the header's real height. */
+    class DeskTabs {
+      constructor(root) {
+        this.root = root;
+        this.header = root.closest('.header');
+        this.html = document.documentElement;
+        this.query = window.matchMedia('(min-width: 1001px)');
+        this.overlap = 6; /* the header sits 6px over the page, as it does on smaller screens */
+        this.schedule = this.schedule.bind(this);
+        if ('ResizeObserver' in window) new ResizeObserver(this.schedule).observe(this.header);
+        window.addEventListener('resize', this.schedule);
+        if (this.query.addEventListener) this.query.addEventListener('change', this.schedule);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(this.schedule);
+        this.fit();
+      }
+      schedule() {
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() => this.fit(), 60);
+      }
+      setMode(mode) {
+        this.html.classList.toggle('os-tabs-compact', mode === 'compact');
+        this.html.classList.toggle('os-tabs-off', mode === 'off');
+      }
+      fits() {
+        const links = this.root.querySelectorAll('a');
+        if (!links.length) return false;
+        const box = this.root.getBoundingClientRect();
+        const first = links[0].getBoundingClientRect();
+        const last = links[links.length - 1].getBoundingClientRect();
+        const oneLine = Array.prototype.every.call(links, (a) => Math.abs(a.getBoundingClientRect().top - first.top) < 2);
+        return oneLine && first.left >= box.left + 8 && last.right <= box.right - 8;
+      }
+      fit() {
+        if (!this.query.matches) {
+          this.setMode('full');
+          this.html.style.removeProperty('--tabs-header-h');
+          return;
+        }
+        this.setMode('full');
+        if (!this.fits()) {
+          this.setMode('compact');
+          if (!this.fits()) this.setMode('off');
+        }
+        if (this.html.classList.contains('os-tabs-off')) {
+          this.html.style.removeProperty('--tabs-header-h');
+        } else {
+          this.html.style.setProperty('--tabs-header-h', (this.header.offsetHeight - this.overlap) + 'px');
+        }
+      }
+    }
+    const tabs = document.querySelector('.desk-tabs');
+    if (tabs) {
+      window.OriginalSkinn = window.OriginalSkinn || {};
+      window.OriginalSkinn.deskTabs = new DeskTabs(tabs);
+    }
+  })();
+</script>
+{%- endif -%}
 
 <div class="menu-overlay" id="menuOverlay" aria-hidden="true"></div>
 <aside class="menu-drawer" id="menuDrawer" aria-hidden="true" aria-label="Main menu">
