@@ -2,14 +2,70 @@
   Header, slide-out menu and bag icon — copied from the test site (index.html).
   Menus: choose a Shopify menu in the theme editor; until one is chosen, the
   test site's links are shown.
+  On computers (wider than 1000px) the same links show as tabs under the logo instead
+  of the ☰ menu. Tablets and phones keep the ☰ menu. Turn the tabs off in the theme editor.
 {%- endcomment -%}
+{%- if section.settings.desktop_tabs -%}
+<style>
+  .desk-tabs{display:none}
+  @media (min-width:1001px){
+    :root{--header-h:124px}
+    .header .menu-left{visibility:hidden!important}
+    .desk-tabs{display:flex;align-items:center;justify-content:center;gap:28px;height:44px;margin-top:-6px;padding:0 24px;border-top:1px solid var(--line);font-size:13px;letter-spacing:.02em}
+    .desk-tabs a{position:relative;color:var(--forest);text-decoration:none;padding:6px 0;white-space:nowrap}
+    .desk-tabs a::after{content:"";position:absolute;left:0;right:100%;bottom:2px;height:1px;background:var(--forest);transition:right .25s ease}
+    .desk-tabs a:hover::after,.desk-tabs a[aria-current="page"]::after{right:0}
+    .desk-tabs a[aria-current="page"]{font-weight:600}
+    .desk-tabs a:focus-visible{outline:2px solid var(--forest);outline-offset:4px;border-radius:2px}
+    .desk-tabs .desk-tabs-sep{width:1px;height:16px;background:var(--line)}
+    .desk-tabs .desk-tabs-info a{color:var(--muted,#5f6d66)}
+    .desk-tabs-group{display:flex;align-items:center;gap:28px}
+    #concerns,#shop,.page-section [id]{scroll-margin-top:calc(var(--announce-h) + var(--header-h) + 12px)}
+    .basket-summary{top:calc(var(--announce-h) + var(--header-h) + 16px)}
+  }
+  @media (min-width:1001px) and (prefers-reduced-motion:reduce){.desk-tabs a::after{transition:none}}
+</style>
+{%- endif -%}
 <header class="header"><div class="nav">
 <nav class="nav-left"><button aria-label="Open menu" class="nav-icon menu-left" id="menuOpenBtn" type="button">&#9776;</button></nav>
 <a class="brand" href="{{ routes.root_url }}"><img alt="{{ settings.brand_name | default: 'Original Skinn' | escape }} logo" src="{{ 'logo.png' | asset_url }}" width="165" height="165"/></a>
 <div class="nav-right">
   <a aria-label="Bag" class="nav-icon cart-right" id="cartBtn" href="{{ routes.cart_url }}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 5h2l2.1 10.2a1 1 0 0 0 1 .8h8.9a1 1 0 0 0 1-.8L20 8H7"></path><circle cx="10" cy="19" r="1.6"></circle><circle cx="17" cy="19" r="1.6"></circle></svg><span class="bag-count" id="bagCount">{{ cart.item_count }}</span></a>
 </div>
-</div></header>
+</div>
+{%- if section.settings.desktop_tabs -%}
+<nav class="desk-tabs" aria-label="Main menu">
+  <div class="desk-tabs-group">
+  {%- if section.settings.menu_shop != blank -%}
+    {%- for link in linklists[section.settings.menu_shop].links -%}
+    <a href="{{ link.url }}"{% if link.current or request.path == link.url %} aria-current="page"{% endif %}>{{ link.title }}</a>
+    {%- endfor -%}
+  {%- else -%}
+    {%- liquid
+      assign c = routes.collections_url
+      assign urls = routes.all_products_collection_url | append: '|' | append: c | append: '/face|' | append: c | append: '/body|' | append: c | append: '/bath-shower|' | append: c | append: '/baby|' | append: c | append: '/home-fragrance' | split: '|'
+      assign titles = 'Shop All|Face|Body|Bath & Shower|Baby|Home Fragrance' | split: '|'
+    -%}
+    {%- for u in urls -%}
+    <a href="{{ u }}"{% if request.path == u %} aria-current="page"{% endif %}>{{ titles[forloop.index0] | escape }}</a>
+    {%- endfor -%}
+  {%- endif -%}
+  </div>
+  <span class="desk-tabs-sep" aria-hidden="true"></span>
+  <div class="desk-tabs-group desk-tabs-info">
+  {%- if section.settings.menu_info != blank -%}
+    {%- for link in linklists[section.settings.menu_info].links -%}
+    <a href="{{ link.url }}"{% if link.current or request.path == link.url %} aria-current="page"{% endif %}>{{ link.title }}</a>
+    {%- endfor -%}
+  {%- else -%}
+    <a href="/pages/about"{% if request.path == '/pages/about' %} aria-current="page"{% endif %}>About Us</a>
+    <a href="/pages/faqs"{% if request.path == '/pages/faqs' %} aria-current="page"{% endif %}>FAQs</a>
+    <a href="/pages/contact"{% if request.path == '/pages/contact' %} aria-current="page"{% endif %}>Contact</a>
+  {%- endif -%}
+  </div>
+</nav>
+{%- endif -%}
+</header>
 
 <div class="menu-overlay" id="menuOverlay" aria-hidden="true"></div>
 <aside class="menu-drawer" id="menuDrawer" aria-hidden="true" aria-label="Main menu">
@@ -59,6 +115,8 @@
   "class": "os-header-section",
   "enabled_on": { "groups": ["header"] },
   "settings": [
+    { "type": "header", "content": "Computer menu" },
+    { "type": "checkbox", "id": "desktop_tabs", "label": "Show the menu as tabs on computers", "default": true, "info": "Tabs appear under the logo on screens wider than 1000px, using the same links as the slide-out menu. Tablets and phones keep the ☰ menu." },
     { "type": "header", "content": "Slide-out menu" },
     { "type": "text", "id": "menu_eyebrow", "label": "Small heading", "default": "Shop by ritual" },
     { "type": "link_list", "id": "menu_shop", "label": "Shop links menu", "info": "Leave empty to show the standard shop links." },
