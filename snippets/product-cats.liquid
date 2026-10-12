@@ -42,6 +42,13 @@
       assign first = 'home-fragrance'
     endif
   endif
+  if handles contains ' aromatherapy ' or handles contains ' well-being ' or handles contains ' wellbeing '
+    assign keys = keys | append: ' aroma'
+    assign names = names | append: '|Aromatherapy'
+    if first == blank
+      assign first = 'aromatherapy'
+    endif
+  endif
   assign label = names | remove_first: '|' | replace: '|', ' · '
   if label == blank
     assign label = product.type

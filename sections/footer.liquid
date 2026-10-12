@@ -9,7 +9,7 @@
 {%- if section.settings.col1_menu != blank -%}
   {%- for link in linklists[section.settings.col1_menu].links -%}<a href="{{ link.url }}">{{ link.title }}</a>{%- endfor -%}
 {%- else -%}
-<a href="{{ routes.collections_url }}/face">Face</a><a href="{{ routes.collections_url }}/body">Body</a><a href="{{ routes.collections_url }}/bath-shower">Bath &amp; Shower</a><a href="{{ routes.collections_url }}/baby">Baby</a><a href="{{ routes.collections_url }}/home-fragrance">Home Fragrance</a>
+<a href="{{ routes.collections_url }}/face">Face</a><a href="{{ routes.collections_url }}/body">Body</a><a href="{{ routes.collections_url }}/bath-shower">Bath &amp; Shower</a><a href="{{ routes.collections_url }}/baby">Baby</a><a href="{{ routes.collections_url }}/home-fragrance">Home Fragrance</a><a href="{{ routes.collections_url }}/aromatherapy">Aromatherapy</a>
 {%- endif -%}
 </div>
 <div class="footer-col"><b>{{ section.settings.col2_title }}</b>

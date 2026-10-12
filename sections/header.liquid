@@ -44,8 +44,8 @@
   {%- else -%}
     {%- liquid
       assign c = routes.collections_url
-      assign urls = routes.all_products_collection_url | append: '|' | append: c | append: '/face|' | append: c | append: '/body|' | append: c | append: '/bath-shower|' | append: c | append: '/baby|' | append: c | append: '/home-fragrance' | split: '|'
-      assign titles = 'Shop All|Face|Body|Bath & Shower|Baby|Home Fragrance' | split: '|'
+      assign urls = routes.all_products_collection_url | append: '|' | append: c | append: '/face|' | append: c | append: '/body|' | append: c | append: '/bath-shower|' | append: c | append: '/baby|' | append: c | append: '/home-fragrance|' | append: c | append: '/aromatherapy' | split: '|'
+      assign titles = 'Shop All|Face|Body|Bath & Shower|Baby|Home Fragrance|Aromatherapy' | split: '|'
     -%}
     {%- for u in urls -%}
     <a href="{{ u }}"{% if request.path == u %} aria-current="page"{% endif %}>{{ titles[forloop.index0] | escape }}</a>
@@ -66,9 +66,18 @@
 </nav>
 {%- endif -%}
 <div class="nav-right">
+  <button aria-label="Search" aria-expanded="false" aria-controls="searchPanel" class="nav-icon search-right" id="searchOpenBtn" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.6-3.6"></path></svg></button>
   <a aria-label="Bag" class="nav-icon cart-right" id="cartBtn" href="{{ routes.cart_url }}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 5h2l2.1 10.2a1 1 0 0 0 1 .8h8.9a1 1 0 0 0 1-.8L20 8H7"></path><circle cx="10" cy="19" r="1.6"></circle><circle cx="17" cy="19" r="1.6"></circle></svg><span class="bag-count" id="bagCount">{{ cart.item_count }}</span></a>
 </div>
 </div>
+{%- capture search_links -%}
+  {%- if section.settings.menu_shop != blank -%}
+    {%- for link in linklists[section.settings.menu_shop].links -%}<a href="{{ link.url }}">{{ link.title }}</a>{%- endfor -%}
+  {%- else -%}
+    <a href="{{ routes.all_products_collection_url }}">Shop All</a><a href="{{ routes.collections_url }}/face">Face</a><a href="{{ routes.collections_url }}/body">Body</a><a href="{{ routes.collections_url }}/bath-shower">Bath &amp; Shower</a><a href="{{ routes.collections_url }}/baby">Baby</a><a href="{{ routes.collections_url }}/home-fragrance">Home Fragrance</a><a href="{{ routes.collections_url }}/aromatherapy">Aromatherapy</a>
+  {%- endif -%}
+{%- endcapture -%}
+{%- render 'header-search', links: search_links -%}
 </header>
 
 {%- if section.settings.desktop_tabs -%}
@@ -78,7 +87,7 @@
        full    – normal spacing
        compact – tighter spacing and slightly smaller text when the full tabs don't fit
        off     – the ☰ menu instead, when even the compact tabs don't fit
-       "Fit" means: each side on one line, clear of the logo, the screen edge and the bag icon. */
+       "Fit" means: each side on one line, clear of the logo, the screen edge and the search and bag icons. */
     class DeskTabs {
       constructor(root) {
         this.root = root;
@@ -87,10 +96,10 @@
         this.header = root.closest('.header');
         this.nav = root.closest('.nav');
         this.logo = this.header.querySelector('.brand img');
-        this.bag = this.header.querySelector('#cartBtn');
+        this.icons = this.header.querySelector('.nav-right');
         this.html = document.documentElement;
         this.query = window.matchMedia('(min-width: 1001px)');
-        this.space = 14; /* the least room to keep between the tabs and the logo, bag or edge */
+        this.space = 14; /* the least room to keep between the tabs and the logo, icons or edge */
         this.schedule = this.schedule.bind(this);
         if ('ResizeObserver' in window) new ResizeObserver(this.schedule).observe(this.nav);
         window.addEventListener('resize', this.schedule);
@@ -116,13 +125,13 @@
         if (!this.left.children.length && !this.right.children.length) return false;
         const nav = this.nav.getBoundingClientRect();
         const logo = this.logo.getBoundingClientRect();
-        const bag = this.bag.getBoundingClientRect();
+        const icons = this.icons.getBoundingClientRect();
         const left = this.left.getBoundingClientRect();
         const right = this.right.getBoundingClientRect();
         const s = this.space;
         return this.oneLine(this.left) && this.oneLine(this.right) &&
           left.left >= nav.left + s && left.right <= logo.left - s &&
-          right.left >= logo.right + s && right.right <= bag.left - s;
+          right.left >= logo.right + s && right.right <= icons.left - s;
       }
       fit() {
         if (!this.query.matches) {
@@ -167,6 +176,7 @@
       <a href="{{ routes.collections_url }}/bath-shower">Bath &amp; Shower <span class="arrow">&rarr;</span></a>
       <a href="{{ routes.collections_url }}/baby">Baby <span class="arrow">&rarr;</span></a>
       <a href="{{ routes.collections_url }}/home-fragrance">Home Fragrance <span class="arrow">&rarr;</span></a>
+      <a href="{{ routes.collections_url }}/aromatherapy">Aromatherapy <span class="arrow">&rarr;</span></a>
       {%- endif -%}
     </nav>
     <div class="menu-divider"></div>

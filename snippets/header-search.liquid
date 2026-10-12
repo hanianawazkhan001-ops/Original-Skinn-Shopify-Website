@@ -1,0 +1,193 @@
+{%- comment -%}
+  Header search: the magnifier button opens a panel under the header with a search box.
+  As you type it shows matching products (Shopify's predictive search); Enter or "See all
+  results" opens the full search page. Rendered inside <header> by sections/header.liquid.
+  Params: links (the shop links shown as quick suggestions before anything is typed)
+{%- endcomment -%}
+<style>
+  .header .search-right{display:grid!important;place-items:center;width:46px;height:46px;margin-right:10px;border:1px solid var(--line);border-radius:50%;background:#fff;color:var(--forest);padding:0;cursor:pointer;transition:transform .22s cubic-bezier(.22,.8,.25,1),box-shadow .22s ease,border-color .22s ease}
+  .header .search-right:hover{transform:translateY(-2px) scale(1.06);box-shadow:0 8px 18px rgba(24,49,39,.14);border-color:var(--forest)}
+  .header .search-right svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+  .header .search-right[aria-expanded="true"]{border-color:var(--forest);background:var(--mist)}
+  .header .search-right:focus-visible,.search-panel :focus-visible{outline:2px solid var(--forest);outline-offset:3px}
+  @media (max-width:650px){.header .search-right{width:44px;height:44px;margin-right:8px}}
+
+  .search-overlay{position:fixed;inset:0;z-index:105;background:rgba(20,48,39,.22);opacity:0;visibility:hidden;transition:opacity .25s ease,visibility .25s}
+  body.search-open .search-overlay{opacity:1;visibility:visible}
+  .search-panel{position:absolute;left:0;right:0;top:100%;background:var(--paper);border-bottom:1px solid var(--line);box-shadow:0 24px 50px rgba(30,55,44,.12);padding:22px 18px 26px;max-height:calc(100dvh - var(--announce-h) - var(--header-h));overflow-y:auto;transform:translateY(-8px);opacity:0;transition:opacity .22s ease,transform .22s ease}
+  .search-panel[hidden]{display:none!important}
+  body.search-open .search-panel{opacity:1;transform:none}
+  .search-inner{max-width:720px;margin:0 auto}
+  .search-form{display:flex;align-items:center;gap:10px}
+  .search-field{position:relative;flex:1;min-width:0}
+  .search-field svg{position:absolute;left:18px;top:50%;width:18px;height:18px;transform:translateY(-50%);stroke:var(--moss);fill:none;stroke-width:1.9;stroke-linecap:round;pointer-events:none}
+  .search-field input{width:100%;height:52px;border:1px solid #d1d9d1;border-radius:999px;background:#fff;padding:0 18px 0 46px;color:var(--forest);font:400 14px/1 var(--sans);outline:none;-webkit-appearance:none;appearance:none}
+  .search-field input::placeholder{color:#8a968f}
+  .search-field input:focus{border-color:var(--forest);box-shadow:0 0 0 4px rgba(37,71,56,.08)}
+  .search-field input::-webkit-search-cancel-button{display:none}
+  .search-submit{height:52px;border:0;border-radius:999px;background:var(--forest);color:#fff;padding:0 24px;font:700 10px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;cursor:pointer;flex:none}
+  .search-submit:hover{background:var(--forest2)}
+  .search-close{width:44px;height:44px;flex:none;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;background:#fff;color:var(--forest);cursor:pointer}
+  .search-close svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round}
+  .search-label{margin:20px 0 10px;font-size:9px;letter-spacing:.17em;text-transform:uppercase;color:#77867e}
+  .search-chips{display:flex;flex-wrap:wrap;gap:8px}
+  .search-chips a{display:inline-flex;align-items:center;min-height:36px;padding:0 16px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--forest);font-size:12px;text-decoration:none;transition:border-color .2s ease,background-color .2s ease}
+  .search-chips a:hover{border-color:var(--forest);background:var(--mist)}
+  .search-results{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .search-results a{display:flex;align-items:center;gap:14px;padding:10px;border:1px solid transparent;border-radius:16px;color:var(--forest);text-decoration:none;transition:background-color .2s ease,border-color .2s ease}
+  .search-results a:hover,.search-results a:focus-visible{background:#fff;border-color:var(--line)}
+  .search-results img{width:60px;height:60px;flex:none;border-radius:12px;border:1px solid #e0e5de;background:#fff;object-fit:contain}
+  .search-results .sr-text{min-width:0;display:flex;flex-direction:column;gap:3px}
+  .search-results .sr-name{font-family:var(--serif);font-size:17px;line-height:1.15;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  .search-results .sr-price{font-size:12px;color:var(--muted)}
+  .search-all{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding:14px 4px 0;border-top:1px solid var(--line);color:var(--forest);font-size:12px;font-weight:600;text-decoration:none}
+  .search-all:hover{text-decoration:underline;text-underline-offset:3px}
+  .search-empty{margin:18px 0 0;color:var(--muted);font-size:13px}
+  .search-status{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  body.search-open{overflow:hidden}
+  @media (max-width:650px){
+    .search-panel{padding:16px 14px 20px}
+    .search-submit{display:none}
+    .search-field input{height:48px;font-size:16px}
+    .search-results{grid-template-columns:1fr}
+    .search-results .sr-name{font-size:16px}
+  }
+  @media (prefers-reduced-motion:reduce){.search-panel,.search-overlay,.header .search-right{transition:none}}
+</style>
+<div class="search-panel" id="searchPanel" role="dialog" aria-label="Search our products" hidden>
+  <div class="search-inner">
+    <form class="search-form" action="{{ routes.search_url }}" method="get" role="search">
+      <input type="hidden" name="type" value="product">
+      <input type="hidden" name="options[prefix]" value="last">
+      <div class="search-field">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+        <input id="searchInput" type="search" name="q" autocomplete="off" spellcheck="false" placeholder="Search body butters, bath soaks, candles…" aria-label="Search products" aria-controls="searchResults">
+      </div>
+      <button class="search-submit" type="submit">Search</button>
+      <button class="search-close" id="searchClose" type="button" aria-label="Close search"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </form>
+    <div id="searchSuggest">
+      <div class="search-label">Popular</div>
+      <div class="search-chips">{{ links }}</div>
+    </div>
+    <div id="searchResultsWrap" hidden>
+      <div class="search-label">Products</div>
+      <ul class="search-results" id="searchResults"></ul>
+      <a class="search-all" id="searchAll" href="{{ routes.search_url }}"><span></span><span aria-hidden="true">&rarr;</span></a>
+    </div>
+    <p class="search-empty" id="searchEmpty" hidden></p>
+    <div class="search-status" id="searchStatus" role="status" aria-live="polite"></div>
+  </div>
+</div>
+<script>
+  (function () {
+    /* The header search panel: open/close, and products that match as you type. */
+    class HeaderSearch {
+      constructor() {
+        this.button = document.getElementById('searchOpenBtn');
+        this.panel = document.getElementById('searchPanel');
+        if (!this.button || !this.panel) return;
+        this.input = document.getElementById('searchInput');
+        this.suggest = document.getElementById('searchSuggest');
+        this.wrap = document.getElementById('searchResultsWrap');
+        this.list = document.getElementById('searchResults');
+        this.all = document.getElementById('searchAll');
+        this.empty = document.getElementById('searchEmpty');
+        this.status = document.getElementById('searchStatus');
+        this.searchUrl = {{ routes.search_url | json }};
+        this.suggestUrl = {{ routes.predictive_search_url | json }};
+        this.overlay = document.createElement('div');
+        this.overlay.className = 'search-overlay';
+        document.body.appendChild(this.overlay);
+        this.button.addEventListener('click', () => (this.isOpen() ? this.close() : this.open()));
+        document.getElementById('searchClose').addEventListener('click', () => this.close(true));
+        this.overlay.addEventListener('click', () => this.close());
+        this.input.addEventListener('input', () => this.queue());
+        const menuBtn = document.getElementById('menuOpenBtn');
+        if (menuBtn) menuBtn.addEventListener('click', () => this.close());
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && this.isOpen()) this.close(true); });
+      }
+      isOpen() { return !this.panel.hidden; }
+      open() {
+        if (window.OS && window.OS.closeMenu) window.OS.closeMenu();
+        this.panel.hidden = false;
+        this.button.setAttribute('aria-expanded', 'true');
+        requestAnimationFrame(() => document.body.classList.add('search-open'));
+        this.input.focus();
+      }
+      close(returnFocus) {
+        document.body.classList.remove('search-open');
+        this.button.setAttribute('aria-expanded', 'false');
+        this.panel.hidden = true;
+        if (returnFocus) this.button.focus();
+      }
+      queue() {
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() => this.lookup(), 200);
+      }
+      money(value) {
+        const n = Number(value);
+        if (!isFinite(n)) return '';
+        const cur = (window.Shopify && Shopify.currency && Shopify.currency.active) || 'GBP';
+        try { return new Intl.NumberFormat('en-GB', { style: 'currency', currency: cur }).format(n); } catch (e) { return n.toFixed(2); }
+      }
+      async lookup() {
+        const q = this.input.value.trim();
+        if (this.controller) this.controller.abort();
+        if (!q) { this.show('suggest'); return; }
+        this.controller = new AbortController();
+        const url = this.suggestUrl + '.json?q=' + encodeURIComponent(q) +
+          '&resources[type]=product&resources[limit]=6&resources[options][unavailable_products]=last';
+        try {
+          const res = await fetch(url, { signal: this.controller.signal });
+          const data = await res.json();
+          this.render(q, (data.resources && data.resources.results && data.resources.results.products) || []);
+        } catch (e) {
+          if (e.name !== 'AbortError') this.render(q, []);
+        }
+      }
+      render(q, products) {
+        this.list.textContent = '';
+        products.forEach((p) => {
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = p.url;
+          const img = document.createElement('img');
+          img.alt = '';
+          img.loading = 'lazy';
+          if (p.featured_image && p.featured_image.url) img.src = p.featured_image.url + (p.featured_image.url.indexOf('?') > -1 ? '&' : '?') + 'width=160';
+          else if (p.image) img.src = p.image;
+          const text = document.createElement('span');
+          text.className = 'sr-text';
+          const name = document.createElement('span');
+          name.className = 'sr-name';
+          name.textContent = String(p.title || '').split(' – ')[0];
+          const price = document.createElement('span');
+          price.className = 'sr-price';
+          price.textContent = this.money(p.price);
+          text.append(name, price);
+          a.append(img, text);
+          li.appendChild(a);
+          this.list.appendChild(li);
+        });
+        this.all.href = this.searchUrl + '?type=product&options%5Bprefix%5D=last&q=' + encodeURIComponent(q);
+        this.all.firstElementChild.textContent = 'See all results for “' + q + '”';
+        if (products.length) {
+          this.show('results');
+          this.status.textContent = products.length + (products.length === 1 ? ' product found' : ' products found');
+        } else {
+          this.empty.textContent = 'No products match “' + q + '”. Try another word, like “lavender” or “candle”.';
+          this.show('empty');
+          this.status.textContent = 'No products found';
+        }
+      }
+      show(which) {
+        this.suggest.hidden = which !== 'suggest';
+        this.wrap.hidden = which !== 'results';
+        this.empty.hidden = which !== 'empty';
+      }
+    }
+    window.OriginalSkinn = window.OriginalSkinn || {};
+    window.OriginalSkinn.headerSearch = new HeaderSearch();
+  })();
+</script>
