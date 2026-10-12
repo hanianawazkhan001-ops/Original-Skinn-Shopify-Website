@@ -12,6 +12,8 @@
     "hero": {
       "type": "home-hero",
       "settings": {
+        "image": "shopify://shop_images/file_00000000d8b881f49a783031569bb3b2.png",
+        "image_alt": "Original Skinn Rose Whipped Body Butter with roses and shea butter",
         "heading": "Plant-led, vegan skincare from a small Hampshire brand."
       }
     },
