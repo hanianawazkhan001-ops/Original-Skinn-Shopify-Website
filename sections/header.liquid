@@ -3,8 +3,8 @@
   Menus: choose a Shopify menu in the theme editor; until one is chosen, the
   test site's links are shown.
   On computers (wider than 1000px) the same links show as tabs either side of the logo
-  instead of the ☰ menu: the first half on the left, the rest on the right. Tablets and
-  phones keep the ☰ menu. Turn the tabs off in the theme editor.
+  instead of the ☰ menu: shop links on the left, information links (About, FAQs, Contact)
+  on the right. Tablets and phones keep the ☰ menu. Turn the tabs off in the theme editor.
 {%- endcomment -%}
 {%- if section.settings.desktop_tabs -%}
 <style>
@@ -23,8 +23,6 @@
     .desk-tabs a[aria-current="page"]{font-weight:600}
     .desk-tabs a:focus-visible{outline:2px solid var(--forest);outline-offset:4px;border-radius:2px}
     .desk-tabs a.is-info{color:var(--muted,#5f6d66)}
-    .desk-tabs a.is-first-info::before{content:"";position:absolute;left:calc(var(--tab-gap) / -2);top:50%;width:1px;height:14px;background:var(--line);transform:translateY(-50%)}
-    .desk-tabs a.is-first-info:first-child::before{display:none}
     html.os-tabs-compact .desk-tabs{--tab-gap:14px;--logo-space:22px;font-size:12px;letter-spacing:0}
     html.os-tabs-off .desk-tabs{display:none}
     html.os-tabs-off .header .menu-left{visibility:visible!important}
@@ -37,41 +35,33 @@
 <nav class="nav-left"><button aria-label="Open menu" class="nav-icon menu-left" id="menuOpenBtn" type="button">&#9776;</button></nav>
 <a class="brand" href="{{ routes.root_url }}"><img alt="{{ settings.brand_name | default: 'Original Skinn' | escape }} logo" src="{{ 'logo.png' | asset_url }}" width="165" height="165"/></a>
 {%- if section.settings.desktop_tabs -%}
-  {%- capture tab_items -%}
-    {%- if section.settings.menu_shop != blank -%}
-      {%- for link in linklists[section.settings.menu_shop].links -%}
-        <a href="{{ link.url }}"{% if link.current or request.path == link.url %} aria-current="page"{% endif %}>{{ link.title }}</a>@@TAB@@
-      {%- endfor -%}
-    {%- else -%}
-      {%- liquid
-        assign c = routes.collections_url
-        assign urls = routes.all_products_collection_url | append: '|' | append: c | append: '/face|' | append: c | append: '/body|' | append: c | append: '/bath-shower|' | append: c | append: '/baby|' | append: c | append: '/home-fragrance' | split: '|'
-        assign titles = 'Shop All|Face|Body|Bath & Shower|Baby|Home Fragrance' | split: '|'
-      -%}
-      {%- for u in urls -%}
-        <a href="{{ u }}"{% if request.path == u %} aria-current="page"{% endif %}>{{ titles[forloop.index0] | escape }}</a>@@TAB@@
-      {%- endfor -%}
-    {%- endif -%}
-    {%- if section.settings.menu_info != blank -%}
-      {%- for link in linklists[section.settings.menu_info].links -%}
-        <a class="is-info{% if forloop.first %} is-first-info{% endif %}" href="{{ link.url }}"{% if link.current or request.path == link.url %} aria-current="page"{% endif %}>{{ link.title }}</a>@@TAB@@
-      {%- endfor -%}
-    {%- else -%}
-      <a class="is-info is-first-info" href="/pages/about"{% if request.path == '/pages/about' %} aria-current="page"{% endif %}>About Us</a>@@TAB@@
-      <a class="is-info" href="/pages/faqs"{% if request.path == '/pages/faqs' %} aria-current="page"{% endif %}>FAQs</a>@@TAB@@
-      <a class="is-info" href="/pages/contact"{% if request.path == '/pages/contact' %} aria-current="page"{% endif %}>Contact</a>@@TAB@@
-    {%- endif -%}
-  {%- endcapture -%}
-  {%- liquid
-    assign tab_list = tab_items | strip | split: '@@TAB@@'
-    assign tab_half = tab_list.size | plus: 1 | divided_by: 2
-  -%}
 <nav class="desk-tabs" aria-label="Main menu">
   <div class="desk-tabs-side desk-tabs-side--left">
-    {%- for item in tab_list limit: tab_half -%}{{ item | strip }}{%- endfor -%}
+  {%- if section.settings.menu_shop != blank -%}
+    {%- for link in linklists[section.settings.menu_shop].links -%}
+    <a href="{{ link.url }}"{% if link.current or request.path == link.url %} aria-current="page"{% endif %}>{{ link.title }}</a>
+    {%- endfor -%}
+  {%- else -%}
+    {%- liquid
+      assign c = routes.collections_url
+      assign urls = routes.all_products_collection_url | append: '|' | append: c | append: '/face|' | append: c | append: '/body|' | append: c | append: '/bath-shower|' | append: c | append: '/baby|' | append: c | append: '/home-fragrance' | split: '|'
+      assign titles = 'Shop All|Face|Body|Bath & Shower|Baby|Home Fragrance' | split: '|'
+    -%}
+    {%- for u in urls -%}
+    <a href="{{ u }}"{% if request.path == u %} aria-current="page"{% endif %}>{{ titles[forloop.index0] | escape }}</a>
+    {%- endfor -%}
+  {%- endif -%}
   </div>
   <div class="desk-tabs-side desk-tabs-side--right">
-    {%- for item in tab_list offset: tab_half -%}{{ item | strip }}{%- endfor -%}
+  {%- if section.settings.menu_info != blank -%}
+    {%- for link in linklists[section.settings.menu_info].links -%}
+    <a class="is-info" href="{{ link.url }}"{% if link.current or request.path == link.url %} aria-current="page"{% endif %}>{{ link.title }}</a>
+    {%- endfor -%}
+  {%- else -%}
+    <a class="is-info" href="/pages/about"{% if request.path == '/pages/about' %} aria-current="page"{% endif %}>About Us</a>
+    <a class="is-info" href="/pages/faqs"{% if request.path == '/pages/faqs' %} aria-current="page"{% endif %}>FAQs</a>
+    <a class="is-info" href="/pages/contact"{% if request.path == '/pages/contact' %} aria-current="page"{% endif %}>Contact</a>
+  {%- endif -%}
   </div>
 </nav>
 {%- endif -%}
@@ -204,7 +194,7 @@
   "enabled_on": { "groups": ["header"] },
   "settings": [
     { "type": "header", "content": "Computer menu" },
-    { "type": "checkbox", "id": "desktop_tabs", "label": "Show the menu as tabs on computers", "default": true, "info": "Tabs appear either side of the logo on screens wider than 1000px, using the same links as the slide-out menu: the first half on the left, the rest on the right. Tablets and phones keep the ☰ menu." },
+    { "type": "checkbox", "id": "desktop_tabs", "label": "Show the menu as tabs on computers", "default": true, "info": "Tabs appear either side of the logo on screens wider than 1000px, using the same links as the slide-out menu: shop links on the left, information links on the right. Tablets and phones keep the ☰ menu." },
     { "type": "header", "content": "Slide-out menu" },
     { "type": "text", "id": "menu_eyebrow", "label": "Small heading", "default": "Shop by ritual" },
     { "type": "link_list", "id": "menu_shop", "label": "Shop links menu", "info": "Leave empty to show the standard shop links." },
