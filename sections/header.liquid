@@ -5,7 +5,7 @@
   On computers (wider than 1000px) the menu shows as tabs either side of the logo instead of the
   ☰ menu: the shop groups on the left (Shop All, Aromatherapy, Bundles — each opens a list, see
   snippets/shop-menu), information links (About, FAQs, Contact) on the right. Tablets and phones
-  keep the ☰ menu, where the same groups open and close. Turn the tabs off in the theme editor.
+  keep the ☰ menu with its plain list of shop links. Turn the tabs off in the theme editor.
 {%- endcomment -%}
 {%- if section.settings.desktop_tabs -%}
 <style>
@@ -202,37 +202,6 @@
 </script>
 {%- endif -%}
 
-<style>
-  /* ☰ menu: the shop groups open and close */
-  .menu-group{border-bottom:1px solid rgba(216,221,212,.72)}
-  .menu-group:last-child{border-bottom:0}
-  .menu-group-btn{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:48px;padding:6px 0;background:none;border:0;color:var(--forest);font-family:Georgia,"Times New Roman",serif;font-size:21px;line-height:1.15;letter-spacing:-.02em;text-align:left;cursor:pointer}
-  .menu-group-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;opacity:.6;transition:transform .25s ease;flex:none}
-  .menu-group-btn[aria-expanded="true"] svg{transform:rotate(180deg)}
-  .menu-group-btn:focus-visible,.menu-group-list a:focus-visible{outline:2px solid var(--forest);outline-offset:2px;border-radius:4px}
-  .menu-group-list[hidden]{display:none}
-  .menu-group-list{display:flex;flex-direction:column;padding:0 0 12px 14px;border-left:1px solid var(--line);margin:0 0 4px 2px}
-  .menu-primary .menu-group-list a{font-size:16.5px;min-height:38px;border-bottom:0;gap:14px}
-  .menu-primary .menu-group-list a.is-all{font-weight:600;font-size:15px;font-family:var(--sans);letter-spacing:0}
-  .menu-group-list small{font-family:var(--sans);font-size:12px;color:#7d8982;font-variant-numeric:tabular-nums;flex:none}
-  @media (prefers-reduced-motion:reduce){.menu-group-btn svg{transition:none}}
-</style>
-<script>
-  (function () {
-    /* ☰ menu: tapping a group (Shop All, Aromatherapy, Bundles) opens its list and closes the others */
-    document.addEventListener('click', function (e) {
-      var btn = e.target.closest ? e.target.closest('.menu-group-btn') : null;
-      if (!btn) return;
-      var open = btn.getAttribute('aria-expanded') !== 'true';
-      document.querySelectorAll('.menu-group-btn').forEach(function (b) {
-        var on = b === btn ? open : false;
-        b.setAttribute('aria-expanded', on ? 'true' : 'false');
-        var list = document.getElementById(b.getAttribute('aria-controls'));
-        if (list) list.hidden = !on;
-      });
-    });
-  })();
-</script>
 <div class="menu-overlay" id="menuOverlay" aria-hidden="true"></div>
 <aside class="menu-drawer" id="menuDrawer" aria-hidden="true" aria-label="Main menu">
   <div class="menu-drawer-head">
@@ -243,8 +212,20 @@
   </div>
   <div class="menu-inner">
     <div class="menu-eyebrow">{{ section.settings.menu_eyebrow }}</div>
-    <nav class="menu-primary" aria-label="Shop">
-      {%- render 'shop-menu', menu: section.settings.menu_shop, mode: 'drawer' -%}
+    <nav class="menu-primary" aria-label="Shop categories">
+      {%- if section.settings.menu_shop != blank -%}
+        {%- for link in linklists[section.settings.menu_shop].links -%}
+      <a href="{{ link.url }}">{{ link.title }} <span class="arrow">&rarr;</span></a>
+        {%- endfor -%}
+      {%- else -%}
+      <a href="{{ routes.all_products_collection_url }}">Shop All <span class="arrow">&rarr;</span></a>
+      <a href="{{ routes.collections_url }}/face">Face <span class="arrow">&rarr;</span></a>
+      <a href="{{ routes.collections_url }}/body">Body <span class="arrow">&rarr;</span></a>
+      <a href="{{ routes.collections_url }}/bath-shower">Bath &amp; Shower <span class="arrow">&rarr;</span></a>
+      <a href="{{ routes.collections_url }}/baby">Baby <span class="arrow">&rarr;</span></a>
+      <a href="{{ routes.collections_url }}/home-fragrance">Home Fragrance <span class="arrow">&rarr;</span></a>
+      <a href="{{ routes.collections_url }}/aromatherapy">Aromatherapy <span class="arrow">&rarr;</span></a>
+      {%- endif -%}
     </nav>
     <div class="menu-divider"></div>
     <nav class="menu-secondary" aria-label="Information">
@@ -273,7 +254,7 @@
     { "type": "header", "content": "Computer menu" },
     { "type": "checkbox", "id": "desktop_tabs", "label": "Show the menu as tabs on computers", "default": true, "info": "Tabs appear either side of the logo on screens wider than 1000px, using the same links as the slide-out menu: the shop groups on the left (each opens a list), information links on the right. Tablets and phones keep the ☰ menu." },
     { "type": "header", "content": "Slide-out menu" },
-    { "type": "text", "id": "menu_eyebrow", "label": "Small heading", "default": "Shop" },
+    { "type": "text", "id": "menu_eyebrow", "label": "Small heading", "default": "Shop by ritual" },
     { "type": "link_list", "id": "menu_shop", "label": "Shop links menu", "info": "Leave empty for the standard groups: Shop All, Aromatherapy and Bundles. In your own menu, put each group's links underneath it as nested items." },
     { "type": "link_list", "id": "menu_info", "label": "Information links menu", "info": "Leave empty to show About Us, FAQs and Contact." },
     { "type": "text", "id": "menu_button_label", "label": "Button label", "default": "Shop All" },
