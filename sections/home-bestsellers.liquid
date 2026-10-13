@@ -21,6 +21,11 @@
 {%- endfor -%}
 </div></div></section>
 
+{%- style -%}
+/* keep the small label (Face ritual, Body care…) above the photo when the photo zooms on hover */
+.product-media .badge{z-index:2;pointer-events:none}
+{%- endstyle -%}
+
 {% schema %}
 {
   "name": "Best sellers",
