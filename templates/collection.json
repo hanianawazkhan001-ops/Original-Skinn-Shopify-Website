@@ -55,16 +55,16 @@
             "small": "Saves £3.",
             "button_label": "Add the Face Ritual",
             "ritual_name": "Face Ritual",
+            "bundle": "face-ritual-cleanse-refresh-moisturise",
+            "bundle_upgrade": "Day & Night",
+            "bundle_upgrade_product": "day-night-face-ritual-complete-face-routine",
             "upgrade": true,
             "upgrade_other_label": "Night",
             "upgrade_text": "Moisturiser & Serum for £13 more",
             "upgrade_total_html": "<s>£50</s> £45",
             "upgrade_small": "Saves £5.",
             "upgrade_button_label": "Add the Day & Night Face Ritual",
-            "upgrade_ritual_name": "Day & Night Face Ritual",
-            "bundle": "face-ritual-cleanse-refresh-moisturise",
-            "bundle_upgrade_product": "day-night-face-ritual-complete-face-routine",
-            "bundle_upgrade": "Day & Night"
+            "upgrade_ritual_name": "Day & Night Face Ritual"
           }
         },
         "body_intro": {
@@ -102,9 +102,9 @@
             "collection": "body",
             "kicker": "Soft Skin Ritual",
             "total_html": "£20",
+            "small": "",
             "button_label": "Add the Scrub + Butter ritual",
-            "ritual_name": "Scrub & Butter ritual",
-            "small": ""
+            "ritual_name": "Scrub & Butter ritual"
           }
         },
         "bath_intro": {
