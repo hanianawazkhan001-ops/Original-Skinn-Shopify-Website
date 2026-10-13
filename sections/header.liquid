@@ -2,9 +2,10 @@
   Header, slide-out menu and bag icon — copied from the test site (index.html).
   Menus: choose a Shopify menu in the theme editor; until one is chosen, the
   test site's links are shown.
-  On computers (wider than 1000px) the same links show as tabs either side of the logo
-  instead of the ☰ menu: shop links on the left, information links (About, FAQs, Contact)
-  on the right. Tablets and phones keep the ☰ menu. Turn the tabs off in the theme editor.
+  On computers (wider than 1000px) the menu shows as tabs either side of the logo instead of the
+  ☰ menu: the shop groups on the left (Shop All, Aromatherapy, Bundles — each opens a list, see
+  snippets/shop-menu), information links (About, FAQs, Contact) on the right. Tablets and phones
+  keep the ☰ menu, where the same groups open and close. Turn the tabs off in the theme editor.
 {%- endcomment -%}
 {%- if section.settings.desktop_tabs -%}
 <style>
@@ -17,18 +18,32 @@
     .desk-tabs-side{position:absolute;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:var(--tab-gap);white-space:nowrap;pointer-events:auto}
     .desk-tabs-side--left{right:calc(50% + var(--logo-half) + var(--logo-space))}
     .desk-tabs-side--right{left:calc(50% + var(--logo-half) + var(--logo-space))}
-    .desk-tabs a{position:relative;color:var(--forest);text-decoration:none;padding:8px 0;white-space:nowrap}
-    .desk-tabs a::after{content:"";position:absolute;left:0;right:100%;bottom:3px;height:1px;background:var(--forest);transition:right .25s ease}
-    .desk-tabs a:hover::after,.desk-tabs a[aria-current="page"]::after{right:0}
-    .desk-tabs a[aria-current="page"]{font-weight:600}
-    .desk-tabs a:focus-visible{outline:2px solid var(--forest);outline-offset:4px;border-radius:2px}
-    .desk-tabs a.is-info{color:var(--muted,#5f6d66)}
+    .desk-tab{position:relative;display:inline-flex;align-items:center;gap:5px;color:var(--forest);text-decoration:none;padding:8px 0;white-space:nowrap;background:none;border:0;font:inherit;letter-spacing:inherit;cursor:pointer}
+    .desk-tab::after{content:"";position:absolute;left:0;right:100%;bottom:3px;height:1px;background:var(--forest);transition:right .25s ease}
+    .desk-tab:hover::after,.desk-tab[aria-current="page"]::after,.desk-group-btn.is-here::after,.desk-group-btn[aria-expanded="true"]::after{right:0}
+    .desk-tab[aria-current="page"],.desk-group-btn.is-here{font-weight:600}
+    .desk-tab:focus-visible,.desk-drop a:focus-visible{outline:2px solid var(--forest);outline-offset:4px;border-radius:2px}
+    .desk-tab.is-info{color:var(--muted,#5f6d66)}
+    .desk-group{position:relative}
+    .desk-group-btn svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s ease;margin-top:1px}
+    .desk-group-btn[aria-expanded="true"] svg{transform:rotate(180deg)}
+    /* the drop-down list under a group tab */
+    .desk-drop{--drop-gap:28px;position:absolute;left:-18px;top:calc(100% + var(--drop-gap));z-index:120;min-width:250px;padding:10px;background:var(--paper,#fffdf8);border:1px solid var(--line);border-radius:18px;box-shadow:0 24px 50px rgba(30,55,44,.14);white-space:normal;letter-spacing:0;opacity:0;transform:translateY(-6px);transition:opacity .2s ease,transform .2s ease}
+    .desk-drop::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:calc(var(--drop-gap) + 2px)}
+    .desk-drop.is-open{opacity:1;transform:none}
+    .desk-drop ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+    .desk-drop a{display:flex;align-items:baseline;justify-content:space-between;gap:18px;padding:9px 12px;border-radius:11px;color:var(--forest);text-decoration:none;font-size:14px;line-height:1.3;transition:background-color .18s ease}
+    .desk-drop a:hover,.desk-drop a[aria-current="page"]{background:var(--mist,#eef3ec)}
+    .desk-drop a.is-all{font-weight:600;margin-bottom:4px;border-bottom:1px solid var(--line);border-radius:11px 11px 0 0;padding-bottom:11px}
+    .desk-drop a.is-all:hover{border-radius:11px}
+    .desk-drop small{font-size:12px;color:var(--muted,#5f6d66);font-variant-numeric:tabular-nums;flex:none}
+    .desk-drop .arrow{opacity:.55;flex:none}
     html.os-tabs-compact .desk-tabs{--tab-gap:14px;--logo-space:22px;font-size:12px;letter-spacing:0}
     html.os-tabs-off .desk-tabs{display:none}
     html.os-tabs-off .header .menu-left{visibility:visible!important}
   }
-  @media (min-width:1001px) and (hover:none){.desk-tabs a:hover::after{right:100%}.desk-tabs a[aria-current="page"]::after{right:0}}
-  @media (min-width:1001px) and (prefers-reduced-motion:reduce){.desk-tabs a::after{transition:none}}
+  @media (min-width:1001px) and (hover:none){.desk-tab:hover::after{right:100%}.desk-tab[aria-current="page"]::after,.desk-group-btn.is-here::after,.desk-group-btn[aria-expanded="true"]::after{right:0}}
+  @media (min-width:1001px) and (prefers-reduced-motion:reduce){.desk-tab::after,.desk-drop,.desk-group-btn svg{transition:none}}
 </style>
 {%- endif -%}
 <header class="header"><div class="nav">
@@ -37,30 +52,17 @@
 {%- if section.settings.desktop_tabs -%}
 <nav class="desk-tabs" aria-label="Main menu">
   <div class="desk-tabs-side desk-tabs-side--left">
-  {%- if section.settings.menu_shop != blank -%}
-    {%- for link in linklists[section.settings.menu_shop].links -%}
-    <a href="{{ link.url }}"{% if link.current or request.path == link.url %} aria-current="page"{% endif %}>{{ link.title }}</a>
-    {%- endfor -%}
-  {%- else -%}
-    {%- liquid
-      assign c = routes.collections_url
-      assign urls = routes.all_products_collection_url | append: '|' | append: c | append: '/face|' | append: c | append: '/body|' | append: c | append: '/bath-shower|' | append: c | append: '/baby|' | append: c | append: '/home-fragrance|' | append: c | append: '/aromatherapy' | split: '|'
-      assign titles = 'Shop All|Face|Body|Bath & Shower|Baby|Home Fragrance|Aromatherapy' | split: '|'
-    -%}
-    {%- for u in urls -%}
-    <a href="{{ u }}"{% if request.path == u %} aria-current="page"{% endif %}>{{ titles[forloop.index0] | escape }}</a>
-    {%- endfor -%}
-  {%- endif -%}
+  {%- render 'shop-menu', menu: section.settings.menu_shop, mode: 'desk' -%}
   </div>
   <div class="desk-tabs-side desk-tabs-side--right">
   {%- if section.settings.menu_info != blank -%}
     {%- for link in linklists[section.settings.menu_info].links -%}
-    <a class="is-info" href="{{ link.url }}"{% if link.current or request.path == link.url %} aria-current="page"{% endif %}>{{ link.title }}</a>
+    <a class="desk-tab is-info" href="{{ link.url }}"{% if link.current or request.path == link.url %} aria-current="page"{% endif %}>{{ link.title }}</a>
     {%- endfor -%}
   {%- else -%}
-    <a class="is-info" href="/pages/about"{% if request.path == '/pages/about' %} aria-current="page"{% endif %}>About Us</a>
-    <a class="is-info" href="/pages/faqs"{% if request.path == '/pages/faqs' %} aria-current="page"{% endif %}>FAQs</a>
-    <a class="is-info" href="/pages/contact"{% if request.path == '/pages/contact' %} aria-current="page"{% endif %}>Contact</a>
+    <a class="desk-tab is-info" href="/pages/about"{% if request.path == '/pages/about' %} aria-current="page"{% endif %}>About Us</a>
+    <a class="desk-tab is-info" href="/pages/faqs"{% if request.path == '/pages/faqs' %} aria-current="page"{% endif %}>FAQs</a>
+    <a class="desk-tab is-info" href="/pages/contact"{% if request.path == '/pages/contact' %} aria-current="page"{% endif %}>Contact</a>
   {%- endif -%}
   </div>
 </nav>
@@ -70,13 +72,7 @@
   <a aria-label="Bag" class="nav-icon cart-right" id="cartBtn" href="{{ routes.cart_url }}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 5h2l2.1 10.2a1 1 0 0 0 1 .8h8.9a1 1 0 0 0 1-.8L20 8H7"></path><circle cx="10" cy="19" r="1.6"></circle><circle cx="17" cy="19" r="1.6"></circle></svg><span class="bag-count" id="bagCount">{{ cart.item_count }}</span></a>
 </div>
 </div>
-{%- capture search_links -%}
-  {%- if section.settings.menu_shop != blank -%}
-    {%- for link in linklists[section.settings.menu_shop].links -%}<a href="{{ link.url }}">{{ link.title }}</a>{%- endfor -%}
-  {%- else -%}
-    <a href="{{ routes.all_products_collection_url }}">Shop All</a><a href="{{ routes.collections_url }}/face">Face</a><a href="{{ routes.collections_url }}/body">Body</a><a href="{{ routes.collections_url }}/bath-shower">Bath &amp; Shower</a><a href="{{ routes.collections_url }}/baby">Baby</a><a href="{{ routes.collections_url }}/home-fragrance">Home Fragrance</a><a href="{{ routes.collections_url }}/aromatherapy">Aromatherapy</a>
-  {%- endif -%}
-{%- endcapture -%}
+{%- capture search_links -%}{%- render 'shop-menu', menu: section.settings.menu_shop, mode: 'chips' -%}{%- endcapture -%}
 {%- render 'header-search', links: search_links -%}
 </header>
 
@@ -116,7 +112,7 @@
         this.html.classList.toggle('os-tabs-off', mode === 'off');
       }
       oneLine(side) {
-        const links = side.querySelectorAll('a');
+        const links = side.querySelectorAll('.desk-tab');
         if (!links.length) return true;
         const top = links[0].getBoundingClientRect().top;
         return Array.prototype.every.call(links, (a) => Math.abs(a.getBoundingClientRect().top - top) < 2);
@@ -145,15 +141,97 @@
         }
       }
     }
+    /* The group tabs (Shop All, Aromatherapy, Bundles): a click opens the list; on a computer
+       with a mouse, pointing at the tab opens it too. Esc, a click elsewhere or opening
+       another group closes it. */
+    class DeskMenus {
+      constructor(root) {
+        this.groups = Array.prototype.map.call(root.querySelectorAll('.desk-group'), (g) => ({
+          el: g, btn: g.querySelector('.desk-group-btn'), drop: g.querySelector('.desk-drop')
+        }));
+        this.hover = window.matchMedia('(hover: hover) and (pointer: fine)');
+        this.header = root.closest('.header');
+        this.groups.forEach((g) => {
+          g.btn.addEventListener('click', () => (this.isOpen(g) ? this.close(g) : this.open(g)));
+          g.btn.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown') { e.preventDefault(); this.open(g); const a = g.drop.querySelector('a'); if (a) a.focus(); }
+          });
+          g.el.addEventListener('mouseenter', () => { if (!this.hover.matches) return; clearTimeout(g.t); g.t = setTimeout(() => this.open(g), 60); });
+          g.el.addEventListener('mouseleave', () => { if (!this.hover.matches) return; clearTimeout(g.t); g.t = setTimeout(() => this.close(g), 160); });
+          g.el.addEventListener('focusout', (e) => { if (!g.el.contains(e.relatedTarget)) this.close(g); });
+        });
+        document.addEventListener('keydown', (e) => {
+          if (e.key !== 'Escape') return;
+          const g = this.groups.find((x) => this.isOpen(x));
+          if (g) { this.close(g); g.btn.focus(); }
+        });
+        document.addEventListener('click', (e) => {
+          this.groups.forEach((g) => { if (this.isOpen(g) && !g.el.contains(e.target)) this.close(g); });
+        });
+        const search = document.getElementById('searchOpenBtn');
+        if (search) search.addEventListener('click', () => this.closeAll());
+      }
+      isOpen(g) { return g.btn.getAttribute('aria-expanded') === 'true'; }
+      open(g) {
+        this.groups.forEach((x) => { if (x !== g) this.close(x); });
+        if (this.isOpen(g)) return;
+        /* start the list just under the header bar */
+        const gap = Math.max(12, Math.round(this.header.getBoundingClientRect().bottom - g.btn.getBoundingClientRect().bottom) + 8);
+        g.drop.style.setProperty('--drop-gap', gap + 'px');
+        g.drop.hidden = false;
+        g.btn.setAttribute('aria-expanded', 'true');
+        requestAnimationFrame(() => g.drop.classList.add('is-open'));
+      }
+      close(g) {
+        clearTimeout(g.t);
+        if (!this.isOpen(g)) return;
+        g.btn.setAttribute('aria-expanded', 'false');
+        g.drop.classList.remove('is-open');
+        g.drop.hidden = true;
+      }
+      closeAll() { this.groups.forEach((g) => this.close(g)); }
+    }
     const tabs = document.querySelector('.desk-tabs');
     if (tabs) {
       window.OriginalSkinn = window.OriginalSkinn || {};
       window.OriginalSkinn.deskTabs = new DeskTabs(tabs);
+      window.OriginalSkinn.deskMenus = new DeskMenus(tabs);
     }
   })();
 </script>
 {%- endif -%}
 
+<style>
+  /* ☰ menu: the shop groups open and close */
+  .menu-group{border-bottom:1px solid rgba(216,221,212,.72)}
+  .menu-group:last-child{border-bottom:0}
+  .menu-group-btn{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:48px;padding:6px 0;background:none;border:0;color:var(--forest);font-family:Georgia,"Times New Roman",serif;font-size:21px;line-height:1.15;letter-spacing:-.02em;text-align:left;cursor:pointer}
+  .menu-group-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;opacity:.6;transition:transform .25s ease;flex:none}
+  .menu-group-btn[aria-expanded="true"] svg{transform:rotate(180deg)}
+  .menu-group-btn:focus-visible,.menu-group-list a:focus-visible{outline:2px solid var(--forest);outline-offset:2px;border-radius:4px}
+  .menu-group-list[hidden]{display:none}
+  .menu-group-list{display:flex;flex-direction:column;padding:0 0 12px 14px;border-left:1px solid var(--line);margin:0 0 4px 2px}
+  .menu-primary .menu-group-list a{font-size:16.5px;min-height:38px;border-bottom:0;gap:14px}
+  .menu-primary .menu-group-list a.is-all{font-weight:600;font-size:15px;font-family:var(--sans);letter-spacing:0}
+  .menu-group-list small{font-family:var(--sans);font-size:12px;color:#7d8982;font-variant-numeric:tabular-nums;flex:none}
+  @media (prefers-reduced-motion:reduce){.menu-group-btn svg{transition:none}}
+</style>
+<script>
+  (function () {
+    /* ☰ menu: tapping a group (Shop All, Aromatherapy, Bundles) opens its list and closes the others */
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('.menu-group-btn') : null;
+      if (!btn) return;
+      var open = btn.getAttribute('aria-expanded') !== 'true';
+      document.querySelectorAll('.menu-group-btn').forEach(function (b) {
+        var on = b === btn ? open : false;
+        b.setAttribute('aria-expanded', on ? 'true' : 'false');
+        var list = document.getElementById(b.getAttribute('aria-controls'));
+        if (list) list.hidden = !on;
+      });
+    });
+  })();
+</script>
 <div class="menu-overlay" id="menuOverlay" aria-hidden="true"></div>
 <aside class="menu-drawer" id="menuDrawer" aria-hidden="true" aria-label="Main menu">
   <div class="menu-drawer-head">
@@ -164,20 +242,8 @@
   </div>
   <div class="menu-inner">
     <div class="menu-eyebrow">{{ section.settings.menu_eyebrow }}</div>
-    <nav class="menu-primary" aria-label="Shop categories">
-      {%- if section.settings.menu_shop != blank -%}
-        {%- for link in linklists[section.settings.menu_shop].links -%}
-      <a href="{{ link.url }}">{{ link.title }} <span class="arrow">&rarr;</span></a>
-        {%- endfor -%}
-      {%- else -%}
-      <a href="{{ routes.all_products_collection_url }}">Shop All <span class="arrow">&rarr;</span></a>
-      <a href="{{ routes.collections_url }}/face">Face <span class="arrow">&rarr;</span></a>
-      <a href="{{ routes.collections_url }}/body">Body <span class="arrow">&rarr;</span></a>
-      <a href="{{ routes.collections_url }}/bath-shower">Bath &amp; Shower <span class="arrow">&rarr;</span></a>
-      <a href="{{ routes.collections_url }}/baby">Baby <span class="arrow">&rarr;</span></a>
-      <a href="{{ routes.collections_url }}/home-fragrance">Home Fragrance <span class="arrow">&rarr;</span></a>
-      <a href="{{ routes.collections_url }}/aromatherapy">Aromatherapy <span class="arrow">&rarr;</span></a>
-      {%- endif -%}
+    <nav class="menu-primary" aria-label="Shop">
+      {%- render 'shop-menu', menu: section.settings.menu_shop, mode: 'drawer' -%}
     </nav>
     <div class="menu-divider"></div>
     <nav class="menu-secondary" aria-label="Information">
@@ -204,10 +270,10 @@
   "enabled_on": { "groups": ["header"] },
   "settings": [
     { "type": "header", "content": "Computer menu" },
-    { "type": "checkbox", "id": "desktop_tabs", "label": "Show the menu as tabs on computers", "default": true, "info": "Tabs appear either side of the logo on screens wider than 1000px, using the same links as the slide-out menu: shop links on the left, information links on the right. Tablets and phones keep the ☰ menu." },
+    { "type": "checkbox", "id": "desktop_tabs", "label": "Show the menu as tabs on computers", "default": true, "info": "Tabs appear either side of the logo on screens wider than 1000px, using the same links as the slide-out menu: the shop groups on the left (each opens a list), information links on the right. Tablets and phones keep the ☰ menu." },
     { "type": "header", "content": "Slide-out menu" },
     { "type": "text", "id": "menu_eyebrow", "label": "Small heading", "default": "Shop by ritual" },
-    { "type": "link_list", "id": "menu_shop", "label": "Shop links menu", "info": "Leave empty to show the standard shop links." },
+    { "type": "link_list", "id": "menu_shop", "label": "Shop links menu", "info": "Leave empty for the standard groups: Shop All, Aromatherapy and Bundles. In your own menu, put each group's links underneath it as nested items." },
     { "type": "link_list", "id": "menu_info", "label": "Information links menu", "info": "Leave empty to show About Us, FAQs and Contact." },
     { "type": "text", "id": "menu_button_label", "label": "Button label", "default": "Shop All" },
     { "type": "url", "id": "menu_button_link", "label": "Button link" },
