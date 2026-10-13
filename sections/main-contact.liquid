@@ -66,6 +66,8 @@
 {%- style -%}
 .contact-status{margin:0;padding:14px 16px;border:1px solid #dce3d9;border-radius:14px;background:#eef2e9;color:var(--forest);font-size:12px;line-height:1.5}
 .contact-error ul{margin:0;padding-left:18px}
+.contact-side-card a[href^="mailto:"]{font-size:13px;font-weight:600;letter-spacing:0;text-transform:none;overflow-wrap:anywhere;text-decoration:underline;text-decoration-color:rgba(54,95,81,.35);text-underline-offset:4px}
+.contact-side-card a[href^="mailto:"]:hover{text-decoration-color:currentColor}
 {%- endstyle -%}
 
 {% schema %}
@@ -90,7 +92,7 @@
         { "type": "text", "id": "heading", "label": "Heading", "default": "Order help" },
         { "type": "textarea", "id": "text", "label": "Text", "default": "If your message is about an order, include the order number so we can help you more quickly." },
         { "type": "text", "id": "link_label", "label": "Link label" },
-        { "type": "text", "id": "link", "label": "Link" }
+        { "type": "text", "id": "link", "label": "Link", "info": "For an email address, write mailto: before it, e.g. mailto:original@originalskinn.com" }
       ]
     }
   ]

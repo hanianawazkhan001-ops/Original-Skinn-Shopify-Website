@@ -21,6 +21,15 @@
         "topics": "My order\nDelivery\nReturns\nProduct question\nIngredients\nOther"
       },
       "blocks": {
+        "card_email": {
+          "type": "card",
+          "settings": {
+            "heading": "Email us",
+            "text": "Prefer email? Write to us and we’ll get back to you as soon as we can.",
+            "link_label": "original@originalskinn.com",
+            "link": "mailto:original@originalskinn.com"
+          }
+        },
         "card_1": {
           "type": "card",
           "settings": {
@@ -46,6 +55,7 @@
         }
       },
       "block_order": [
+        "card_email",
         "card_1",
         "card_2",
         "card_3"

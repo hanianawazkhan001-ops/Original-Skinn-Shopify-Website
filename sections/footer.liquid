@@ -4,7 +4,7 @@
 {%- endcomment -%}
 {%- assign brand = settings.brand_name | default: 'Original Skinn' -%}
 <footer><div class="container"><div class="footer-grid">
-<div class="footer-brand"><img alt="{{ brand | escape }} logo" src="{{ 'logo.png' | asset_url }}" width="165" height="165"/><div><strong>{{ brand }}</strong><p>{{ section.settings.about_text }}</p></div></div>
+<div class="footer-brand"><img alt="{{ brand | escape }} logo" src="{{ 'logo.png' | asset_url }}" width="165" height="165"/><div><strong>{{ brand }}</strong><p>{{ section.settings.about_text }}</p>{%- if section.settings.contact_email != blank -%}<a class="footer-email" href="mailto:{{ section.settings.contact_email | strip }}"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.8 6.6 8.2 6.4 8.2-6.4"/></svg>{{ section.settings.contact_email | strip }}</a>{%- endif -%}</div></div>
 <div class="footer-col"><b>{{ section.settings.col1_title }}</b>
 {%- if section.settings.col1_menu != blank -%}
   {%- for link in linklists[section.settings.col1_menu].links -%}<a href="{{ link.url }}">{{ link.title }}</a>{%- endfor -%}
@@ -28,12 +28,19 @@
 </div>
 </div><div class="footer-bottom"><span>&copy; {{ 'now' | date: '%Y' }} {{ section.settings.company_line }}</span></div></div></footer>
 
+{%- style -%}
+.footer-email{display:inline-flex;align-items:center;gap:8px;margin-top:14px;color:#edf3ee;font-size:13px;text-decoration:none;overflow-wrap:anywhere;transition:color .22s ease}
+.footer-email svg{width:16px;height:16px;flex:none;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linejoin:round;opacity:.85}
+.footer-email:hover{color:#d9c3a2}
+{%- endstyle -%}
+
 {% schema %}
 {
   "name": "Footer",
   "enabled_on": { "groups": ["footer"] },
   "settings": [
     { "type": "textarea", "id": "about_text", "label": "Short description", "default": "Plant-led, vegan skincare and home fragrance. An independent brand from Hampshire, UK." },
+    { "type": "text", "id": "contact_email", "label": "Contact email", "default": "original@originalskinn.com", "info": "Shown under the description. Leave empty to hide it." },
     { "type": "header", "content": "Column 1" },
     { "type": "text", "id": "col1_title", "label": "Heading", "default": "Shop" },
     { "type": "link_list", "id": "col1_menu", "label": "Menu", "info": "Leave empty to show the standard shop links." },
