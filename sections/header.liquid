@@ -180,7 +180,8 @@
         g.drop.style.setProperty('--drop-gap', gap + 'px');
         g.drop.hidden = false;
         g.btn.setAttribute('aria-expanded', 'true');
-        requestAnimationFrame(() => g.drop.classList.add('is-open'));
+        void g.drop.offsetWidth; /* let the browser place it before it fades in */
+        g.drop.classList.add('is-open');
       }
       close(g) {
         clearTimeout(g.t);
@@ -272,7 +273,7 @@
     { "type": "header", "content": "Computer menu" },
     { "type": "checkbox", "id": "desktop_tabs", "label": "Show the menu as tabs on computers", "default": true, "info": "Tabs appear either side of the logo on screens wider than 1000px, using the same links as the slide-out menu: the shop groups on the left (each opens a list), information links on the right. Tablets and phones keep the ☰ menu." },
     { "type": "header", "content": "Slide-out menu" },
-    { "type": "text", "id": "menu_eyebrow", "label": "Small heading", "default": "Shop by ritual" },
+    { "type": "text", "id": "menu_eyebrow", "label": "Small heading", "default": "Shop" },
     { "type": "link_list", "id": "menu_shop", "label": "Shop links menu", "info": "Leave empty for the standard groups: Shop All, Aromatherapy and Bundles. In your own menu, put each group's links underneath it as nested items." },
     { "type": "link_list", "id": "menu_info", "label": "Information links menu", "info": "Leave empty to show About Us, FAQs and Contact." },
     { "type": "text", "id": "menu_button_label", "label": "Button label", "default": "Shop All" },
