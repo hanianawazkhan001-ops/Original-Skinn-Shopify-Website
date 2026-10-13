@@ -133,8 +133,6 @@
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
       panel.hidden = !open;
       if(open){
-        var first = panel.querySelector('input:checked') || panel.querySelector('input');
-        if(first) first.focus({preventScroll: true});
         var top = panel.getBoundingClientRect().top;
         if(top > window.innerHeight - 120) panel.scrollIntoView({behavior: 'smooth', block: 'nearest'});
       }
