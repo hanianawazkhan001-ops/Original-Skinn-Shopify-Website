@@ -143,12 +143,12 @@
           "type": "buy",
           "settings": {
             "collection": "bath-shower",
-            "kicker": "Bath Ritual",
+            "kicker": "Ultimate Spa Ritual Set",
             "total_html": "<s>£26</s> £24",
             "small": "Saves £2. Add £6 more for free UK delivery.",
-            "button_label": "Add the full Bath Ritual",
-            "ritual_name": "Bath Ritual",
-            "bundle": "bath-ritual"
+            "button_label": "Add the Ultimate Spa Ritual Set",
+            "ritual_name": "Ultimate Spa Ritual Set",
+            "bundle": "ultimate-spa-ritual-set"
           }
         },
         "baby_intro": {
