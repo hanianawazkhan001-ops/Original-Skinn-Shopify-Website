@@ -3,10 +3,12 @@
   Params: bundle (product), upgrade (name used for the bundle added when the extra box is ticked,
   e.g. "Day & Night"), upgrade_bundle (optional: a separate bundle product for the ticked box,
   e.g. the Day & Night Face Ritual)
-  Output: data-bundle="{"Day":123,"Day & Night":456,...}" (escaped) and data-bundle-up="..."
+  Output: data-bundle="{"Day":123,"Day & Night":456,...}" (escaped) and data-bundle-up="..."; for bundles
+  where the customer picks the products inside, also data-props (the starting picks, snippets/bundle-props)
 {%- endcomment -%}
 {%- if bundle != blank -%}
 {%- capture map -%}{ {%- for v in bundle.variants -%}{%- if v.available -%}"{{ v.title | replace: '"', '' }}":{{ v.id }},{%- endif -%}{%- endfor -%}{%- if upgrade_bundle != blank and upgrade != blank and upgrade_bundle.available -%}"{{ upgrade | replace: '"', '' }}":{{ upgrade_bundle.selected_or_first_available_variant.id }},{%- endif -%} }{%- endcapture -%}
 {%- assign map = map | replace: ', }', ' }' | replace: ',}', '}' -%}
 {{ ' ' }}data-bundle="{{ map | escape }}"{% if upgrade != blank %} data-bundle-up="{{ upgrade | escape }}"{% endif %}
+{%- render 'bundle-props', product: bundle, product2: upgrade_bundle -%}
 {%- endif -%}

@@ -23,7 +23,8 @@
 <p>{{ card_tag }}</p>
 <div class="shop-bottom">
 <strong>{{ v.price | money }}</strong>
-<div class="card-actions"><button aria-label="Add {{ card_title | escape }} to bag" class="card-add" data-product="{{ card_title | escape }}" data-variants="{{ v.id }}" title="Add to bag" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 2.5 3.5 6v13.5A2 2 0 0 0 5.5 21.5h13a2 2 0 0 0 2-2V6L18 2.5z"/><path d="M3.5 6h17"/><path d="M15.5 10a3.5 3.5 0 0 1-7 0"/></svg></button></div>
+{%- capture has_choices -%}{% render 'bundle-choices', product: product, mode: 'has' %}{%- endcapture -%}
+<div class="card-actions">{% if has_choices == 'yes' %}<a aria-label="Choose the products in your {{ card_title | escape }}" class="card-add" href="{{ product.url }}" title="Choose your products">{% else %}<button aria-label="Add {{ card_title | escape }} to bag" class="card-add" data-product="{{ card_title | escape }}" data-variants="{{ v.id }}" title="Add to bag" type="button">{% endif %}<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 2.5 3.5 6v13.5A2 2 0 0 0 5.5 21.5h13a2 2 0 0 0 2-2V6L18 2.5z"/><path d="M3.5 6h17"/><path d="M15.5 10a3.5 3.5 0 0 1-7 0"/></svg>{% if has_choices == 'yes' %}</a>{% else %}</button>{% endif %}</div>
 </div>
 </div>
 </article>

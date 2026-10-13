@@ -1,0 +1,12 @@
+{%- comment -%}
+  For an "add to bag" button that can add a bundle where the customer picks the products inside
+  (see snippets/bundle-choices): adds data-props with the starting picks, so the bundle goes into
+  the bag with its contents listed. Prints nothing for other products.
+  Params: product, product2 (optional, e.g. an upgrade bundle)
+{%- endcomment -%}
+{%- capture pairs -%}{%- if product != blank -%}{% render 'bundle-choices', product: product, mode: 'pairs' %}{%- endif -%}{%- if product2 != blank -%}{% render 'bundle-choices', product: product2, mode: 'pairs' %}{%- endif -%}{%- endcapture -%}
+{%- assign pairs = pairs | strip -%}
+{%- if pairs != blank -%}
+{%- assign json = '{' | append: pairs | append: '}' | replace: ',}', '}' -%}
+{{ ' ' }}data-props="{{ json | escape }}"
+{%- endif -%}

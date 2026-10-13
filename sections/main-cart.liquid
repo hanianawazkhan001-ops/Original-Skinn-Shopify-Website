@@ -31,8 +31,12 @@
   for item in cart.items reversed
     assign in_bag = in_bag | append: item.product.handle | append: ' '
     assign names = names | append: item.product.title | append: ' | '
-    # a ritual bundle counts as the products inside it
-    for bh in item.product.metafields.custom.includes.value
+    # a ritual bundle counts as the products inside it (the customer's picks, if they chose them)
+    assign inside = item.product.metafields.custom.includes.value
+    if item.properties['_items'] != blank
+      assign inside = item.properties['_items'] | split: ','
+    endif
+    for bh in inside
       assign in_bag = in_bag | append: bh | append: ' '
       assign names = names | append: all_products[bh].title | append: ' | '
     endfor
@@ -157,6 +161,11 @@
 <span class="basket-category">{{ cat }}</span>
 <h2>{{ iname }}</h2>
 <p>{{ sub }}</p>
+{%- assign picks = '' -%}
+{%- for prop in item.properties -%}{%- assign pk = prop.first | slice: 0 -%}{%- if pk != '_' and prop.last != blank -%}{%- capture picks -%}{{ picks }}<li><span>{{ prop.first }}</span> {{ prop.last }}</li>{%- endcapture -%}{%- endif -%}{%- endfor -%}
+{%- if picks != blank %}
+<ul class="basket-picks">{{ picks }}</ul>
+{%- endif %}
 </div>
 <button aria-label="Remove {{ iname | escape }}" class="remove-item" type="button">Remove</button>
 </div>
@@ -206,7 +215,7 @@
 <div class="cs-row">
 <img loading="lazy" alt="" id="csImg" src="{% if sug.settings.image != blank %}{{ sug.settings.image | image_url: width: 200 }}{% else %}{{ sp.featured_image | image_url: width: 200 }}{% endif %}"/>
 <div class="cs-text"><strong id="csName">{{ sname }}</strong><span id="csWhy">{{ why }}</span></div>
-<button class="cs-add" id="csAdd" type="button" data-variants="{{ sp.selected_or_first_available_variant.id }}" data-product="{{ sname | escape }}">Add — {{ sp.price | money_without_trailing_zeros }}</button>
+<button class="cs-add" id="csAdd" type="button" data-variants="{{ sp.selected_or_first_available_variant.id }}" data-product="{{ sname | escape }}"{% render 'bundle-props', product: sp %}>Add — {{ sp.price | money_without_trailing_zeros }}</button>
 </div>
 {%- endif -%}
 </div>
@@ -246,6 +255,9 @@
 .basket-empty p{margin:7px 0 0;color:#707a75;font-size:10px;line-height:1.5}
 .checkout-btn[disabled]{opacity:.45;cursor:not-allowed}
 #osCart.is-updating .basket-items,#osCart.is-updating .basket-summary{opacity:.6;pointer-events:none;transition:opacity .15s ease}
+.basket-picks{list-style:none;margin:9px 0 0;padding:9px 0 0;border-top:1px dashed #dde3da;display:grid;gap:3px;font-size:11px;line-height:1.45;color:var(--forest)}
+.basket-picks span{display:inline-block;min-width:78px;color:#7a857f;font-size:9px;letter-spacing:.12em;text-transform:uppercase}
+@media (max-width:650px){.basket-picks{font-size:10px}.basket-picks span{display:block;min-width:0}}
 {%- endstyle -%}
 
 {% schema %}

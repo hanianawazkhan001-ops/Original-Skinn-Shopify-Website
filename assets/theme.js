@@ -60,10 +60,16 @@
     var el = document.getElementById('bagCount');
     if(el) el.textContent = n;
   }
-  function addToBag(variantList, name, btn){
+  // props (optional): {variantId: {"Salt scrub": "...", ...}} — the products picked inside a bundle
+  function addToBag(variantList, name, btn, props){
     var counts = {}, order = [];
     String(variantList || '').split(',').filter(Boolean).forEach(function(id){ if(!counts[id]){ counts[id] = 0; order.push(id); } counts[id]++; });
-    var items = order.map(function(id){ return {id: Number(id), quantity: counts[id]}; });
+    if(!props && btn && btn.dataset && btn.dataset.props){ try{ props = JSON.parse(btn.dataset.props); }catch(err){ props = null; } }
+    var items = order.map(function(id){
+      var item = {id: Number(id), quantity: counts[id]};
+      if(props && props[id]) item.properties = props[id];
+      return item;
+    });
     if(!items.length){ window.OS.notify('Sorry, this isn’t available right now.'); return; }
     if(btn) btn.disabled = true;
     fetch(root + 'cart/add.js', {
@@ -256,10 +262,44 @@
   if(minus) minus.addEventListener('click', function(){ input.value = Math.max(1, qty() - 1); });
   if(plus) plus.addEventListener('click', function(){ input.value = qty() + 1; });
   if(input) input.addEventListener('change', function(){ input.value = qty(); });
+  // bundles where the customer picks the products inside (snippets/bundle-choices)
+  var picker = document.getElementById('pdBundle');
+  function picks(){
+    if(!picker) return null;
+    var p = {}, handles = [];
+    picker.querySelectorAll('.bp-slot').forEach(function(slot){
+      var r = slot.querySelector('input:checked');
+      if(r){ p[slot.dataset.label] = r.value; handles.push(r.dataset.handle); }
+    });
+    p._items = handles.join(',');
+    return p;
+  }
+  function showPick(slot, fromUser){
+    var r = slot.querySelector('input:checked');
+    slot.querySelectorAll('.bp-opt').forEach(function(o){ o.classList.toggle('is-checked', !!(r && o.contains(r))); });
+    var out = slot.querySelector('.bp-chosen');
+    if(out) out.textContent = r ? r.dataset.short : '';
+    if(fromUser && r && main && r.dataset.img){
+      main.src = r.dataset.img;
+      document.querySelectorAll('#pdThumbs .product-thumb').forEach(function(b){ b.classList.remove('active'); });
+    }
+  }
+  if(picker){
+    picker.querySelectorAll('.bp-slot').forEach(function(slot){
+      showPick(slot, false);
+      slot.addEventListener('change', function(){ showPick(slot, true); });
+    });
+  }
   add.addEventListener('click', function(){
     var n = qty(), list = [];
     for(var i = 0; i < n; i++) list.push(add.dataset.variant);
-    window.OS.addToBag(list.join(','), add.dataset.product, add);
+    var p = picks(), props = null;
+    if(p){
+      var missing = picker.querySelectorAll('.bp-slot').length - picker.querySelectorAll('.bp-slot input:checked').length;
+      if(missing > 0){ window.OS.notify('Please choose a product for each step.'); return; }
+      props = {}; props[add.dataset.variant] = p;
+    }
+    window.OS.addToBag(list.join(','), add.dataset.product, add, props);
   });
 })();
 

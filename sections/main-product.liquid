@@ -155,6 +155,7 @@
 {%- if summary contains '<p' -%}{{ summary | replace_first: '<p>', '<p id="pdDesc">' }}{%- else -%}<p id="pdDesc">{{ summary }}</p>{%- endif -%}
 </div>
 <div class="product-benefits" id="pdBenefits">{% for b in benefit_list %}{% if b != blank %}<div><span>✓</span> {{ b | escape }}</div>{% endif %}{% endfor %}</div>
+{% render 'bundle-choices', product: product, mode: 'picker' %}
 <div class="pd-sizes" id="pdSizes" role="group" aria-label="Size"{% if product.variants.size < 2 %} hidden{% endif %}>
 {%- if product.variants.size > 1 -%}{%- for vv in product.variants -%}<button type="button" class="pd-size{% if vv.id == v.id %} active{% endif %}" data-variant="{{ vv.id }}" data-price="{{ vv.price | money }}" data-size="{{ vv.title | escape }}"{% unless vv.available %} disabled{% endunless %}>{{ vv.title }}</button>{%- endfor -%}{%- endif -%}
 </div>

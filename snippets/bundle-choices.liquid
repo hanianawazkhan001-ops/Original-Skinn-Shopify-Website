@@ -1,0 +1,105 @@
+{%- comment -%}
+  Bundles where the customer picks the products inside (e.g. Bath Ritual: which scrub, which soak,
+  which butter). The choices come from the product's fields "Bundle choice 1" to "Bundle choice 4"
+  (custom.bundle_choice_1..4, lists of products). The first product that's in stock in each list is
+  picked to start with. Each item's name comes from its product type ("Salt Scrub" → "Salt scrub");
+  products with sizes use their first (smallest) size, e.g. the 50 ml butter.
+  The picks go into the bag as notes on the item ("Salt scrub: Grapefruit Salt Scrub"), which show in
+  the bag, at checkout, on the order and in the order emails. "_items" (hidden) lists what's inside.
+  Params: product, mode
+    'picker' – the chooser on the product page
+    'pairs'  – "variantId":{the starting picks}, for each variant (used by snippets/bundle-props)
+    'has'    – prints "yes" if the product has choices
+{%- endcomment -%}
+{%- liquid
+  assign slots = 0
+  for i in (1..4)
+    assign k = 'bundle_choice_' | append: i
+    assign plist = product.metafields.custom[k].value
+    if plist != blank and plist.size > 0
+      assign slots = slots | plus: 1
+    endif
+  endfor
+-%}
+{%- if slots > 0 -%}
+{%- case mode -%}
+{%- when 'has' -%}yes
+{%- when 'pairs' -%}
+{%- capture picks -%}
+{%- assign handles = '' -%}
+{%- for i in (1..4) -%}
+{%- assign k = 'bundle_choice_' | append: i -%}
+{%- assign plist = product.metafields.custom[k].value -%}
+{%- if plist == blank or plist.size == 0 -%}{%- continue -%}{%- endif -%}
+{%- assign pick = false -%}
+{%- for q in plist -%}{%- if pick == false and q.variants.first.available -%}{%- assign pick = q -%}{%- endif -%}{%- endfor -%}
+{%- if pick == false -%}{%- for q in plist limit: 1 -%}{%- assign pick = q -%}{%- endfor -%}{%- endif -%}
+{%- for q in plist limit: 1 -%}{%- capture label -%}{{ q.type | default: 'Item' | downcase | capitalize }}{%- endcapture -%}{%- endfor -%}
+{%- capture value -%}{% render 'product-name', product: pick, part: 'short' %}{% if pick.variants.size > 1 %} ({{ pick.variants.first.title | downcase | remove: ' ' | replace: 'ml', ' ml' }}){% endif %}{%- endcapture -%}
+{{ label | json }}:{{ value | strip | json }},
+{%- assign handles = handles | append: pick.handle | append: ',' -%}
+{%- endfor -%}
+"_items":{{ handles | json }}
+{%- endcapture -%}
+{%- for v in product.variants -%}"{{ v.id }}":{ {{- picks -}} },{%- endfor -%}
+{%- when 'picker' -%}
+<div class="bundle-pick" id="pdBundle">
+<p class="bp-intro"><span class="bp-kicker">Make it yours</span>{%- capture bname -%}{% render 'product-name', product: product, part: 'short' %}{%- endcapture -%}Choose each product in your {{ bname | strip }}.</p>
+{%- assign n = 0 -%}
+{%- for i in (1..4) -%}
+{%- assign k = 'bundle_choice_' | append: i -%}
+{%- assign plist = product.metafields.custom[k].value -%}
+{%- if plist == blank or plist.size == 0 -%}{%- continue -%}{%- endif -%}
+{%- assign n = n | plus: 1 -%}
+{%- assign pick = false -%}
+{%- for q in plist -%}{%- if pick == false and q.variants.first.available -%}{%- assign pick = q -%}{%- endif -%}{%- endfor -%}
+{%- assign size = '' -%}
+{%- for q in plist limit: 1 -%}{%- capture label -%}{{ q.type | default: 'Item' | downcase | capitalize }}{%- endcapture -%}{%- if q.variants.size > 1 -%}{%- assign size = q.variants.first.title | downcase | remove: ' ' | replace: 'ml', ' ml' -%}{%- endif -%}{%- endfor -%}
+<fieldset class="bp-slot" data-label="{{ label | escape }}">
+<legend class="bp-legend"><span class="bp-num">{{ n }}</span><span class="bp-label">{{ label }}{% if size != blank %} <em>{{ size }}</em>{% endif %}</span><span class="bp-chosen" aria-hidden="true"></span></legend>
+<div class="bp-options">
+{%- for q in plist -%}
+{%- capture full -%}{% render 'product-name', product: q, part: 'short' %}{%- endcapture -%}
+{%- assign full = full | strip -%}
+{%- assign short = full | remove: q.type | remove: ' Whipped' | strip -%}
+{%- if short == blank -%}{%- assign short = full -%}{%- endif -%}
+{%- capture value -%}{{ full }}{% if q.variants.size > 1 %} ({{ q.variants.first.title | downcase | remove: ' ' | replace: 'ml', ' ml' }}){% endif %}{%- endcapture -%}
+<label class="bp-opt">
+<input type="radio" name="bp{{ n }}" value="{{ value | escape }}" data-short="{{ short | escape }}" data-handle="{{ q.handle }}" data-img="{{ q.featured_image | image_url: width: 1400 }}"{% if pick != false and q.id == pick.id %} checked{% endif %}{% unless q.variants.first.available %} disabled{% endunless %}>
+<span class="bp-thumb"><img alt="" loading="lazy" src="{{ q.featured_image | image_url: width: 120 }}" width="34" height="34"></span>
+<span class="bp-name">{{ short }}{% unless q.variants.first.available %} <small>Sold out</small>{% endunless %}</span>
+</label>
+{%- endfor -%}
+</div>
+</fieldset>
+{%- endfor -%}
+</div>
+{%- style -%}
+.bundle-pick{margin:0 0 20px;padding:18px 18px 6px;border:1px solid #dde4da;border-radius:22px;background:#f6f8f2}
+.bp-intro{margin:0 0 14px;font-size:12px;color:#53635b}
+.bp-kicker{display:block;margin-bottom:4px;font-size:9px;font-weight:700;letter-spacing:.17em;text-transform:uppercase;color:var(--moss)}
+.bp-slot{margin:0 0 14px;padding:0;border:0;min-width:0}
+.bp-legend{display:flex;align-items:center;gap:9px;width:100%;padding:0;margin:0 0 9px;font-size:12px;color:var(--forest)}
+.bp-num{display:inline-grid;place-items:center;width:20px;height:20px;flex:none;border-radius:50%;background:var(--forest);color:#fff;font-size:10px;font-weight:700}
+.bp-label{font-weight:700}
+.bp-label em{font-style:normal;font-weight:400;color:var(--muted)}
+.bp-chosen{margin-left:auto;font-family:var(--serif);font-size:15px;color:var(--forest);text-align:right}
+.bp-options{display:flex;flex-wrap:wrap;gap:8px}
+.bp-opt{position:relative;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:4px 14px 4px 4px;border:1px solid #cfd8cf;border-radius:999px;background:#fff;color:var(--forest);font-size:12px;cursor:pointer;transition:border-color .2s ease,background-color .2s ease,box-shadow .2s ease}
+.bp-opt:hover{border-color:var(--forest)}
+.bp-opt input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.bp-thumb{width:34px;height:34px;flex:none;border-radius:50%;overflow:hidden;background:#fff;border:1px solid #e0e5de}
+.bp-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.bp-opt:has(input:checked){border-color:var(--forest);background:var(--mist);box-shadow:inset 0 0 0 1px var(--forest)}
+.bp-opt.is-checked{border-color:var(--forest);background:var(--mist);box-shadow:inset 0 0 0 1px var(--forest)}
+.bp-opt:has(input:focus-visible){outline:2px solid var(--forest);outline-offset:2px}
+.bp-opt:has(input:disabled){opacity:.45;cursor:not-allowed}
+.bp-name small{font-size:10px;color:var(--muted)}
+@media (max-width:650px){
+  .bundle-pick{padding:16px 14px 4px;border-radius:18px}
+  .bp-opt{font-size:11px;padding-right:12px}
+  .bp-chosen{font-size:14px}
+}
+{%- endstyle -%}
+{%- endcase -%}
+{%- endif -%}
