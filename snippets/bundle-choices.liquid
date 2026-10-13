@@ -6,8 +6,9 @@
   products with sizes use their first (smallest) size, e.g. the 50 ml butter.
   The picks go into the bag as notes on the item ("Salt scrub: Grapefruit Salt Scrub"), which show in
   the bag, at checkout, on the order and in the order emails. "_items" (hidden) lists what's inside.
-  Params: product, mode
-    'picker' – the chooser on the product page
+  Params: product, mode, pick_id (optional: id for the chooser, default pdBundle),
+          prefix (optional: start of the radio button names, default bp)
+    'picker' – the chooser (product page, and the ritual strip on shop pages)
     'pairs'  – "variantId":{the starting picks}, for each variant (used by snippets/bundle-props)
     'has'    – prints "yes" if the product has choices
 {%- endcomment -%}
@@ -43,7 +44,9 @@
 {%- endcapture -%}
 {%- for v in product.variants -%}"{{ v.id }}":{ {{- picks -}} },{%- endfor -%}
 {%- when 'picker' -%}
-<div class="bundle-pick" id="pdBundle">
+{%- assign pick_id = pick_id | default: 'pdBundle' -%}
+{%- assign prefix = prefix | default: 'bp' -%}
+<div class="bundle-pick" id="{{ pick_id }}">
 <p class="bp-intro"><span class="bp-kicker">Make it yours</span>{%- capture bname -%}{% render 'product-name', product: product, part: 'short' %}{%- endcapture -%}Choose each product in your {{ bname | strip }}.</p>
 {%- assign n = 0 -%}
 {%- for i in (1..4) -%}
@@ -65,7 +68,7 @@
 {%- if short == blank -%}{%- assign short = full -%}{%- endif -%}
 {%- capture value -%}{{ full }}{% if q.variants.size > 1 %} ({{ q.variants.first.title | downcase | remove: ' ' | replace: 'ml', ' ml' }}){% endif %}{%- endcapture -%}
 <label class="bp-opt">
-<input type="radio" name="bp{{ n }}" value="{{ value | escape }}" data-short="{{ short | escape }}" data-handle="{{ q.handle }}" data-img="{{ q.featured_image | image_url: width: 1400 }}"{% if pick != false and q.id == pick.id %} checked{% endif %}{% unless q.variants.first.available %} disabled{% endunless %}>
+<input type="radio" name="{{ prefix }}{{ n }}" value="{{ value | escape }}" data-short="{{ short | escape }}" data-full="{{ full | escape }}" data-handle="{{ q.handle }}" data-url="{{ q.url }}" data-variant="{{ q.variants.first.id }}" data-price="{{ q.variants.first.price | money_without_trailing_zeros | escape }}" data-img="{{ q.featured_image | image_url: width: 1400 }}" data-card-img="{{ q.featured_image | image_url: width: 600 }}"{% if pick != false and q.id == pick.id %} checked{% endif %}{% unless q.variants.first.available %} disabled{% endunless %}>
 <span class="bp-thumb"><img alt="" loading="lazy" src="{{ q.featured_image | image_url: width: 120 }}" width="34" height="34"></span>
 <span class="bp-name">{{ short }}{% unless q.variants.first.available %} <small>Sold out</small>{% endunless %}</span>
 </label>

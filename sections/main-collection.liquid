@@ -85,6 +85,20 @@
 {%- endfor %}
 </div>
 {%- if buy %}
+{%- liquid
+  # a bundle where the customer picks the products inside: the chooser opens right here (snippets/bundle-choices)
+  assign strip_choices = false
+  if buy.settings.bundle != blank
+    capture has_choices
+      render 'bundle-choices', product: buy.settings.bundle, mode: 'has'
+    endcapture
+    if has_choices == 'yes'
+      assign strip_choices = true
+      assign strip_pick_id = 'rsBundle-' | append: h
+      assign strip_prefix = 'rs-' | append: h | append: '-'
+    endif
+  endif
+-%}
 <div class="rs-buy" {{ buy.shopify_attributes }}>
 <div class="rs-buy-text"><span class="rs-kicker">{{ buy.settings.kicker }}</span><div class="rs-total">{{ buy.settings.total_html }}</div>{% if buy.settings.small != blank %}<p class="rs-small">{{ buy.settings.small }}</p>{% endif %}</div>
 <div class="rs-buy-action">{%- liquid
@@ -93,8 +107,11 @@
     assign add_ids = add_ids | append: ap.selected_or_first_available_variant.id | append: ','
   endfor
 -%}
-<button class="btn primary rs-add"{% if add_ids != blank %} data-variants="{{ add_ids }}"{% endif %}{% render 'bundle-attrs', bundle: buy.settings.bundle, upgrade: buy.settings.bundle_upgrade, upgrade_bundle: buy.settings.bundle_upgrade_product %} data-product="{{ buy.settings.ritual_name | escape }}" data-base-name="{{ buy.settings.ritual_name | escape }}" data-base-label="{{ buy.settings.button_label | escape }}" data-base-total="{{ buy.settings.total_html | escape }}" data-base-small="{{ buy.settings.small | escape }}"{% if buy.settings.upgrade %} data-up-name="{{ buy.settings.upgrade_ritual_name | escape }}" data-up-label="{{ buy.settings.upgrade_button_label | escape }}" data-up-total="{{ buy.settings.upgrade_total_html | escape }}" data-up-small="{{ buy.settings.upgrade_small | escape }}"{% endif %} type="button">{{ buy.settings.button_label }}</button>{%- if buy.settings.bundle != blank -%}{%- capture has_choices -%}{% render 'bundle-choices', product: buy.settings.bundle, mode: 'has' %}{%- endcapture -%}{%- if has_choices == 'yes' -%}<a class="rs-choose" href="{{ buy.settings.bundle.url }}">Or choose your own scents →</a>{%- endif -%}{%- endif -%}{% if buy.settings.upgrade %}<label class="rs-upgrade"><input type="checkbox" class="rs-both"/> <span>Add <span class="rs-other">{{ buy.settings.upgrade_other_label }}</span> {{ buy.settings.upgrade_text }}</span></label>{% endif %}</div>
+<button class="btn primary rs-add"{% if add_ids != blank %} data-variants="{{ add_ids }}"{% endif %}{% render 'bundle-attrs', bundle: buy.settings.bundle, upgrade: buy.settings.bundle_upgrade, upgrade_bundle: buy.settings.bundle_upgrade_product %} data-product="{{ buy.settings.ritual_name | escape }}" data-base-name="{{ buy.settings.ritual_name | escape }}" data-base-label="{{ buy.settings.button_label | escape }}" data-base-total="{{ buy.settings.total_html | escape }}" data-base-small="{{ buy.settings.small | escape }}"{% if buy.settings.upgrade %} data-up-name="{{ buy.settings.upgrade_ritual_name | escape }}" data-up-label="{{ buy.settings.upgrade_button_label | escape }}" data-up-total="{{ buy.settings.upgrade_total_html | escape }}" data-up-small="{{ buy.settings.upgrade_small | escape }}"{% endif %} type="button">{{ buy.settings.button_label }}</button>{%- if strip_choices -%}<button class="rs-choose" type="button" aria-expanded="false" aria-controls="{{ strip_pick_id }}-wrap"><span class="rs-choose-open">Or choose your own scents</span><span class="rs-choose-close">Hide scent choices</span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></button>{%- endif -%}{% if buy.settings.upgrade %}<label class="rs-upgrade"><input type="checkbox" class="rs-both"/> <span>Add <span class="rs-other">{{ buy.settings.upgrade_other_label }}</span> {{ buy.settings.upgrade_text }}</span></label>{% endif %}</div>
 </div>
+{%- if strip_choices %}
+<div class="rs-pick" id="{{ strip_pick_id }}-wrap" hidden>{% render 'bundle-choices', product: buy.settings.bundle, mode: 'picker', pick_id: strip_pick_id, prefix: strip_prefix %}</div>
+{%- endif %}
 {%- endif %}
 </section>
 {%- endif %}
@@ -113,9 +130,20 @@
 </section>
 
 {%- style -%}
-.rs-choose{font-size:11px;font-weight:600;color:var(--forest);text-decoration:underline;text-decoration-color:rgba(37,71,56,.35);text-underline-offset:4px}
-.rs-choose:hover{text-decoration-color:currentColor}
-@media (max-width:650px){.rs-choose{text-align:center}}
+.rs-choose{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:4px 2px;border:0;background:none;font:600 11px/1.3 var(--sans);color:var(--forest);cursor:pointer}
+.rs-choose span{text-decoration:underline;text-decoration-color:rgba(37,71,56,.35);text-underline-offset:4px}
+.rs-choose:hover span{text-decoration-color:currentColor}
+.rs-choose svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s ease}
+.rs-choose .rs-choose-close,.rs-choose[aria-expanded="true"] .rs-choose-open{display:none}
+.rs-choose[aria-expanded="true"] .rs-choose-close{display:inline}
+.rs-choose[aria-expanded="true"] svg{transform:rotate(180deg)}
+.rs-choose:focus-visible{outline:2px solid var(--forest);outline-offset:3px;border-radius:6px}
+.rs-pick{margin-top:16px}
+.rs-pick[hidden]{display:none}
+.rs-pick .bundle-pick{margin:0;background:#fff;border-color:#dbe1d8}
+.rs-tile.is-updated{animation:rsPop .35s ease}
+@keyframes rsPop{0%{transform:scale(.97);opacity:.6}100%{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.rs-choose svg,.rs-tile.is-updated{transition:none;animation:none}}
 {%- endstyle -%}
 
 {% schema %}

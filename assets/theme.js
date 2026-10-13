@@ -89,6 +89,76 @@
     }).then(function(){ if(btn) btn.disabled = false; });
   }
   window.OS.addToBag = addToBag;
+
+  // ---- bundles where the customer picks the products inside (snippets/bundle-choices) ----
+  // readPicks: {"Salt scrub": "...", ..., "_items": "handle,handle"} from a chooser
+  window.OS.readPicks = function(picker){
+    if(!picker) return null;
+    var p = {}, handles = [];
+    picker.querySelectorAll('.bp-slot').forEach(function(slot){
+      var r = slot.querySelector('input:checked');
+      if(r){ p[slot.dataset.label] = r.value; handles.push(r.dataset.handle); }
+    });
+    p._items = handles.join(',');
+    return p;
+  };
+  window.OS.picksMissing = function(picker){
+    return picker.querySelectorAll('.bp-slot').length - picker.querySelectorAll('.bp-slot input:checked').length;
+  };
+  function showPick(slot){
+    var r = slot.querySelector('input:checked');
+    slot.querySelectorAll('.bp-opt').forEach(function(o){ o.classList.toggle('is-checked', !!(r && o.contains(r))); });
+    var out = slot.querySelector('.bp-chosen');
+    if(out) out.textContent = r ? r.dataset.short : '';
+  }
+  document.querySelectorAll('.bundle-pick').forEach(function(picker){
+    var slots = Array.prototype.slice.call(picker.querySelectorAll('.bp-slot'));
+    slots.forEach(function(slot, i){
+      showPick(slot);
+      slot.addEventListener('change', function(){
+        showPick(slot);
+        var r = slot.querySelector('input:checked');
+        picker.dispatchEvent(new CustomEvent('os:bundle-pick', {bubbles: true, detail: {index: i, input: r}}));
+      });
+    });
+  });
+
+  // ritual strip on a shop page: "Or choose your own scents" opens the chooser here, and the
+  // step tiles above show what's picked
+  document.querySelectorAll('.ritual-strip .rs-choose').forEach(function(btn){
+    var panel = document.getElementById(btn.getAttribute('aria-controls'));
+    if(!panel) return;
+    btn.addEventListener('click', function(){
+      var open = btn.getAttribute('aria-expanded') !== 'true';
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      panel.hidden = !open;
+      if(open){
+        var first = panel.querySelector('input:checked') || panel.querySelector('input');
+        if(first) first.focus({preventScroll: true});
+        var top = panel.getBoundingClientRect().top;
+        if(top > window.innerHeight - 120) panel.scrollIntoView({behavior: 'smooth', block: 'nearest'});
+      }
+    });
+    var strip = btn.closest('.ritual-strip');
+    var tiles = strip ? strip.querySelectorAll('.rs-steps .rs-tile') : [];
+    panel.addEventListener('os:bundle-pick', function(e){
+      var picker = panel.querySelector('.bundle-pick');
+      var slots = picker ? picker.querySelectorAll('.bp-slot') : [];
+      var r = e.detail.input;
+      if(!r || tiles.length !== slots.length) return;
+      var tile = tiles[e.detail.index];
+      if(!tile) return;
+      var img = tile.querySelector('.rs-img img');
+      if(img && r.dataset.cardImg) img.src = r.dataset.cardImg;
+      var name = tile.querySelector('.rs-name');
+      if(name) name.textContent = r.dataset.full;
+      var price = tile.querySelector('.rs-price');
+      if(price && r.dataset.price) price.textContent = r.dataset.price;
+      tile.querySelectorAll('a').forEach(function(a){ a.setAttribute('href', r.dataset.url); });
+      if(r.dataset.variant) tile.dataset.variant = r.dataset.variant;
+      tile.classList.remove('is-updated'); void tile.offsetWidth; tile.classList.add('is-updated');
+    });
+  });
   function bundleVariant(btn, both, label){
     var map = {};
     try{ map = JSON.parse(btn.dataset.bundle) || {}; }catch(err){ return ''; }
@@ -123,7 +193,16 @@
       var both = (extra && extra.checked) || !!(stripEl && stripEl.querySelector('.rs-both:checked'));
       var nameEl = stripEl ? stripEl.querySelector('.rs-var-name') : null;
       var bv = bundleVariant(btn, both, nameEl ? nameEl.textContent.trim() : '');
-      if(bv){ e.preventDefault(); addToBag(bv, btn.dataset.product, btn); return; }
+      if(bv){
+        e.preventDefault();
+        var picker = stripEl ? stripEl.querySelector('.bundle-pick') : null, props = null;
+        if(picker){
+          if(window.OS.picksMissing(picker) > 0){ window.OS.notify('Please choose a product for each step.'); return; }
+          props = {}; props[bv] = window.OS.readPicks(picker);
+        }
+        addToBag(bv, btn.dataset.product, btn, props);
+        return;
+      }
     }
     if(!list) return;
     e.preventDefault();
@@ -264,40 +343,23 @@
   if(input) input.addEventListener('change', function(){ input.value = qty(); });
   // bundles where the customer picks the products inside (snippets/bundle-choices)
   var picker = document.getElementById('pdBundle');
-  function picks(){
-    if(!picker) return null;
-    var p = {}, handles = [];
-    picker.querySelectorAll('.bp-slot').forEach(function(slot){
-      var r = slot.querySelector('input:checked');
-      if(r){ p[slot.dataset.label] = r.value; handles.push(r.dataset.handle); }
-    });
-    p._items = handles.join(',');
-    return p;
-  }
-  function showPick(slot, fromUser){
-    var r = slot.querySelector('input:checked');
-    slot.querySelectorAll('.bp-opt').forEach(function(o){ o.classList.toggle('is-checked', !!(r && o.contains(r))); });
-    var out = slot.querySelector('.bp-chosen');
-    if(out) out.textContent = r ? r.dataset.short : '';
-    if(fromUser && r && main && r.dataset.img){
-      main.src = r.dataset.img;
-      document.querySelectorAll('#pdThumbs .product-thumb').forEach(function(b){ b.classList.remove('active'); });
-    }
-  }
   if(picker){
-    picker.querySelectorAll('.bp-slot').forEach(function(slot){
-      showPick(slot, false);
-      slot.addEventListener('change', function(){ showPick(slot, true); });
+    // show the picked product's photo
+    picker.addEventListener('os:bundle-pick', function(e){
+      var r = e.detail.input;
+      if(r && main && r.dataset.img){
+        main.src = r.dataset.img;
+        document.querySelectorAll('#pdThumbs .product-thumb').forEach(function(b){ b.classList.remove('active'); });
+      }
     });
   }
   add.addEventListener('click', function(){
     var n = qty(), list = [];
     for(var i = 0; i < n; i++) list.push(add.dataset.variant);
-    var p = picks(), props = null;
-    if(p){
-      var missing = picker.querySelectorAll('.bp-slot').length - picker.querySelectorAll('.bp-slot input:checked').length;
-      if(missing > 0){ window.OS.notify('Please choose a product for each step.'); return; }
-      props = {}; props[add.dataset.variant] = p;
+    var props = null;
+    if(picker){
+      if(window.OS.picksMissing(picker) > 0){ window.OS.notify('Please choose a product for each step.'); return; }
+      props = {}; props[add.dataset.variant] = window.OS.readPicks(picker);
     }
     window.OS.addToBag(list.join(','), add.dataset.product, add, props);
   });
