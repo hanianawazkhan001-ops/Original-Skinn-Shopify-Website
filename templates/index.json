@@ -101,7 +101,7 @@
             "products": [
               "lavender-bliss-bath-salt",
               "lavender-fragranced-whipped-body-butter",
-              "summer-glow-soy-wax-candle"
+              "shimmer-velvet-soy-wax-candle"
             ],
             "ritual_name": "Evening wind-down ritual",
             "button_label": "Add the ritual"
@@ -121,16 +121,16 @@
               "facial-toner-mist-spray",
               "original-skinn-light-moisturiser-serum-unfragranced-50ml"
             ],
+            "bundle": "face-ritual-cleanse-refresh-moisturise",
+            "bundle_upgrade": "Day & Night",
+            "bundle_upgrade_product": "day-night-face-ritual-complete-face-routine",
             "ritual_name": "Face Ritual",
             "button_label": "Add the Face Ritual",
             "upgrade_product": "original-skinn-rich-moisturiser-serum-lemon-cedarwood-50ml",
             "upgrade_text": "Add Night Moisturiser & Serum for £13 more",
             "upgrade_price_html": "<s>£50</s> £45",
             "upgrade_ritual_name": "Day & Night Face Ritual",
-            "upgrade_button_label": "Add the Day & Night Face Ritual",
-            "bundle": "face-ritual-cleanse-refresh-moisturise",
-            "bundle_upgrade_product": "day-night-face-ritual-complete-face-routine",
-            "bundle_upgrade": "Day & Night"
+            "upgrade_button_label": "Add the Day & Night Face Ritual"
           }
         },
         "concern4": {
@@ -219,73 +219,73 @@
         "tile1": {
           "type": "tile",
           "settings": {
-            "style": "face",
             "fallback": "photo-face.jpg",
             "image_alt": "Face",
             "title": "Morning & Evening Ritual",
             "subtitle": "Face",
             "label": "Shop face →",
-            "link": "/collections/face"
+            "link": "/collections/face",
+            "style": "face"
           }
         },
         "tile2": {
           "type": "tile",
           "settings": {
-            "style": "body",
             "fallback": "photo-body.jpg",
             "image_alt": "Body",
             "title": "Soft Skin Ritual",
             "subtitle": "Body",
             "label": "Shop body →",
-            "link": "/collections/body"
+            "link": "/collections/body",
+            "style": "body"
           }
         },
         "tile3": {
           "type": "tile",
           "settings": {
-            "style": "bath",
             "fallback": "photo-bath.jpg",
             "image_alt": "Bath & Shower",
             "title": "Bath Ritual",
             "subtitle": "Bath & Shower",
             "label": "Shop bath & shower →",
-            "link": "/collections/bath-shower"
+            "link": "/collections/bath-shower",
+            "style": "bath"
           }
         },
         "tile4": {
           "type": "tile",
           "settings": {
-            "style": "baby",
             "fallback": "photo-baby.jpg",
             "image_alt": "Baby",
             "title": "Bedtime Ritual",
             "subtitle": "Baby",
             "label": "Shop baby →",
-            "link": "/collections/baby"
+            "link": "/collections/baby",
+            "style": "baby"
           }
         },
         "tile5": {
           "type": "tile",
           "settings": {
-            "style": "home",
             "fallback": "photo-home-fragrance.jpg",
             "image_alt": "Home Fragrance",
             "title": "Home Ritual",
             "subtitle": "Home Fragrance",
             "label": "Shop home fragrance →",
-            "link": "/collections/home-fragrance"
+            "link": "/collections/home-fragrance",
+            "style": "home"
           }
         },
         "tile6": {
           "type": "tile",
           "settings": {
-            "style": "shopall",
             "fallback": "photo-shop-all.jpg",
             "image_alt": "Shop All",
             "title": "Shop All",
             "subtitle": "",
             "label": "Shop all →",
-            "link": "/collections/all"
+            "link": "/collections/all",
+            "style": "shopall"
           }
         }
       },
@@ -333,8 +333,6 @@
     },
     "reviews": {
       "type": "home-reviews",
-      "blocks": {},
-      "block_order": [],
       "settings": {}
     },
     "newsletter": {
