@@ -93,7 +93,7 @@
           "type": "concern",
           "settings": {
             "fallback": "photo-candle.jpg",
-            "image_alt": "Summer Glow soy wax candle, lit",
+            "image_alt": "Shimmer Velvet soy wax candle, lit",
             "heading": "Make time to wind down",
             "fix": "A warm lavender soak, a rich butter that leaves skin soft, and a candle to finish.",
             "products_text": "Bath Soak + Lavender Butter + Candle",
@@ -101,7 +101,7 @@
             "products": [
               "lavender-bliss-bath-salt",
               "lavender-fragranced-whipped-body-butter",
-              "summer-glow-soy-wax-candle"
+              "shimmer-velvet-soy-wax-candle"
             ],
             "ritual_name": "Evening wind-down ritual",
             "button_label": "Add the ritual"
