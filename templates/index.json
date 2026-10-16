@@ -329,7 +329,10 @@
         "step2",
         "step3"
       ],
-      "settings": {}
+      "settings": {
+        "image": "shopify://shop_images/Face_Ritual_-_3.png",
+        "image_alt": "Original Skinn Face Ritual: face wash, toner mist and day moisturiser with lavender and chamomile"
+      }
     },
     "reviews": {
       "type": "home-reviews",
