@@ -301,10 +301,28 @@
     assign show_reviews = true
   endif
 -%}
+{%- comment -%} Google reviews that name this product (Content > Metaobjects > Google review > "Products it mentions") {%- endcomment -%}
+{%- capture g_cards -%}
+{%- if section.settings.google_reviews -%}
+{%- for g_rev in shop.metaobjects.google_review.values -%}
+  {%- assign hit = false -%}
+  {%- for g_prod in g_rev.products.value -%}{%- if g_prod.id == product.id -%}{%- assign hit = true -%}{%- endif -%}{%- endfor -%}
+  {%- if hit -%}{% render 'google-review-card', r: g_rev, featured: false, compact: true %}{%- endif -%}
+{%- endfor -%}
+{%- endif -%}
+{%- endcapture -%}
+{%- assign g_cards = g_cards | strip -%}
+{%- if g_cards != blank -%}{%- assign show_reviews = true -%}{%- endif -%}
 {%- if show_reviews %}
 {% render 'reviews-style' %}
 <section class="also-like os-reviews" id="reviews">
 <h2>{{ section.settings.reviews_heading }}</h2>
+{%- if g_cards != blank -%}
+<div class="gr-product">
+  <p class="gr-product-label">From our Google reviews</p>
+  <div class="gr-list">{{ g_cards }}</div>
+</div>
+{%- endif -%}
 {%- if app_blocks > 0 -%}
 {%- for block in section.blocks -%}{%- if block.type == '@app' -%}{% render block %}{%- endif -%}{%- endfor -%}
 {%- else %}
@@ -364,7 +382,8 @@
     { "type": "text", "id": "also_heading", "label": "'You may also like' heading", "default": "You may also like" },
     { "type": "header", "content": "Reviews" },
     { "type": "checkbox", "id": "judgeme", "label": "Show Judge.me stars under the product name", "default": false, "info": "Needs the Judge.me app embed switched on. Add the review box itself with Add block > Judge.me > Review widget." },
-    { "type": "text", "id": "reviews_heading", "label": "Reviews heading", "default": "Reviews" }
+    { "type": "text", "id": "reviews_heading", "label": "Reviews heading", "default": "Reviews" },
+    { "type": "checkbox", "id": "google_reviews", "label": "Show Google reviews that mention the product", "default": true, "info": "From Content > Metaobjects > Google review. A review shows on each product picked in its 'Products it mentions'." }
   ],
   "blocks": [
     { "type": "@app" }

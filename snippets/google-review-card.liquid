@@ -1,0 +1,14 @@
+{%- comment -%}
+  One Google review card. Params: r (a "Google review" metaobject entry), featured (true/false), compact (true on product pages).
+  The text is shown word for word, exactly as it was entered from Google.
+{%- endcomment -%}
+{%- liquid
+  assign stars = r.rating.value | default: 5 | at_most: 5 | at_least: 1
+  assign empty = 5 | minus: stars
+-%}
+<article class="review gr-card{% if featured %} featured{% endif %}{% if compact %} gr-card--compact{% endif %}{% if r.review.value.size > 260 %} gr-long{% endif %}">
+  <div class="stars" role="img" aria-label="{{ stars }} out of 5 stars">{% for i in (1..stars) %}★{% endfor %}{% if empty > 0 %}<span class="gr-empty">{% for i in (1..empty) %}★{% endfor %}</span>{% endif %}</div>
+  <blockquote>“{{ r.review.value | escape | strip | newline_to_br }}”</blockquote>
+  {%- if compact != true and r.review.value.size > 260 %}<button type="button" class="gr-more" aria-expanded="false" data-gr-more>Read more</button>{% endif %}
+  <small><strong>{{ r.reviewer.value | escape }}</strong> · Google review{% if r.review_date.value != blank %}, {{ r.review_date.value | date: '%B %Y' }}{% endif %}</small>
+</article>

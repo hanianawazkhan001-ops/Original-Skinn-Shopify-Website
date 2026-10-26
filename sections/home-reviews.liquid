@@ -1,7 +1,11 @@
 {%- comment -%}
   Home: "What customers say" — copied from the test site.
-  Shows only real reviews (DMCC Act): add the reviews app's block (e.g. Judge.me "Reviews carousel")
-  or type in genuine reviews as Review blocks. With no blocks the section is hidden.
+  Shows only real reviews (DMCC Act). In order of priority:
+    1. a reviews app block (e.g. Judge.me "Reviews carousel"), if one is added;
+    2. Google reviews: entries in Content > Metaobjects > Google review that have "Show on the home page" ticked,
+       in "Home page order" (lower first). Shown as a sliding row of cards with the overall Google rating;
+    3. genuine reviews typed in as Review blocks.
+  With none of these the section is hidden.
 {%- endcomment -%}
 {%- liquid
   assign app_blocks = 0
@@ -10,12 +14,59 @@
       assign app_blocks = app_blocks | plus: 1
     endif
   endfor
+  assign g_home = 0
+  if section.settings.use_google
+    for r in shop.metaobjects.google_review.values
+      if r.show_on_home.value == true
+        assign g_home = g_home | plus: 1
+      endif
+    endfor
+  endif
+  # overall Google rating: Judge.me's store-review figures when it has them, otherwise the numbers typed in below
+  assign g_total = shop.metafields.judgeme.shop_reviews_count.value | default: shop.metafields.judgeme.shop_reviews_count | plus: 0
+  assign g_avg = shop.metafields.judgeme.shop_reviews_rating.value | default: shop.metafields.judgeme.shop_reviews_rating | plus: 0
+  if g_total == 0
+    assign g_total = section.settings.google_count | plus: 0
+    assign g_avg = section.settings.google_rating | plus: 0
+  endif
+  assign g_avg = g_avg | times: 1.0 | round: 1
 -%}
-{%- if section.blocks.size > 0 -%}
+{%- if app_blocks > 0 or g_home > 0 or section.blocks.size > 0 -%}
 <section class="section reviews"><div class="container"><h2>{{ section.settings.heading }}</h2>
 {%- if app_blocks > 0 -%}
 {% render 'reviews-style' %}
 <div class="os-app-reviews">{%- for block in section.blocks -%}{%- if block.type == '@app' -%}{% render block %}{%- endif -%}{%- endfor -%}</div>
+{%- elsif g_home > 0 -%}
+{%- if g_total > 0 -%}
+<p class="gr-summary"><span class="gr-summary-star" aria-hidden="true">★</span> <strong>{{ g_avg }}</strong> out of 5 from {{ g_total }} Google review{% if g_total != 1 %}s{% endif %}{% if section.settings.google_link != blank %} · <a href="{{ section.settings.google_link }}" target="_blank" rel="noopener">Read them all on Google&nbsp;&rarr;</a>{% endif %}</p>
+{%- endif -%}
+<div class="gr-carousel" data-gr-carousel>
+  <div class="gr-track" tabindex="0" aria-label="Google reviews">
+    {%- assign shown = 0 -%}
+    {%- for n in (0..60) -%}
+      {%- for r in shop.metaobjects.google_review.values -%}
+        {%- assign ord = r.home_order.value | default: 60 -%}
+        {%- if r.show_on_home.value == true and ord == n -%}
+          {%- liquid
+            assign is_first = false
+            if shown == 0
+              assign is_first = true
+            endif
+            assign shown = shown | plus: 1
+          -%}
+          {% render 'google-review-card', r: r, featured: is_first, compact: false %}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endfor -%}
+  </div>
+  {%- if g_home > 1 -%}
+  <div class="gr-nav">
+    <button type="button" class="gr-arrow" data-gr-prev aria-label="Previous reviews">&larr;</button>
+    <button type="button" class="gr-arrow" data-gr-next aria-label="Next reviews">&rarr;</button>
+  </div>
+  {%- endif -%}
+</div>
+<p class="review-note">Reviews left on our Google Business Profile, shown word for word.</p>
 {%- else -%}
 <div class="review-grid">
 {%- for block in section.blocks -%}
@@ -24,6 +75,29 @@
 </div>
 {%- endif -%}
 </div></section>
+{%- if g_home > 0 and app_blocks == 0 -%}
+<script>
+(function(){
+  document.querySelectorAll('[data-gr-carousel]').forEach(function(c){
+    if(c.dataset.ready) return; c.dataset.ready = '1';
+    var t = c.querySelector('.gr-track'), p = c.querySelector('[data-gr-prev]'), n = c.querySelector('[data-gr-next]');
+    function step(){ var card = t.querySelector('.gr-card'); return card ? card.getBoundingClientRect().width + 16 : t.clientWidth * .8; }
+    function upd(){ if(!p) return; p.disabled = t.scrollLeft < 4; n.disabled = t.scrollLeft + t.clientWidth > t.scrollWidth - 4; }
+    if(p) p.addEventListener('click', function(){ t.scrollBy({left: -step(), behavior: 'smooth'}); });
+    if(n) n.addEventListener('click', function(){ t.scrollBy({left: step(), behavior: 'smooth'}); });
+    t.addEventListener('scroll', upd, {passive: true}); window.addEventListener('resize', upd); upd();
+    c.querySelectorAll('[data-gr-more]').forEach(function(b){
+      var q = b.closest('.gr-card').querySelector('blockquote');
+      if(q && q.scrollHeight <= q.clientHeight + 2) { b.hidden = true; }
+      b.addEventListener('click', function(){
+        var card = b.closest('.gr-card'), open = card.classList.toggle('is-open');
+        b.setAttribute('aria-expanded', open ? 'true' : 'false'); b.textContent = open ? 'Show less' : 'Read more';
+      });
+    });
+  });
+})();
+</script>
+{%- endif -%}
 {%- endif -%}
 
 {% schema %}
@@ -31,15 +105,19 @@
   "name": "Customer reviews",
   "max_blocks": 4,
   "settings": [
-    { "type": "text", "id": "heading", "label": "Heading", "default": "What customers say." }
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What customers say." },
+    { "type": "checkbox", "id": "use_google", "label": "Show Google reviews", "default": true, "info": "Add or change them in Content > Metaobjects > Google review. Tick 'Show on the home page' on the ones to show here." },
+    { "type": "text", "id": "google_rating", "label": "Google rating (fallback)", "default": "5", "info": "Used only until Judge.me reports the store-review total itself." },
+    { "type": "number", "id": "google_count", "label": "Number of Google reviews (fallback)", "default": 20 },
+    { "type": "url", "id": "google_link", "label": "Link to the reviews on Google" }
   ],
   "blocks": [
     {
       "type": "review",
       "name": "Review",
       "settings": [
-        { "type": "textarea", "id": "quote", "label": "Quote", "default": "After just a few weeks, my skin felt softer, healthier and more hydrated." },
-        { "type": "text", "id": "name", "label": "Customer name", "default": "Sarah Johnson" }
+        { "type": "textarea", "id": "quote", "label": "Quote", "info": "A genuine review, word for word." },
+        { "type": "text", "id": "name", "label": "Customer name" }
       ]
     },
     { "type": "@app" }

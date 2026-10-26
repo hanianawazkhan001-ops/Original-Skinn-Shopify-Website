@@ -2243,3 +2243,40 @@ a:active,button:active{transform:scale(.97)}
 .page-section.entering .product-top{animation:osIntroUp 1.2s cubic-bezier(.16,1,.3,1) .32s both}
 .page-section.entering .approved-card-section{animation:osIntroFade 1.1s ease .42s both}
 
+
+/* ---- Google reviews (home "What customers say" carousel + product pages) ---- */
+.gr-summary{margin:12px 0 0;font-size:13px;color:#d5dfd6}
+.gr-summary strong{color:#fff;font-weight:700}
+.gr-summary-star{color:#d9c3a2}
+.gr-summary a{color:#fff;text-decoration:underline;text-underline-offset:3px}
+.gr-carousel{margin-top:22px}
+.gr-track{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 32px)/3);gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:14px 2px 16px;margin:0 -2px}
+.gr-track::-webkit-scrollbar{display:none}
+.gr-track .review{scroll-snap-align:start;display:flex;flex-direction:column}
+.gr-track .review blockquote{font-size:20px;line-height:1.38;flex:1}
+.gr-track .review.featured blockquote{font-size:22px}
+.gr-track .review.gr-long blockquote,.gr-track .review.featured.gr-long blockquote{font-size:16px;line-height:1.5;flex:0 0 auto;display:-webkit-box;-webkit-line-clamp:8;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:10px}
+.gr-track .review.gr-long.is-open blockquote{display:block;-webkit-line-clamp:unset;overflow:visible}
+.gr-track .review.gr-long small{margin-top:auto}
+.gr-more{align-self:flex-start;background:none;border:0;padding:0 0 18px;font:700 10px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:inherit;opacity:.8;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+.gr-more:hover{opacity:1}
+.gr-more:focus-visible{outline:2px solid #d9c3a2;outline-offset:3px}
+.gr-track .review:hover{transform:translateY(-6px)}
+.gr-card small strong{font-weight:600}
+.gr-empty{opacity:.3}
+.gr-nav{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}
+.gr-arrow{width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;font-size:18px;line-height:1;cursor:pointer;transition:background .2s ease,opacity .2s ease}
+.gr-arrow:hover:not(:disabled){background:rgba(255,255,255,.12)}
+.gr-arrow:disabled{opacity:.35;cursor:default}
+.gr-arrow:focus-visible,.gr-track:focus-visible{outline:2px solid #d9c3a2;outline-offset:3px}
+@media(max-width:1000px){.gr-track{grid-auto-columns:calc((100% - 16px)/2)}}
+@media(max-width:650px){.gr-track{grid-auto-columns:86%}.gr-track .review{padding:24px}.gr-track .review blockquote,.gr-track .review.featured blockquote{font-size:18px}}
+.gr-product{margin-bottom:28px}
+.gr-product-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--moss);margin:0 0 12px}
+.gr-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.review.gr-card--compact{padding:22px;border:1px solid var(--line);border-radius:20px;background:var(--paper);color:var(--ink)}
+.review.gr-card--compact:hover,.review.gr-card--compact:not(.featured):hover{transform:none;background:var(--paper);border-color:var(--line);box-shadow:none}
+.gr-card--compact .stars,.review.gr-card--compact:hover .stars{color:var(--forest);margin-bottom:10px;transform:none}
+.gr-card--compact blockquote{font-family:var(--serif);font-size:17px;line-height:1.45;margin:0 0 14px}
+.gr-card--compact small{color:var(--muted);opacity:1;font-size:11px}
+@media(prefers-reduced-motion:reduce){.gr-track{scroll-behavior:auto}.gr-track .review:hover{transform:none}}
