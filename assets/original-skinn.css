@@ -2327,3 +2327,33 @@ a:active,button:active{transform:scale(.97)}
 .gr-card--compact .stars,.review.gr-card--compact:hover .stars{font-size:17px;color:#b07d2c}
 .gr-card--compact .gr-who{margin-top:14px;padding-top:14px}
 @media(max-width:650px){.gr-track .review.gr-card,.gr-track .review.gr-card.featured{padding:28px 24px 22px}.gr-track .gr-card::before{font-size:64px;right:18px}}
+
+/* ---- Reviews v3: warm rose band (less green), bigger gold stars, colour-coded tiles ---- */
+.reviews.reviews--warm{position:relative;overflow:hidden;color:var(--ink);background:radial-gradient(circle at 92% 6%,rgba(180,147,102,.32) 0,rgba(180,147,102,0) 360px),radial-gradient(circle at 4% 96%,rgba(220,189,182,.95) 0,rgba(220,189,182,0) 460px),linear-gradient(180deg,#ecd6cf 0%,var(--rose-soft) 55%,#f8f1ea 100%)}
+.reviews--warm h2{color:var(--forest)}
+.reviews--warm .eyebrow{color:var(--gold)}
+.reviews--warm .gr-summary{background:var(--paper);border:1px solid rgba(180,147,102,.55);color:var(--ink);box-shadow:0 8px 22px rgba(120,80,60,.1)}
+.reviews--warm .gr-summary strong{color:var(--forest)}
+.reviews--warm .gr-summary a{color:var(--forest)}
+.reviews--warm .gr-summary .gr-summary-star{font-size:24px;letter-spacing:.06em;line-height:1;color:#c08a2e;text-shadow:0 1px 0 rgba(120,80,20,.18)}
+.reviews--warm .gr-summary .gr-empty{color:#c08a2e;opacity:.28}
+.reviews--warm .gr-track .review.gr-card,.reviews--warm .gr-track .review.gr-card.featured{--band:var(--gold);--tile:var(--paper);background:var(--paper);border-color:rgba(180,147,102,.55);box-shadow:inset 0 0 0 5px var(--paper),inset 0 0 0 6px rgba(180,147,102,.28),0 18px 40px rgba(120,72,58,.14);padding-top:40px;overflow:hidden}
+.reviews--warm .gr-track .review.gr-card:hover,.reviews--warm .gr-track .review.gr-card.featured:hover{background:var(--paper);box-shadow:inset 0 0 0 5px var(--paper),inset 0 0 0 6px rgba(180,147,102,.45),0 26px 50px rgba(120,72,58,.22)}
+.reviews--warm .gr-track .gr-card:nth-child(4n+2){--band:var(--rose)}
+.reviews--warm .gr-track .gr-card:nth-child(4n+3){--band:var(--moss)}
+.reviews--warm .gr-track .gr-card:nth-child(4n+4){--band:#c9a36b}
+.reviews--warm .gr-track .gr-card::after{content:"";position:absolute;left:0;right:0;top:0;height:8px;background:var(--band);pointer-events:none}
+.reviews--warm .gr-track .gr-card::before{color:var(--band);opacity:.38;top:18px}
+.reviews--warm .gr-card .stars,.reviews--warm .gr-track .gr-card:hover .stars{font-size:28px;letter-spacing:.06em;line-height:1;color:#c08a2e;text-shadow:0 1px 0 rgba(120,80,20,.18);margin-bottom:18px}
+.reviews--warm .gr-card .gr-empty{color:#c08a2e;opacity:.25}
+.reviews--warm .gr-avatar{background:var(--band);color:#fff}
+.reviews--warm .gr-track .gr-card:nth-child(4n+2) .gr-avatar{color:var(--ink)}
+.reviews--warm .gr-who{border-top-color:rgba(180,147,102,.35)}
+.reviews--warm .gr-more{color:var(--forest)}
+.reviews--warm .gr-arrow{border:1px solid rgba(37,71,56,.35);color:var(--forest);background:transparent}
+.reviews--warm .gr-arrow[data-gr-next]:not(:disabled),.reviews--warm .gr-arrow:hover:not(:disabled){background:var(--forest);color:#fff;border-color:var(--forest)}
+.reviews--warm .gr-arrow:focus-visible,.reviews--warm .gr-track:focus-visible{outline-color:var(--gold)}
+.reviews--warm .review-note{color:var(--muted);opacity:1}
+/* product pages and the reviews page: bigger stars too */
+.review.gr-card--compact .stars,.review.gr-card--compact:hover .stars{font-size:22px;letter-spacing:.06em;line-height:1;color:#c08a2e}
+@media(max-width:650px){.reviews--warm .gr-card .stars,.reviews--warm .gr-track .gr-card:hover .stars{font-size:24px}.reviews--warm .gr-summary .gr-summary-star{font-size:20px}}
