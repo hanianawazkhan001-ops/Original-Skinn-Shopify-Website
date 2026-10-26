@@ -11,7 +11,10 @@
   <div class="stars" role="img" aria-label="{{ stars }} out of 5 stars">{% for i in (1..stars) %}★{% endfor %}{% if empty > 0 %}<span class="gr-empty">{% for i in (1..empty) %}★{% endfor %}</span>{% endif %}</div>
   <blockquote>“{{ r.review.value | escape | strip | newline_to_br }}”</blockquote>
   {%- if compact != true and r.review.value.size > 260 %}<button type="button" class="gr-more" aria-expanded="false" data-gr-more>Read more</button>{% endif %}
-  <small><strong>{{ r.reviewer.value | escape }}</strong> · Google review{% if r.review_date.value != blank %}, {{ r.review_date.value | date: '%B %Y' }}{% endif %}</small>
+  <div class="gr-who">
+    <span class="gr-avatar" aria-hidden="true">{{ r.reviewer.value | strip | slice: 0 | upcase }}</span>
+    <span class="gr-who-text"><strong>{{ r.reviewer.value | escape }}</strong><span>Google review{% if r.review_date.value != blank %}, {{ r.review_date.value | date: '%B %Y' }}{% endif %}</span></span>
+  </div>
   {%- if show_products and r.products.value != blank -%}
   <div class="gr-products">
     {%- for gp in r.products.value -%}
