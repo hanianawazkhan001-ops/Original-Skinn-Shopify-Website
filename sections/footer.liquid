@@ -16,7 +16,7 @@
 {%- if section.settings.col2_menu != blank -%}
   {%- for link in linklists[section.settings.col2_menu].links -%}<a href="{{ link.url }}">{{ link.title }}</a>{%- endfor -%}
 {%- else -%}
-<a href="/pages/about">About Us</a><a href="/pages/ingredients">Ingredients</a>{% if pages.reviews != empty and pages.reviews.url != blank %}<a href="{{ pages.reviews.url }}">Reviews</a>{% endif %}<a href="/pages/faqs">FAQ</a><a href="/pages/contact">Contact</a>
+<a href="/pages/about">About Us</a><a href="/pages/ingredients">Ingredients</a>{% if pages.reviews.url != blank and pages.reviews.published_at != blank %}<a href="{{ pages.reviews.url }}">Reviews</a>{% endif %}<a href="/pages/faqs">FAQ</a><a href="/pages/contact">Contact</a>
 {%- endif -%}
 </div>
 <div class="footer-col"><b>{{ section.settings.col3_title }}</b>

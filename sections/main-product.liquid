@@ -319,7 +319,7 @@
 <h2>{{ section.settings.reviews_heading }}</h2>
 {%- if g_cards != blank -%}
 <div class="gr-product">
-  <p class="gr-product-label">From our Google reviews{% if pages.reviews != empty and pages.reviews.url != blank %} <a href="{{ pages.reviews.url }}">See all reviews&nbsp;&rarr;</a>{% endif %}</p>
+  <p class="gr-product-label">From our Google reviews{% if pages.reviews.url != blank and pages.reviews.published_at != blank %} <a href="{{ pages.reviews.url }}">See all reviews&nbsp;&rarr;</a>{% endif %}</p>
   <div class="gr-list">{{ g_cards }}</div>
 </div>
 {%- endif -%}

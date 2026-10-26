@@ -24,6 +24,7 @@
     .desk-tab[aria-current="page"],.desk-group-btn.is-here{font-weight:600}
     .desk-tab:focus-visible,.desk-drop a:focus-visible{outline:2px solid var(--forest);outline-offset:4px;border-radius:2px}
     .desk-tab.is-info{color:var(--muted,#5f6d66)}
+    .desk-tab.is-soon{cursor:default}.desk-tab.is-soon::after{display:none}
     .desk-group{position:relative}
     .desk-group-btn svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s ease;margin-top:1px}
     .desk-group-btn[aria-expanded="true"] svg{transform:rotate(180deg)}
@@ -61,8 +62,11 @@
     {%- endfor -%}
   {%- else -%}
     <a class="desk-tab is-info" href="/pages/about"{% if request.path == '/pages/about' %} aria-current="page"{% endif %}>About Us</a>
-    {%- if pages.reviews != empty and pages.reviews.url != blank %}
+    {%- comment -%} Reviews: a link once the Reviews page is published (Online Store > Pages), until then a label that goes nowhere {%- endcomment -%}
+    {%- if pages.reviews.url != blank and pages.reviews.published_at != blank %}
     <a class="desk-tab is-info" href="{{ pages.reviews.url }}"{% if request.path == pages.reviews.url %} aria-current="page"{% endif %}>Reviews</a>
+    {%- else %}
+    <span class="desk-tab is-info is-soon" aria-disabled="true">Reviews</span>
     {%- endif %}
     <a class="desk-tab is-info" href="/pages/faqs"{% if request.path == '/pages/faqs' %} aria-current="page"{% endif %}>FAQs</a>
     <a class="desk-tab is-info" href="/pages/contact"{% if request.path == '/pages/contact' %} aria-current="page"{% endif %}>Contact</a>
