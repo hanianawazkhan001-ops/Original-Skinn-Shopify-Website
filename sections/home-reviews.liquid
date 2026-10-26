@@ -32,14 +32,13 @@
   assign g_avg = g_avg | times: 1.0 | round: 1
 -%}
 {%- if app_blocks > 0 or g_home > 0 or section.blocks.size > 0 -%}
-<section class="section reviews{% if app_blocks == 0 and g_home > 0 %} reviews--warm{% endif %}"><div class="container"><h2>{{ section.settings.heading }}</h2>
+<section class="section reviews"><div class="container"><h2>{{ section.settings.heading }}</h2>
 {%- if app_blocks > 0 -%}
 {% render 'reviews-style' %}
 <div class="os-app-reviews">{%- for block in section.blocks -%}{%- if block.type == '@app' -%}{% render block %}{%- endif -%}{%- endfor -%}</div>
 {%- elsif g_home > 0 -%}
 {%- if g_total > 0 -%}
-{%- assign g_star = g_avg | round | at_most: 5 | at_least: 0 -%}{%- assign g_star_empty = 5 | minus: g_star -%}
-<p class="gr-summary"><span class="gr-summary-star" aria-hidden="true">{% for i in (1..g_star) %}★{% endfor %}{% if g_star_empty > 0 %}<span class="gr-empty">{% for i in (1..g_star_empty) %}★{% endfor %}</span>{% endif %}</span> <strong>{{ g_avg }}</strong> out of 5 from {{ g_total }} Google review{% if g_total != 1 %}s{% endif %}{% if pages.reviews.url != blank and pages.reviews.published_at != blank %} · <a href="{{ pages.reviews.url }}">Read all reviews&nbsp;&rarr;</a>{% elsif section.settings.google_link != blank %} · <a href="{{ section.settings.google_link }}" target="_blank" rel="noopener">Read them all on Google&nbsp;&rarr;</a>{% endif %}</p>
+<p class="gr-summary"><span class="gr-summary-star" aria-hidden="true">★</span> <strong>{{ g_avg }}</strong> out of 5 from {{ g_total }} Google review{% if g_total != 1 %}s{% endif %}{% if pages.reviews.url != blank and pages.reviews.published_at != blank %} · <a href="{{ pages.reviews.url }}">Read all reviews&nbsp;&rarr;</a>{% elsif section.settings.google_link != blank %} · <a href="{{ section.settings.google_link }}" target="_blank" rel="noopener">Read them all on Google&nbsp;&rarr;</a>{% endif %}</p>
 {%- endif -%}
 <div class="gr-carousel" data-gr-carousel>
   <div class="gr-track" tabindex="0" aria-label="Google reviews">
