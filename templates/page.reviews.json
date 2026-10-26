@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-reviews",
+      "settings": {
+        "note": "Reviews left on our Google Business Profile, shown word for word."
+      }
+    }
+  },
+  "order": ["main"]
+}

@@ -1,5 +1,6 @@
 {%- comment -%}
-  One Google review card. Params: r (a "Google review" metaobject entry), featured (true/false), compact (true on product pages).
+  One Google review card. Params: r (a "Google review" metaobject entry), featured (true/false),
+  compact (true on the product and reviews pages), show_products (true on the reviews page: links to the products it mentions).
   The text is shown word for word, exactly as it was entered from Google.
 {%- endcomment -%}
 {%- liquid
@@ -11,4 +12,12 @@
   <blockquote>“{{ r.review.value | escape | strip | newline_to_br }}”</blockquote>
   {%- if compact != true and r.review.value.size > 260 %}<button type="button" class="gr-more" aria-expanded="false" data-gr-more>Read more</button>{% endif %}
   <small><strong>{{ r.reviewer.value | escape }}</strong> · Google review{% if r.review_date.value != blank %}, {{ r.review_date.value | date: '%B %Y' }}{% endif %}</small>
+  {%- if show_products and r.products.value != blank -%}
+  <div class="gr-products">
+    {%- for gp in r.products.value -%}
+      {%- assign gp_name = gp.title | split: ' – ' | first -%}
+      <a href="{{ gp.url }}">{{ gp_name | escape }}&nbsp;&rarr;</a>
+    {%- endfor -%}
+  </div>
+  {%- endif -%}
 </article>

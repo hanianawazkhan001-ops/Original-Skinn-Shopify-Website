@@ -16,7 +16,7 @@
 {%- if section.settings.col2_menu != blank -%}
   {%- for link in linklists[section.settings.col2_menu].links -%}<a href="{{ link.url }}">{{ link.title }}</a>{%- endfor -%}
 {%- else -%}
-<a href="/pages/about">About Us</a><a href="/pages/ingredients">Ingredients</a><a href="/pages/faqs">FAQ</a><a href="/pages/contact">Contact</a>
+<a href="/pages/about">About Us</a><a href="/pages/ingredients">Ingredients</a>{% if pages.reviews != empty and pages.reviews.url != blank %}<a href="{{ pages.reviews.url }}">Reviews</a>{% endif %}<a href="/pages/faqs">FAQ</a><a href="/pages/contact">Contact</a>
 {%- endif -%}
 </div>
 <div class="footer-col"><b>{{ section.settings.col3_title }}</b>
@@ -46,7 +46,7 @@
     { "type": "link_list", "id": "col1_menu", "label": "Menu", "info": "Leave empty to show the standard shop links." },
     { "type": "header", "content": "Column 2" },
     { "type": "text", "id": "col2_title", "label": "Heading", "default": "About" },
-    { "type": "link_list", "id": "col2_menu", "label": "Menu", "info": "Leave empty to show About Us, Ingredients, FAQ and Contact." },
+    { "type": "link_list", "id": "col2_menu", "label": "Menu", "info": "Leave empty to show About Us, Ingredients, Reviews, FAQ and Contact." },
     { "type": "header", "content": "Column 3" },
     { "type": "text", "id": "col3_title", "label": "Heading", "default": "Help" },
     { "type": "link_list", "id": "col3_menu", "label": "Menu", "info": "Leave empty to show Delivery, Returns, Privacy, Terms and Cookie Policy." },
