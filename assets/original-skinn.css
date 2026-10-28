@@ -2298,3 +2298,13 @@ a:active,button:active{transform:scale(.97)}
 .gr-products a:focus-visible,.gr-product-label a:focus-visible{outline:2px solid var(--forest);outline-offset:2px}
 .gr-product-label a{margin-left:10px;color:var(--forest);text-decoration:underline;text-underline-offset:3px;letter-spacing:.1em}
 @media(max-width:650px){.rv-shell{padding:22px 14px 64px}.rv-summary{padding:18px}.rv-score strong{font-size:36px}}
+
+/* ---- Home reviews: bigger stars and clearer tile borders ---- */
+.gr-track .review .stars{font-size:24px;letter-spacing:.08em;line-height:1;color:#e2c28b;margin-bottom:20px}
+.gr-track .review.featured .stars,.gr-track .review.featured:hover .stars{color:#b07d2c}
+.gr-track .review:hover .stars{color:#f3e0b8;transform:none}
+.gr-track .review:not(.featured){border:1.5px solid rgba(217,195,162,.6)}
+.gr-track .review.featured{border:1.5px solid rgba(180,147,102,.85)}
+.gr-track .review:not(.featured):hover{border-color:rgba(217,195,162,.95)}
+.gr-track .review.featured:hover{border-color:#b49366}
+@media(max-width:650px){.gr-track .review .stars{font-size:21px}}
