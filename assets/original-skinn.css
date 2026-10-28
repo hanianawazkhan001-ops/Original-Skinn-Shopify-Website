@@ -2311,3 +2311,4 @@ a:active,button:active{transform:scale(.97)}
 /* keep the top border visible when a tile lifts on hover: room above the tiles inside the scrolling row */
 .gr-track{padding-top:20px;margin-top:-6px}
 @media(prefers-reduced-motion:no-preference){.gr-track .review:hover{transform:translate3d(0,-6px,0)}}
+.gr-summary .gr-summary-star{font-size:17px;color:#e2c28b;vertical-align:-1px}
