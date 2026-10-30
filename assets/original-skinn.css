@@ -2397,3 +2397,21 @@ a:active,button:active{transform:scale(.97)}
   .jr-buy{max-width:none;align-self:stretch}
 }
 @media(prefers-reduced-motion:reduce){.jr-card,.jr-card-media img,.jr-step-pic,.jr-chev{transition:none}}
+
+/* ---- Find your ritual v2: plain white cards; each open journey in its own colour ---- */
+.jr-panel--cream{background:#f8f1e4}
+.jr-panel--sage{background:#dfe7dc}
+.jr-panel--rose{background:#f2ddd7}
+.jr-panel--gold{background:#efe2c8}
+.jr-panel--stone{background:#e8e1d5}
+.jr-steps::before{height:0;border-top:2px dotted rgba(180,147,102,.85);background:none;top:70px}
+.jr-step-num{color:#5b4626}
+.jr-step-pic{border:3px solid #fff;box-shadow:0 0 0 1px rgba(180,147,102,.7),0 8px 18px rgba(24,49,39,.14)}
+.jr-step a:hover .jr-step-pic{box-shadow:0 0 0 2px var(--gold),0 12px 22px rgba(24,49,39,.18)}
+.jr-buy{border-color:rgba(180,147,102,.5)}
+.jr-buy-eyebrow{color:#5b4626}
+@media(max-width:650px){.jr-steps::before{border-top:0;border-left:2px dotted rgba(180,147,102,.85);width:0;top:20px}}
+/* main journey cards: clearer border */
+.jr-card{border:1.5px solid rgba(180,147,102,.75)}
+.jr-card:hover{border-color:#b49366}
+.jr-card.is-open{border-color:var(--forest);box-shadow:0 0 0 1.5px var(--forest),0 14px 30px rgba(24,49,39,.14)}

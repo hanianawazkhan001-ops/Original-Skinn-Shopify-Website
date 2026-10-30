@@ -46,7 +46,7 @@
     assign is_open = true
   endif
 -%}
-<button type="button" class="jr-card{% if is_open %} is-open{% endif %}" data-jr-card="{{ block.id }}" aria-expanded="{{ is_open }}" aria-controls="jr-{{ block.id }}" {{ block.shopify_attributes }}>
+<button type="button" class="jr-card jr-card--{{ block.settings.colour }}{% if is_open %} is-open{% endif %}" data-jr-card="{{ block.id }}" aria-expanded="{{ is_open }}" aria-controls="jr-{{ block.id }}" {{ block.shopify_attributes }}>
   <span class="jr-card-media">{% render 'os-img', image: block.settings.image, fallback: block.settings.fallback, alt: block.settings.image_alt, width: 700, lazy: true %}</span>
   <span class="jr-card-body">
     <span class="jr-count">{{ n }} step{% if n != 1 %}s{% endif %}</span>
