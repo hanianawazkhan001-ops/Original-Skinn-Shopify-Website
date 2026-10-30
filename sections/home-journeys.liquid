@@ -1,0 +1,263 @@
+{%- comment -%}
+  Home: "Find your ritual." — skincare journeys (Face, Body, Bath, Hair, Baby).
+  A row of photo cards; clicking a card opens that journey underneath: its steps in the order to use them,
+  then the bundle (or "add all") for the whole journey.
+
+  How to edit (Online Store > Themes > Customize > this section):
+    - Add a "Journey" block, then the "Step" blocks for it straight after it. A step belongs to the journey above it.
+    - Card photo: pick one in the journey block. With none picked, the built-in photo is used.
+    - Step: pick the product. Its name, price, photo and link come from the product unless you fill in the overrides.
+    - Bundle: pick a bundle product to sell the journey as one item. With none picked, the button adds every step's product.
+      Tick "Customer chooses inside the bundle" for bundles like the Ultimate Spa Ritual Set, so the button opens its page.
+    - Extra: an optional smaller button (e.g. "Mornings only? Face Ritual"). Its price is worked out from the products picked.
+{%- endcomment -%}
+{%- liquid
+  assign first_journey = ''
+  for b in section.blocks
+    if b.type == 'journey'
+      assign first_journey = b.id
+      break
+    endif
+  endfor
+  assign open_id = ''
+  if section.settings.open_first
+    assign open_id = first_journey
+  endif
+-%}
+<section class="section journeys" id="journeys" data-journeys><div class="container">
+<div class="section-head"><div><h2>{{ section.settings.heading }}</h2></div>{% if section.settings.intro != blank %}<div><p class="section-intro">{{ section.settings.intro }}</p></div>{% endif %}</div>
+
+<div class="jr-cards">
+{%- for block in section.blocks -%}
+{%- if block.type == 'journey' -%}
+{%- liquid
+  assign n = 0
+  assign from = forloop.index
+  for s in section.blocks offset: from
+    if s.type == 'journey'
+      break
+    endif
+    if s.settings.product != blank
+      assign n = n | plus: 1
+    endif
+  endfor
+  assign is_open = false
+  if block.id == open_id
+    assign is_open = true
+  endif
+-%}
+<button type="button" class="jr-card{% if is_open %} is-open{% endif %}" data-jr-card="{{ block.id }}" aria-expanded="{{ is_open }}" aria-controls="jr-{{ block.id }}" {{ block.shopify_attributes }}>
+  <span class="jr-card-media">{% render 'os-img', image: block.settings.image, fallback: block.settings.fallback, alt: block.settings.image_alt, width: 700, lazy: true %}</span>
+  <span class="jr-card-body">
+    <span class="jr-count">{{ n }} step{% if n != 1 %}s{% endif %}</span>
+    <span class="jr-label">{{ block.settings.label }}</span>
+    {%- if block.settings.subtitle != blank -%}<span class="jr-sub">{{ block.settings.subtitle }}</span>{%- endif -%}
+    <span class="jr-toggle"><span class="jr-toggle-open">See the journey</span><span class="jr-toggle-close">Hide the journey</span><span class="jr-chev" aria-hidden="true"></span></span>
+  </span>
+</button>
+{%- endif -%}
+{%- endfor -%}
+</div>
+
+{%- for block in section.blocks -%}
+{%- if block.type == 'journey' -%}
+{%- liquid
+  assign from = forloop.index
+  assign ids = ''
+  assign total = 0
+  assign first_img = blank
+  for s in section.blocks offset: from
+    if s.type == 'journey'
+      break
+    endif
+    assign sp = s.settings.product
+    if sp != blank
+      assign ids = ids | append: sp.selected_or_first_available_variant.id | append: ','
+      assign total = total | plus: sp.selected_or_first_available_variant.price
+      if first_img == blank
+        assign first_img = sp.featured_image
+      endif
+    endif
+  endfor
+  assign bp = block.settings.bundle
+  assign ex_ids = ''
+  assign ex_total = 0
+  for p in block.settings.extra_products
+    assign ex_ids = ex_ids | append: p.selected_or_first_available_variant.id | append: ','
+    assign ex_total = ex_total | plus: p.selected_or_first_available_variant.price
+  endfor
+-%}
+<div class="jr-panel jr-panel--{{ block.settings.colour }}" id="jr-{{ block.id }}" data-jr-panel="{{ block.id }}"{% unless block.id == open_id %} hidden{% endunless %}>
+  <div class="jr-panel-head">
+    <h3>{{ block.settings.title | default: block.settings.label }}</h3>
+    {%- if section.settings.order_note != blank -%}<p>{{ section.settings.order_note }}</p>{%- endif -%}
+  </div>
+  <div class="jr-panel-main">
+    <ol class="jr-steps">
+    {%- for s in section.blocks offset: from -%}
+      {%- if s.type == 'journey' -%}{%- break -%}{%- endif -%}
+      {%- assign sp = s.settings.product -%}
+      {%- if sp == blank -%}{%- continue -%}{%- endif -%}
+      {%- liquid
+        assign s_url = s.settings.link | default: sp.url
+        assign s_img = s.settings.image | default: sp.featured_image
+        assign s_num = forloop.index
+        if s_num < 10
+          assign s_num = '0' | append: s_num
+        endif
+      -%}
+      <li class="jr-step" {{ s.shopify_attributes }}>
+        <a href="{{ s_url }}">
+          <span class="jr-step-label"><span class="jr-step-num">{{ s_num }}</span> {{ s.settings.step }}</span>
+          <span class="jr-step-pic">{% if s_img != blank %}<img src="{{ s_img | image_url: width: 220 }}" alt="" loading="lazy" width="92" height="92">{% endif %}</span>
+          <span class="jr-step-name">{% if s.settings.name != blank %}{{ s.settings.name }}{% else %}{% render 'product-name', product: sp, part: 'short' %}{% endif %}</span>
+          <span class="jr-step-price">{% if s.settings.price_text != blank %}{{ s.settings.price_text }}{% else %}{{ sp.price | money_without_trailing_zeros }}{% endif %}</span>
+          {%- if s.settings.note != blank -%}<span class="jr-step-note">{{ s.settings.note }}</span>{%- endif -%}
+        </a>
+      </li>
+    {%- endfor -%}
+    </ol>
+    <div class="jr-buy">
+      <div class="jr-buy-top">
+        {%- liquid
+          if bp != blank
+            assign b_img = block.settings.bundle_image | default: bp.featured_image
+          else
+            assign b_img = block.settings.bundle_image | default: first_img
+          endif
+        -%}
+        <span class="jr-buy-pic">{% if b_img != blank %}<img src="{{ b_img | image_url: width: 180 }}" alt="" loading="lazy" width="74" height="74">{% endif %}</span>
+        <span class="jr-buy-text">
+          {%- if block.settings.bundle_eyebrow != blank -%}<span class="jr-buy-eyebrow">{{ block.settings.bundle_eyebrow }}</span>{%- endif -%}
+          <strong class="jr-buy-name">{% if block.settings.bundle_name != blank %}{{ block.settings.bundle_name }}{% elsif bp != blank %}{% render 'product-name', product: bp, part: 'short' %}{% else %}{{ block.settings.title | default: block.settings.label }}{% endif %}</strong>
+          <span class="jr-buy-price">
+            {%- if bp != blank -%}
+              {%- if bp.compare_at_price > bp.price -%}<s>{{ bp.compare_at_price | money_without_trailing_zeros }}</s> {% endif -%}<strong>{{ bp.price | money_without_trailing_zeros }}</strong>
+            {%- else -%}
+              <strong>{{ total | money_without_trailing_zeros }}</strong>
+            {%- endif -%}
+          </span>
+        </span>
+      </div>
+      {%- if bp != blank and block.settings.bundle_choose -%}
+        <a class="btn primary jr-buy-btn" href="{{ bp.url }}">{{ block.settings.button_label }}</a>
+      {%- elsif bp != blank -%}
+        <button type="button" class="btn primary jr-buy-btn concern-add" data-product="{{ bp.title | split: ' – ' | first | escape }}" data-variants="{{ bp.selected_or_first_available_variant.id }}"{% unless bp.available %} disabled{% endunless %}>{{ block.settings.button_label }}</button>
+      {%- else -%}
+        <button type="button" class="btn primary jr-buy-btn concern-add" data-product="{{ block.settings.title | default: block.settings.label | escape }}" data-variants="{{ ids }}">{{ block.settings.button_label }}</button>
+      {%- endif -%}
+      {%- if ex_ids != '' and block.settings.extra_text != blank -%}
+        <button type="button" class="jr-extra concern-add" data-product="{{ block.settings.extra_name | default: block.settings.extra_text | escape }}" data-variants="{{ ex_ids }}">{{ block.settings.extra_text }}, {{ ex_total | money_without_trailing_zeros }}</button>
+      {%- elsif block.settings.note != blank -%}
+        <p class="jr-buy-note">{{ block.settings.note }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+{%- endif -%}
+{%- endfor -%}
+</div></section>
+
+<script>
+(function(){
+  document.querySelectorAll('[data-journeys]').forEach(function(sec){
+    if(sec.dataset.ready) return; sec.dataset.ready = '1';
+    var cards = sec.querySelectorAll('[data-jr-card]');
+    function show(id, scroll){
+      cards.forEach(function(c){
+        var on = c.dataset.jrCard === id;
+        c.classList.toggle('is-open', on);
+        c.setAttribute('aria-expanded', on ? 'true' : 'false');
+      });
+      var panel = null;
+      sec.querySelectorAll('[data-jr-panel]').forEach(function(p){
+        var on = p.dataset.jrPanel === id;
+        p.hidden = !on;
+        if(on) panel = p;
+      });
+      if(panel && scroll){
+        var r = panel.getBoundingClientRect();
+        if(r.top > window.innerHeight - 120 || r.top < 0){
+          panel.scrollIntoView({behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest'});
+        }
+      }
+    }
+    cards.forEach(function(c){
+      c.addEventListener('click', function(){
+        show(c.classList.contains('is-open') ? '' : c.dataset.jrCard, true);
+      });
+    });
+    // theme editor: selecting a journey or one of its steps opens it
+    document.addEventListener('shopify:block:select', function(e){
+      var el = e.target;
+      if(!sec.contains(el)) return;
+      if(el.dataset && el.dataset.jrCard){ show(el.dataset.jrCard, false); return; }
+      var p = el.closest ? el.closest('[data-jr-panel]') : null;
+      if(p) show(p.dataset.jrPanel, false);
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Find your ritual",
+  "max_blocks": 50,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Find your ritual." },
+    { "type": "text", "id": "intro", "label": "Intro", "default": "Pick a journey. We’ll show you each step, in the order to use them." },
+    { "type": "text", "id": "order_note", "label": "Line next to each journey's title", "default": "Use one step or all of them, always in this order." },
+    { "type": "checkbox", "id": "open_first", "label": "Show the first journey open", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "journey",
+      "name": "Journey",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Name on the card", "default": "Face" },
+        { "type": "text", "id": "subtitle", "label": "Line under the name", "default": "Morning & night" },
+        { "type": "image_picker", "id": "image", "label": "Card photo" },
+        { "type": "text", "id": "fallback", "label": "Built-in photo (used when no photo is picked)", "default": "photo-face.jpg" },
+        { "type": "text", "id": "image_alt", "label": "Photo description" },
+        { "type": "text", "id": "title", "label": "Journey title (when open)", "default": "The face journey" },
+        {
+          "type": "select", "id": "colour", "label": "Background colour when open", "default": "cream",
+          "options": [
+            { "value": "cream", "label": "Cream" },
+            { "value": "sage", "label": "Sage" },
+            { "value": "rose", "label": "Rose" },
+            { "value": "stone", "label": "Stone" },
+            { "value": "gold", "label": "Warm gold" }
+          ]
+        },
+        { "type": "header", "content": "Buy the journey" },
+        { "type": "product", "id": "bundle", "label": "Bundle product", "info": "Leave empty to add every step's product instead." },
+        { "type": "checkbox", "id": "bundle_choose", "label": "Customer chooses inside the bundle", "default": false, "info": "The button opens the bundle's page so they can pick scents." },
+        { "type": "image_picker", "id": "bundle_image", "label": "Picture (optional)" },
+        { "type": "text", "id": "bundle_eyebrow", "label": "Small line above the name", "default": "All 4 steps" },
+        { "type": "text", "id": "bundle_name", "label": "Name (optional)", "info": "Leave empty to use the bundle's name." },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "Add the ritual" },
+        { "type": "header", "content": "Smaller extra button (optional)" },
+        { "type": "product_list", "id": "extra_products", "label": "Products it adds", "limit": 5 },
+        { "type": "text", "id": "extra_text", "label": "Button text", "info": "The price is added after it, e.g. \"Mornings only? Face Ritual, steps 1–3, £32\"." },
+        { "type": "text", "id": "extra_name", "label": "Name in the 'added to bag' message" },
+        { "type": "text", "id": "note", "label": "Small note (shown when there's no extra button)" }
+      ]
+    },
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "step", "label": "Step", "default": "Cleanse" },
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "text", "id": "name", "label": "Name (optional)", "info": "Leave empty to use the product's name." },
+        { "type": "text", "id": "price_text", "label": "Price as shown (optional)", "info": "e.g. from £6. Leave empty to use the product's price." },
+        { "type": "text", "id": "note", "label": "Small note", "info": "e.g. 4 scents, Morning & night" },
+        { "type": "image_picker", "id": "image", "label": "Picture (optional)", "info": "Leave empty to use the product's photo." },
+        { "type": "url", "id": "link", "label": "Link (optional)", "info": "Leave empty to link to the product." }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Find your ritual" }]
+}
+{% endschema %}

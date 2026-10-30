@@ -69,96 +69,300 @@
       ],
       "settings": {}
     },
-    "concerns": {
-      "type": "home-concerns",
+    "journeys": {
+      "type": "home-journeys",
       "blocks": {
-        "concern1": {
-          "type": "concern",
+        "face": {
+          "type": "journey",
           "settings": {
-            "fallback": "photo-salt-scrub.jpg",
-            "image_alt": "Grapefruit Salt Scrub with fresh grapefruit",
-            "heading": "Tight, dry skin after showering",
-            "fix": "Scrub away rough skin, then lock in moisture.",
-            "products_text": "Salt Scrub + Whipped Body Butter",
-            "price_html": "£20",
-            "products": [
-              "sweet-citrus-salt-scrub",
-              "cherry-fragranced-whipped-body-butter"
+            "label": "Face",
+            "subtitle": "Morning & night",
+            "fallback": "photo-face.jpg",
+            "image_alt": "Day and Night Facial Moisturiser & Serum jars with chamomile and lemon",
+            "title": "The face journey",
+            "colour": "cream",
+            "bundle": "day-night-face-ritual-complete-face-routine",
+            "bundle_choose": false,
+            "bundle_eyebrow": "All 4 steps",
+            "button_label": "Add the face ritual",
+            "extra_products": [
+              "face-ritual-cleanse-refresh-moisturise"
             ],
-            "ritual_name": "Scrub & Butter ritual",
-            "button_label": "Add the ritual"
+            "extra_text": "Mornings only? Face Ritual, steps 1–3",
+            "extra_name": "Face Ritual"
           }
         },
-        "concern2": {
-          "type": "concern",
+        "face_1": {
+          "type": "step",
           "settings": {
-            "fallback": "photo-candle.jpg",
-            "image_alt": "Shimmer Velvet soy wax candle, lit",
-            "heading": "Make time to wind down",
-            "fix": "A warm lavender soak, a rich butter that leaves skin soft, and a candle to finish.",
-            "products_text": "Bath Soak + Lavender Butter + Candle",
-            "price_html": "£24.50",
-            "products": [
-              "lavender-bliss-bath-salt",
-              "lavender-fragranced-whipped-body-butter",
+            "step": "Cleanse",
+            "product": "gentle-foaming-face-wash-chamomile-lavender",
+            "note": "Morning & night"
+          }
+        },
+        "face_2": {
+          "type": "step",
+          "settings": {
+            "step": "Mist",
+            "product": "facial-toner-mist-spray",
+            "name": "Facial Toner Mist",
+            "note": "Morning & night"
+          }
+        },
+        "face_3": {
+          "type": "step",
+          "settings": {
+            "step": "Day",
+            "product": "original-skinn-light-moisturiser-serum-unfragranced-50ml",
+            "name": "Day Moisturiser & Serum",
+            "note": "Mornings"
+          }
+        },
+        "face_4": {
+          "type": "step",
+          "settings": {
+            "step": "Night",
+            "product": "original-skinn-rich-moisturiser-serum-lemon-cedarwood-50ml",
+            "name": "Night Moisturiser & Serum",
+            "note": "Evenings"
+          }
+        },
+        "body": {
+          "type": "journey",
+          "settings": {
+            "label": "Body",
+            "subtitle": "Everyday shower",
+            "fallback": "photo-body.jpg",
+            "image_alt": "Whipped body butters in rose, vanilla, orange and lavender",
+            "title": "The body journey",
+            "colour": "sage",
+            "bundle_choose": false,
+            "bundle_eyebrow": "All 5 steps",
+            "bundle_name": "The Body Journey",
+            "button_label": "Add all 5",
+            "extra_products": [
+              "sweet-citrus-salt-scrub",
+              "rose-whipped-body-butter"
+            ],
+            "extra_text": "Just the scrub and butter",
+            "extra_name": "Scrub & Butter"
+          }
+        },
+        "body_1": {
+          "type": "step",
+          "settings": {
+            "step": "Scrub",
+            "product": "sweet-citrus-salt-scrub",
+            "note": "4 scents to choose from"
+          }
+        },
+        "body_2": {
+          "type": "step",
+          "settings": {
+            "step": "Wash",
+            "product": "mandarin-geranium-shower-gel"
+          }
+        },
+        "body_3": {
+          "type": "step",
+          "settings": {
+            "step": "Moisturise",
+            "product": "rose-whipped-body-butter",
+            "note": "7 scents to choose from"
+          }
+        },
+        "body_4": {
+          "type": "step",
+          "settings": {
+            "step": "Dry spots",
+            "product": "citrus-skin-nourishing-balm",
+            "note": "Hands, elbows, cuticles"
+          }
+        },
+        "body_5": {
+          "type": "step",
+          "settings": {
+            "step": "Scent",
+            "product": "lavender-rose-vetiver-pulse-roll-on",
+            "name": "Lavender, Rose & Vetiver Roll-On",
+            "note": "Wrists, any time"
+          }
+        },
+        "bath": {
+          "type": "journey",
+          "settings": {
+            "label": "Bath",
+            "subtitle": "Evening soak",
+            "fallback": "photo-bath.jpg",
+            "image_alt": "Salt scrub and bath soak with grapefruit and lavender",
+            "title": "The bath journey",
+            "colour": "rose",
+            "bundle": "ultimate-spa-ritual-set",
+            "bundle_choose": true,
+            "bundle_eyebrow": "Steps 2–4, in your scents",
+            "button_label": "Choose your scents",
+            "extra_products": [
               "shimmer-velvet-soy-wax-candle"
             ],
-            "ritual_name": "Evening wind-down ritual",
-            "button_label": "Add the ritual"
+            "extra_text": "Add the candle",
+            "extra_name": "Shimmer Velvet candle"
           }
         },
-        "concern3": {
-          "type": "concern",
+        "bath_1": {
+          "type": "step",
           "settings": {
-            "fallback": "photo-face.jpg",
-            "image_alt": "Day and Night Facial Moisturiser & Serum jars",
-            "heading": "Skin feels dry by midday",
-            "fix": "Cleanse, mist, moisturise. Skin feels comfortable and soft straight away.",
-            "products_text": "Gentle Foaming Face Wash + Facial Toner Mist + Day Moisturiser & Serum",
-            "price_html": "<s>£35</s> £32",
-            "products": [
-              "gentle-foaming-face-wash-chamomile-lavender",
-              "facial-toner-mist-spray",
-              "original-skinn-light-moisturiser-serum-unfragranced-50ml"
+            "step": "Set the mood",
+            "product": "shimmer-velvet-soy-wax-candle",
+            "name": "Shimmer Velvet Soy Wax Candle"
+          }
+        },
+        "bath_2": {
+          "type": "step",
+          "settings": {
+            "step": "Scrub",
+            "product": "lavender-salt-scrub",
+            "note": "4 scents to choose from"
+          }
+        },
+        "bath_3": {
+          "type": "step",
+          "settings": {
+            "step": "Soak",
+            "product": "lavender-bliss-bath-salt",
+            "note": "3 scents to choose from"
+          }
+        },
+        "bath_4": {
+          "type": "step",
+          "settings": {
+            "step": "Moisturise",
+            "product": "lavender-fragranced-whipped-body-butter",
+            "note": "7 scents to choose from"
+          }
+        },
+        "hair": {
+          "type": "journey",
+          "settings": {
+            "label": "Hair",
+            "subtitle": "Hair & beard",
+            "image": "shopify://shop_images/rn-image_picker_lib_temp_22fc2eab-c802-4dc4-8d17-4345ea4fd670.png",
+            "fallback": "photo-shop-all.jpg",
+            "image_alt": "Organic Herbal Hair Serum being applied with a dropper",
+            "title": "The hair journey",
+            "colour": "stone",
+            "bundle_choose": false,
+            "bundle_image": "shopify://shop_images/rn-image_picker_lib_temp_e5131579-7752-4de0-9967-483e264071ee.png",
+            "bundle_eyebrow": "All 4 steps",
+            "bundle_name": "The Hair Journey",
+            "button_label": "Add all 4",
+            "extra_products": [
+              "mandarin-geranium-shower-gel",
+              "organic-herbal-hair-serum",
+              "ylang-ylang-mandarin-essential-oil-mist-room-spray"
             ],
-            "bundle": "face-ritual-cleanse-refresh-moisturise",
-            "bundle_upgrade": "Day & Night",
-            "bundle_upgrade_product": "day-night-face-ritual-complete-face-routine",
-            "ritual_name": "Face Ritual",
-            "button_label": "Add the Face Ritual",
-            "upgrade_product": "original-skinn-rich-moisturiser-serum-lemon-cedarwood-50ml",
-            "upgrade_text": "Add Night Moisturiser & Serum for £13 more",
-            "upgrade_price_html": "<s>£50</s> £45",
-            "upgrade_ritual_name": "Day & Night Face Ritual",
-            "upgrade_button_label": "Add the Day & Night Face Ritual"
+            "extra_text": "No beard? Add the other 3",
+            "extra_name": "Hair journey"
           }
         },
-        "concern4": {
-          "type": "concern",
+        "hair_1": {
+          "type": "step",
           "settings": {
+            "step": "Wash",
+            "product": "mandarin-geranium-shower-gel",
+            "note": "Gentle enough for hair"
+          }
+        },
+        "hair_2": {
+          "type": "step",
+          "settings": {
+            "step": "Scalp & ends",
+            "product": "organic-herbal-hair-serum",
+            "note": "A few drops"
+          }
+        },
+        "hair_3": {
+          "type": "step",
+          "settings": {
+            "step": "Beard",
+            "product": "rosemary-skin-and-beard-nourishing-balm",
+            "name": "Skin & Beard Nourishing Balm",
+            "note": "If you have a beard"
+          }
+        },
+        "hair_4": {
+          "type": "step",
+          "settings": {
+            "step": "Finish",
+            "product": "ylang-ylang-mandarin-essential-oil-mist-room-spray",
+            "name": "Ylang Ylang & Mandarin Mist",
+            "note": "Through hair or over skin"
+          }
+        },
+        "baby": {
+          "type": "journey",
+          "settings": {
+            "label": "Baby",
+            "subtitle": "Bath time to bedtime",
             "fallback": "photo-baby.jpg",
             "image_alt": "Organic Baby Moisturiser and Lavender & Chamomile Baby Wash",
-            "heading": "Soft, gentle bath time",
-            "fix": "A mild, soap-free wash, then a light organic moisturiser that leaves little skin feeling soft.",
-            "products_text": "Baby Essentials Bundle",
-            "price_html": "£15",
-            "products": [
-              "original-skinn-bedtime-bundle-gentle-wash-soothing-moisturiser"
-            ],
-            "ritual_name": "Baby Essentials Bundle",
-            "button_label": "Add the ritual"
+            "title": "The baby journey",
+            "colour": "gold",
+            "bundle": "original-skinn-bedtime-bundle-gentle-wash-soothing-moisturiser",
+            "bundle_choose": false,
+            "bundle_eyebrow": "Both steps",
+            "bundle_name": "Baby Essentials Bundle",
+            "button_label": "Add the baby ritual",
+            "note": "Save £2 on buying them separately."
+          }
+        },
+        "baby_1": {
+          "type": "step",
+          "settings": {
+            "step": "Bath time",
+            "product": "original-skinn-all-natural-gentle-soothing-baby-wash-100ml",
+            "note": "From 3 months"
+          }
+        },
+        "baby_2": {
+          "type": "step",
+          "settings": {
+            "step": "Moisturise",
+            "product": "original-skinn-all-natural-soothing-baby-moisturiser-100ml",
+            "note": "From 6 months"
           }
         }
       },
       "block_order": [
-        "concern1",
-        "concern2",
-        "concern3",
-        "concern4"
+        "face",
+        "face_1",
+        "face_2",
+        "face_3",
+        "face_4",
+        "body",
+        "body_1",
+        "body_2",
+        "body_3",
+        "body_4",
+        "body_5",
+        "bath",
+        "bath_1",
+        "bath_2",
+        "bath_3",
+        "bath_4",
+        "hair",
+        "hair_1",
+        "hair_2",
+        "hair_3",
+        "hair_4",
+        "baby",
+        "baby_1",
+        "baby_2"
       ],
       "settings": {
         "heading": "Find your ritual.",
-        "intro": "Pick what fits your day. We’ll show you what to use."
+        "intro": "Pick a journey. We’ll show you each step, in the order to use them.",
+        "order_note": "Use one step or all of them, always in this order.",
+        "open_first": true
       }
     },
     "bestsellers": {
@@ -348,7 +552,7 @@
   "order": [
     "hero",
     "tiles",
-    "concerns",
+    "journeys",
     "bestsellers",
     "rituals",
     "routine",
