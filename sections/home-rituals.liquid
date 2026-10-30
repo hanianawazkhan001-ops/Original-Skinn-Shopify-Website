@@ -2,7 +2,11 @@
 <section class="section" id="shop"><div class="container"><div class="section-head"><div><h2>{{ section.settings.heading }}</h2></div></div>
 <div class="categories">
 {%- for block in section.blocks -%}
+{%- if block.settings.link2 != blank and block.settings.label2 != blank -%}
+<div class="cat cat--two {{ block.settings.style }}" {{ block.shopify_attributes }}><a class="cat-cover" href="{{ block.settings.link }}" tabindex="-1" aria-hidden="true"></a>{% render 'os-img', image: block.settings.image, fallback: block.settings.fallback, alt: block.settings.image_alt, width: 1400, lazy: true %}<div class="cat-title">{{ block.settings.title }}{% if block.settings.subtitle != blank %}<span class="cat-sub">{{ block.settings.subtitle }}</span>{% endif %}</div><div class="cat-label cat-label--two"><a href="{{ block.settings.link }}"><span>{{ block.settings.label }}</span></a><a href="{{ block.settings.link2 }}"><span>{{ block.settings.label2 }}</span></a></div></div>
+{%- else -%}
 <a class="cat {{ block.settings.style }}" href="{{ block.settings.link }}" {{ block.shopify_attributes }}>{% render 'os-img', image: block.settings.image, fallback: block.settings.fallback, alt: block.settings.image_alt, width: 1400, lazy: true %}<div class="cat-title">{{ block.settings.title }}{% if block.settings.subtitle != blank %}<span class="cat-sub">{{ block.settings.subtitle }}</span>{% endif %}</div><div class="cat-label"><span>{{ block.settings.label }}</span></div></a>
+{%- endif -%}
 {%- endfor -%}
 </div></div></section>
 
@@ -25,6 +29,8 @@
         { "type": "text", "id": "subtitle", "label": "Category", "default": "Face" },
         { "type": "text", "id": "label", "label": "Link text", "default": "Shop face →" },
         { "type": "text", "id": "link", "label": "Link", "default": "/collections/face" },
+        { "type": "text", "id": "label2", "label": "Second button text (optional)", "info": "e.g. Bedtime ritual →. Leave empty for one button." },
+        { "type": "text", "id": "link2", "label": "Second button link (optional)", "info": "e.g. /collections/bedtime-ritual" },
         { "type": "select", "id": "style", "label": "Tile style", "default": "face",
           "options": [ { "value": "face", "label": "Face" }, { "value": "body", "label": "Body" }, { "value": "bath", "label": "Bath" }, { "value": "baby", "label": "Baby" }, { "value": "home", "label": "Home" }, { "value": "shopall", "label": "Shop all" } ] }
       ]

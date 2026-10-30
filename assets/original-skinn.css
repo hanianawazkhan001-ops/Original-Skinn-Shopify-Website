@@ -2415,3 +2415,11 @@ a:active,button:active{transform:scale(.97)}
 .jr-card{border:1.5px solid rgba(180,147,102,.75)}
 .jr-card:hover{border-color:#b49366}
 .jr-card.is-open{border-color:var(--forest);box-shadow:0 0 0 1.5px var(--forest),0 14px 30px rgba(24,49,39,.14)}
+
+/* ---- Shop by ritual: a tile with two buttons (e.g. Baby bedtime + Bedtime ritual) ---- */
+.cat--two .cat-cover{position:absolute;inset:0;z-index:1}
+.categories .cat-label--two{gap:10px;flex-wrap:wrap}
+.cat-label--two a{color:#fff;text-decoration:none;display:inline-flex}
+.cat-label--two a:hover span{background:rgba(255,255,255,.26) !important}
+.cat-label--two a:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:999px}
+.cat--two .cat-title{pointer-events:none}

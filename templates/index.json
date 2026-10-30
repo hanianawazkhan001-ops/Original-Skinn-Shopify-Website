@@ -462,9 +462,11 @@
             "fallback": "photo-baby.jpg",
             "image_alt": "Baby",
             "title": "Bedtime Ritual",
-            "subtitle": "Baby",
-            "label": "Shop baby →",
+            "subtitle": "Baby & grown-ups",
+            "label": "Baby bedtime →",
             "link": "/collections/baby",
+            "label2": "Bedtime ritual →",
+            "link2": "/collections/bedtime-ritual",
             "style": "baby"
           }
         },
