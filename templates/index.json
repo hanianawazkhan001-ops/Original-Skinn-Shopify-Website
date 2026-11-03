@@ -83,12 +83,12 @@
             "colour": "sage",
             "bundle": "day-night-face-ritual-complete-face-routine",
             "bundle_choose": false,
-            "bundle_eyebrow": "All 4 steps",
+            "bundle_eyebrow": "Every step except the serum",
             "button_label": "Add the face ritual",
             "extra_products": [
               "face-ritual-cleanse-refresh-moisturise"
             ],
-            "extra_text": "Mornings only? Face Ritual, steps 1–3",
+            "extra_text": "Mornings only? Face Ritual (wash, mist, day)",
             "extra_name": "Face Ritual"
           }
         },
@@ -107,6 +107,15 @@
             "product": "facial-toner-mist-spray",
             "name": "Facial Toner Mist",
             "note": "Morning & night"
+          }
+        },
+        "face_serum": {
+          "type": "step",
+          "settings": {
+            "step": "Serum",
+            "product": "hyaluronic-acid-facial-serum-cranberry-grapefruit-raspberry",
+            "name": "Hyaluronic Acid Serum",
+            "note": "Optional, before moisturiser"
           }
         },
         "face_3": {
@@ -336,6 +345,7 @@
         "face",
         "face_1",
         "face_2",
+        "face_serum",
         "face_3",
         "face_4",
         "body",

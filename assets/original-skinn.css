@@ -2423,3 +2423,6 @@ a:active,button:active{transform:scale(.97)}
 .cat-label--two a:hover span{background:rgba(255,255,255,.26) !important}
 .cat-label--two a:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:999px}
 .cat--two .cat-title{pointer-events:none}
+/* "Complete your ritual" with three suggestions */
+.cr-tiles:has(.cr-tile:nth-child(3)){grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:650px){.cr-tiles:has(.cr-tile:nth-child(3)){grid-template-columns:1fr}}

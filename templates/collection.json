@@ -37,11 +37,21 @@
             "product": "facial-toner-mist-spray"
           }
         },
+        "face_serum": {
+          "type": "step",
+          "settings": {
+            "collection": "face",
+            "step_label": "Step 3 · Serum",
+            "product": "hyaluronic-acid-facial-serum-cranberry-grapefruit-raspberry",
+            "name": "Hyaluronic Acid Serum",
+            "note": "Optional. Not in the Face Ritual."
+          }
+        },
         "face_s3": {
           "type": "step",
           "settings": {
             "collection": "face",
-            "step_label": "Step 3 · Moisturise",
+            "step_label": "Step 4 · Moisturise",
             "product": "original-skinn-light-moisturiser-serum-unfragranced-50ml",
             "name": "Day Moisturiser & Serum"
           }
@@ -202,6 +212,7 @@
         "face_intro",
         "face_s1",
         "face_s2",
+        "face_serum",
         "face_s3",
         "face_buy",
         "body_intro",

@@ -208,6 +208,8 @@
       assign step = 'Step 1 · Cleanse'
     when 'Toner'
       assign step = 'Step 2 · Refresh'
+    when 'Facial Serum'
+      assign step = 'Serum'
     when 'Facial Moisturiser'
       assign step = 'Step 3 · Moisturise'
     when 'Salt Scrub'
@@ -234,7 +236,7 @@
 {%- endif -%}
 {%- endfor %}
 </div>
-<button class="cr-add" data-product="{{ names | escape }}" data-variants="{{ ids }}" id="pdRitualAdd" type="button">{% if count > 1 %}Add both — {% else %}Add — {% endif %}{{ total | money_without_trailing_zeros }}</button>
+<button class="cr-add" data-product="{{ names | escape }}" data-variants="{{ ids }}" id="pdRitualAdd" type="button">{% if count > 2 %}Add all {{ count }} — {% elsif count > 1 %}Add both — {% else %}Add — {% endif %}{{ total | money_without_trailing_zeros }}</button>
 {%- liquid
   assign thr = section.settings.free_threshold | times: 100
   assign in_bag_now = cart.items_subtotal_price
