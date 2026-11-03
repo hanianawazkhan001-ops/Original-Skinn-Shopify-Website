@@ -375,6 +375,10 @@
         "open_first": true
       }
     },
+    "quiz_banner": {
+      "type": "home-quiz-banner",
+      "settings": {}
+    },
     "bestsellers": {
       "type": "home-bestsellers",
       "blocks": {
@@ -565,6 +569,7 @@
     "hero",
     "tiles",
     "journeys",
+    "quiz_banner",
     "bestsellers",
     "rituals",
     "routine",
