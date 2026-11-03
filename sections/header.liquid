@@ -47,6 +47,7 @@
   @media (min-width:1001px) and (prefers-reduced-motion:reduce){.desk-tab::after,.desk-drop,.desk-group-btn svg{transition:none}}
 </style>
 {%- endif -%}
+{%- capture qz -%}{% render 'quiz-url' %}{%- endcapture -%}
 <header class="header"><div class="nav">
 <nav class="nav-left"><button aria-label="Open menu" class="nav-icon menu-left" id="menuOpenBtn" type="button">&#9776;</button></nav>
 <a class="brand" href="{{ routes.root_url }}"><img alt="{{ settings.brand_name | default: 'Original Skinn' | escape }} logo" src="{{ 'logo.png' | asset_url }}" width="165" height="165"/></a>
@@ -61,6 +62,7 @@
     <a class="desk-tab is-info" href="{{ link.url }}"{% if link.current or request.path == link.url %} aria-current="page"{% endif %}>{{ link.title }}</a>
     {%- endfor -%}
   {%- else -%}
+    {%- if qz != blank %}<a class="desk-tab is-info" href="{{ qz }}"{% if request.path == qz %} aria-current="page"{% endif %}>Skin quiz</a>{% endif %}
     <a class="desk-tab is-info" href="/pages/about"{% if request.path == '/pages/about' %} aria-current="page"{% endif %}>About Us</a>
     {%- comment -%} Reviews: a link once the Reviews page is published (Online Store > Pages), until then a label that goes nowhere {%- endcomment -%}
     {%- if pages.reviews.url != blank and pages.reviews.published_at != blank %}
@@ -79,8 +81,8 @@
   <a aria-label="Bag" class="nav-icon cart-right" id="cartBtn" href="{{ routes.cart_url }}"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 5h2l2.1 10.2a1 1 0 0 0 1 .8h8.9a1 1 0 0 0 1-.8L20 8H7"></path><circle cx="10" cy="19" r="1.6"></circle><circle cx="17" cy="19" r="1.6"></circle></svg><span class="bag-count" id="bagCount">{{ cart.item_count }}</span></a>
 </div>
 </div>
-{%- capture search_links -%}{%- render 'shop-menu', menu: section.settings.menu_shop, mode: 'chips' -%}{%- endcapture -%}
-{%- render 'header-search', links: search_links -%}
+{%- capture search_links -%}{%- render 'shop-menu', menu: section.settings.menu_shop, mode: 'chips' -%}{%- if qz != blank -%}<a href="{{ qz }}">Skin quiz</a>{%- endif -%}{%- endcapture -%}
+{%- render 'header-search', links: search_links, quiz: qz -%}
 </header>
 
 {%- if section.settings.desktop_tabs -%}
@@ -241,6 +243,7 @@
       <a href="{{ link.url }}">{{ link.title }}</a>
         {%- endfor -%}
       {%- else -%}
+      {%- if qz != blank %}<a href="{{ qz }}">Skin quiz</a>{% endif %}
       <a href="/pages/about">About Us</a>
       <a href="/pages/faqs">FAQs</a>
       <a href="/pages/contact">Contact</a>

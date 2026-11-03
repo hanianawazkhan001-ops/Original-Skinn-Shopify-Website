@@ -75,7 +75,7 @@
       <ul class="search-results" id="searchResults"></ul>
       <a class="search-all" id="searchAll" href="{{ routes.search_url }}"><span></span><span aria-hidden="true">&rarr;</span></a>
     </div>
-    <p class="search-empty" id="searchEmpty" hidden></p>
+    <p class="search-empty" id="searchEmpty" hidden{% if quiz != blank %} data-quiz="{{ quiz }}"{% endif %}></p>
     <div class="search-status" id="searchStatus" role="status" aria-live="polite"></div>
   </div>
 </div>
@@ -177,6 +177,14 @@
           this.status.textContent = products.length + (products.length === 1 ? ' product found' : ' products found');
         } else {
           this.empty.textContent = 'No products match “' + q + '”. Try another word, like “lavender” or “candle”.';
+          if (this.empty.dataset.quiz) {
+            const qa = document.createElement('a');
+            qa.className = 'quiz-nudge-link';
+            qa.href = this.empty.dataset.quiz;
+            qa.textContent = 'Not sure what to look for? Take the 1-minute skin quiz →';
+            this.empty.appendChild(document.createElement('br'));
+            this.empty.appendChild(qa);
+          }
           this.show('empty');
           this.status.textContent = 'No products found';
         }

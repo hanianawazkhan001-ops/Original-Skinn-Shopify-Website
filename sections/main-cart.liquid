@@ -184,6 +184,7 @@
 <div class="basket-empty">
 <h2>{{ section.settings.empty_heading }}</h2>
 <p>{{ section.settings.empty_text }}</p>
+{%- capture qz -%}{% render 'quiz-url' %}{%- endcapture -%}{%- if qz != blank %}<a class="quiz-nudge-btn" href="{{ qz }}">Not sure what to add? Take the 1-minute skin quiz →</a>{% endif %}
 </div>
 {%- endif %}
 </div>
@@ -235,6 +236,7 @@
 </div>
 <p class="summary-note">{{ section.settings.summary_note }}</p>
 <button class="checkout-btn" form="osCartForm" name="checkout" type="submit"{% if cart.item_count == 0 %} disabled{% endif %}>Checkout →</button>
+{%- if cart.item_count > 0 -%}{%- capture qz -%}{% render 'quiz-url' %}{%- endcapture -%}{%- if qz != blank %}<p class="quiz-nudge quiz-nudge--small"><a href="{{ qz }}">Not sure what else you need? Take the skin quiz →</a></p>{% endif %}{%- endif %}
 <div class="secure-note">
 <svg viewBox="0 0 24 24"><rect height="10" rx="2" width="14" x="5" y="10"></rect><path d="M8 10V7a4 4 0 018 0v3"></path></svg>
 <span>Secure checkout</span>

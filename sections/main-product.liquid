@@ -255,6 +255,7 @@
 {%- if cr_note != blank %}<p class="cr-note">{{ cr_note }}</p>{% endif %}
 </section>
 {%- endif %}
+{%- capture qz -%}{% render 'quiz-url' %}{%- endcapture -%}{%- if qz != blank %}<p class="quiz-nudge quiz-nudge--small quiz-nudge--product"><a href="{{ qz }}">Want a routine built for you? Take the 1-minute skin quiz →</a></p>{% endif %}
 <div class="product-accordions">
 <details open="">
 <summary>How to use <span>+</span></summary>

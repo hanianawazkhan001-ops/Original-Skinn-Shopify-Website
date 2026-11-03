@@ -13,7 +13,9 @@
       "announcement-bar": {
         "type": "announcement-bar",
         "settings": {
-          "text": "Free Delivery on UK Orders of £30 or More"
+          "text": "Free Delivery on UK Orders of £30 or More",
+          "text2": "Not sure where to start? Find your routine in 1 minute →",
+          "link2": "/pages/skin-quiz"
         }
       }
     },

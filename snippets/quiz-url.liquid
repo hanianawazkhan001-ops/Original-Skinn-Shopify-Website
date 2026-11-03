@@ -1,0 +1,6 @@
+{%- comment -%}
+  The skin quiz page's link, but only while that page is published (Online Store > Pages > Skin quiz).
+  Every "take the quiz" link on the site uses this, so hiding the page hides all of them.
+{%- endcomment -%}
+{%- assign qp = pages['skin-quiz'] -%}
+{%- if qp.url != blank and qp.published_at != blank -%}{{ qp.url }}{%- endif -%}

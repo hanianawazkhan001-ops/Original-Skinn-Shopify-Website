@@ -36,6 +36,7 @@
 <div class="category-intro">
 <h2>{{ section.settings.none_heading }}</h2>
 <p>{{ section.settings.none_text }}</p>
+{%- capture qz -%}{% render 'quiz-url' %}{%- endcapture -%}{%- if qz != blank %}<p class="quiz-nudge"><a href="{{ qz }}">Not sure what you’re looking for? Take the 1-minute skin quiz →</a></p>{% endif %}
 </div>
 {%- endif -%}
 {%- endif %}

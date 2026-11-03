@@ -54,6 +54,11 @@
 {%- endif -%}
 {%- endfor -%}
 {%- liquid
+  assign quiz_cols = section.settings.quiz_collections | remove: ' ' | prepend: ',' | append: ','
+  assign this_col = ',' | append: h | append: ','
+-%}
+{%- if section.settings.quiz_text != blank and quiz_cols contains this_col -%}{%- capture qz -%}{% render 'quiz-url' %}{%- endcapture -%}{%- if qz != blank %}<p class="quiz-nudge quiz-nudge--collection"><a href="{{ qz }}">{{ section.settings.quiz_text }}</a></p>{% endif %}{%- endif -%}
+{%- liquid
   assign strip_steps = 0
   for block in section.blocks
     if block.type == 'step' and block.settings.collection.handle == h
@@ -151,6 +156,9 @@
   "name": "Shop page",
   "settings": [
     { "type": "text", "id": "kicker", "label": "Small heading above the page name", "default": "Original Skinn" },
+    { "type": "header", "content": "Skin quiz link" },
+    { "type": "text", "id": "quiz_text", "label": "Link text", "default": "Not sure which to choose? Take the 1-minute skin quiz →", "info": "Leave empty to hide. Shows only while the Skin quiz page is published." },
+    { "type": "text", "id": "quiz_collections", "label": "Show on these collections", "default": "face,body,bath-shower,baby", "info": "Collection handles, separated by commas." },
     { "type": "header", "content": "Reassurance strip at the bottom" },
     { "type": "text", "id": "r1_title", "label": "Point 1", "default": "Vegan" },
     { "type": "text", "id": "r1_text", "label": "Point 1 text", "default": "Every product, no exceptions." },

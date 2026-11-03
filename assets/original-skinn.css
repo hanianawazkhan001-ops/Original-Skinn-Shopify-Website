@@ -2502,3 +2502,22 @@ a:active,button:active{transform:scale(.97)}
 .qb-btn{flex:none;display:inline-flex;align-items:center;min-height:48px;padding:0 22px;border-radius:999px;background:var(--forest);color:#fff;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
 @media(max-width:650px){.quiz-banner{padding-bottom:50px}.qb-box{flex-wrap:wrap;padding:20px}.qb-btn{width:100%;justify-content:center}}
 @media(prefers-reduced-motion:reduce){.sq-opt,.qb-box,.sq-progress span{transition:none}}
+
+/* ---- Skin quiz links around the site ---- */
+.ann-msg{color:inherit;text-decoration:none}
+.ann-rotating .ann-msg{display:none}
+.ann-rotating .ann-msg.is-active{display:inline;animation:annIn .45s ease both}
+@keyframes annIn{from{opacity:0}to{opacity:1}}
+.ann-rotating a.ann-msg:hover{text-decoration:underline;text-underline-offset:3px}
+.ann-rotating .announcement-icon{transition:opacity .45s ease}
+.ann-rotating.ann-no-icon .announcement-icon{opacity:0;width:0;overflow:hidden}
+.quiz-nudge{margin:14px 0 0;font-size:13px;line-height:1.5}
+.quiz-nudge a,.quiz-nudge-link{color:var(--forest);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.quiz-nudge a:hover,.quiz-nudge-link:hover{color:var(--ink)}
+.quiz-nudge--small{font-size:12px;text-align:center}
+.quiz-nudge--product{margin:14px 0 4px;text-align:left}
+.quiz-nudge--collection{margin:-6px 0 22px}
+.search-empty .quiz-nudge-link{display:inline-block;margin-top:8px}
+.quiz-nudge-btn{display:inline-flex;align-items:center;max-width:100%;box-sizing:border-box;min-height:44px;margin-top:16px;padding:10px 20px;line-height:1.35;border-radius:999px;background:#dfe7dc;border:1px solid rgba(180,147,102,.7);color:var(--forest);font-size:12px;font-weight:600;text-decoration:none;transition:background .2s ease}
+.quiz-nudge-btn:hover{background:#d3dfcf}
+@media(prefers-reduced-motion:reduce){.ann-rotating .ann-msg.is-active{animation:none}.ann-rotating .announcement-icon{transition:none}}

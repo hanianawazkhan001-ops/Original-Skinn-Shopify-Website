@@ -75,6 +75,13 @@
             "anchor": "skin"
           }
         },
+        "q_quiz": {
+          "type": "question",
+          "settings": {
+            "question": "I’m not sure where to start. Which products should I use?",
+            "answer": "<p>Take our 1-minute <a href=\"/pages/skin-quiz\">skin quiz</a>. Answer a few quick questions about your skin and routine, and we’ll suggest products from our range, step by step.</p>"
+          }
+        },
         "q_6": {
           "type": "question",
           "settings": {
@@ -179,6 +186,7 @@
         "q_4",
         "q_5",
         "group_2",
+        "q_quiz",
         "q_6",
         "q_7",
         "q_8",

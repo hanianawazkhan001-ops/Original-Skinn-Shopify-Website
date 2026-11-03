@@ -1,5 +1,21 @@
-{%- comment -%} Top announcement bar — copied from the test site. {%- endcomment -%}
-<div class="announcement">
+{%- comment -%}
+  Top announcement bar — copied from the test site. A second message is optional: when it is filled in,
+  the two take turns every few seconds (the free delivery one first). Hovering or tabbing to the bar pauses it.
+  If the second message links to the skin quiz, it only shows while the Skin quiz page is published.
+{%- endcomment -%}
+{%- liquid
+  assign text2 = section.settings.text2
+  assign link2 = section.settings.link2
+  if link2 contains 'skin-quiz'
+    capture qz
+      render 'quiz-url'
+    endcapture
+    if qz == blank
+      assign text2 = ''
+    endif
+  endif
+-%}
+<div class="announcement{% if text2 != blank %} ann-rotating{% endif %}" data-ann>
 <span aria-hidden="true" class="announcement-icon">
 <svg focusable="false" role="img" viewBox="0 0 24 24">
 <path d="M1.5 6.5h12v9h-12z"></path>
@@ -8,14 +24,44 @@
 <circle cx="17.5" cy="18" r="1.75"></circle>
 </svg>
 </span>
-<span class="announcement-text">{{ section.settings.text }}</span>
+<span class="announcement-text">
+<span class="ann-msg is-active" data-ann-msg>{{ section.settings.text }}</span>
+{%- if text2 != blank -%}
+{%- if link2 != blank -%}<a class="ann-msg" href="{{ link2 }}" data-ann-msg data-ann-noicon>{{ text2 }}</a>{%- else -%}<span class="ann-msg" data-ann-msg data-ann-noicon>{{ text2 }}</span>{%- endif -%}
+{%- endif -%}
+</span>
 </div>
+{%- if text2 != blank -%}
+<script>
+(function(){
+  var bar = document.querySelector('[data-ann]');
+  if(!bar || bar.dataset.ready) return; bar.dataset.ready = '1';
+  var msgs = bar.querySelectorAll('[data-ann-msg]'), i = 0, paused = false;
+  function show(n){
+    msgs.forEach(function(m, k){
+      var on = k === n;
+      m.classList.toggle('is-active', on);
+      m.setAttribute('aria-hidden', on ? 'false' : 'true');
+      if(m.tagName === 'A') m.tabIndex = on ? 0 : -1;
+    });
+    bar.classList.toggle('ann-no-icon', msgs[n].hasAttribute('data-ann-noicon'));
+  }
+  show(0);
+  ['mouseenter','focusin'].forEach(function(e){ bar.addEventListener(e, function(){ paused = true; }); });
+  ['mouseleave','focusout'].forEach(function(e){ bar.addEventListener(e, function(){ paused = false; }); });
+  setInterval(function(){ if(paused || document.hidden) return; i = (i + 1) % msgs.length; show(i); }, 5000);
+})();
+</script>
+{%- endif -%}
 
 {% schema %}
 {
   "name": "Announcement bar",
   "settings": [
-    { "type": "text", "id": "text", "label": "Text", "default": "Free Delivery on UK Orders of £30 or More" }
+    { "type": "text", "id": "text", "label": "Text", "default": "Free Delivery on UK Orders of £30 or More" },
+    { "type": "header", "content": "Second message (optional)" },
+    { "type": "text", "id": "text2", "label": "Text", "info": "Leave empty to show only the first message." },
+    { "type": "text", "id": "link2", "label": "Link", "info": "e.g. /pages/skin-quiz" }
   ]
 }
 {% endschema %}
