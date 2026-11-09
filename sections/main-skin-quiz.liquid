@@ -60,13 +60,15 @@
 </section>
 
 <script type="application/json" id="sqProducts">{
-{%- for h in handles -%}
-{%- assign p = all_products[h] -%}
-{%- if p != blank -%}
+{%- comment -%} Looked up through the Shop All collection: Shopify's all_products only answers 20 products per page {%- endcomment -%}
+{%- paginate collections.all.products by 250 -%}
+{%- for p in collections.all.products -%}
+{%- if handles contains p.handle -%}
 {%- capture pn -%}{% render 'product-name', product: p, part: 'short' %}{%- endcapture -%}
-{{ h | json }}:{"n":{{ pn | strip | json }},"u":{{ p.url | json }},"i":{{ p.featured_image | image_url: width: 240 | json }},"p":{{ p.selected_or_first_available_variant.price | default: 0 }},"cp":{{ p.selected_or_first_available_variant.compare_at_price | default: 0 }},"v":{{ p.selected_or_first_available_variant.id | default: 0 }},"a":{{ p.available | json }}}{% unless forloop.last %},{% endunless %}
+{{ p.handle | json }}:{"n":{{ pn | strip | json }},"u":{{ p.url | json }},"i":{{ p.featured_image | image_url: width: 240 | json }},"p":{{ p.selected_or_first_available_variant.price | default: 0 }},"cp":{{ p.selected_or_first_available_variant.compare_at_price | default: 0 }},"v":{{ p.selected_or_first_available_variant.id | default: 0 }},"a":{{ p.available | json }}},
 {%- endif -%}
 {%- endfor -%}
+{%- endpaginate -%}
 }</script>
 
 <script>
