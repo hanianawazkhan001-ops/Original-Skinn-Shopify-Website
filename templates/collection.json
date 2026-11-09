@@ -17,7 +17,7 @@
           "settings": {
             "collection": "face",
             "heading": "Face Ritual",
-            "text": "Cleanse, refresh, moisturise. A gentle foaming wash, a toner mist, and a moisturiser & serum for day or night. Take all three in the Face Ritual and save — or add the Night Moisturiser for the full Day & Night Face Ritual."
+            "text": "Cleanse, refresh, serum, moisturise. A gentle foaming wash, a toner mist, a hyaluronic acid serum and a moisturiser & serum for day or night. Get all four in the Face Ritual, or choose the Day & Night Face Ritual for the full morning-to-night routine."
           }
         },
         "face_s1": {
@@ -43,8 +43,7 @@
             "collection": "face",
             "step_label": "Step 3 · Serum",
             "product": "hyaluronic-acid-facial-serum-cranberry-grapefruit-raspberry",
-            "name": "Hyaluronic Acid Serum",
-            "note": "Optional. Not in the Face Ritual."
+            "name": "Hyaluronic Acid Serum"
           }
         },
         "face_s3": {
@@ -61,14 +60,14 @@
           "settings": {
             "collection": "face",
             "kicker": "Face Ritual",
-            "total_html": "<s>£35</s> £32",
-            "small": "Saves £3.",
+            "total_html": "£55",
+            "small": "",
             "button_label": "Add the Face Ritual",
             "ritual_name": "Face Ritual",
             "bundle": "face-ritual-cleanse-refresh-moisturise",
             "bundle_upgrade": "Day & Night",
             "bundle_upgrade_product": "day-night-face-ritual-complete-face-routine",
-            "upgrade": true,
+            "upgrade": false,
             "upgrade_other_label": "Night",
             "upgrade_text": "Moisturiser & Serum for £13 more",
             "upgrade_total_html": "<s>£50</s> £45",

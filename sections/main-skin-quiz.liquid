@@ -178,8 +178,7 @@
     if(a.when !== 'am') r.steps.push(step('Moisturise', H.night, a.when === 'both' ? 'Evenings' : ''));
     if(a.when === 'am'){
       r.intro = 'A quick morning routine: cleanse, mist, serum, then the Day Moisturiser.';
-      r.buy = {label:'Face Ritual + serum', keys:[H.faceRitual, H.serum]};
-      r.alt.push({label:'Just the Face Ritual (wash, mist, day)', keys:[H.faceRitual]});
+      r.buy = {label:'Face Ritual (all 4 steps)', keys:[H.faceRitual]};
     } else if(a.when === 'pm'){
       r.intro = 'An evening routine: cleanse, mist, serum, then the Night Moisturiser.';
       r.buy = {label:'All 4 products', keys:[H.wash, H.mist, H.serum, H.night]};
