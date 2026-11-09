@@ -62,8 +62,8 @@
     <a class="desk-tab is-info" href="{{ link.url }}"{% if link.current or request.path == link.url %} aria-current="page"{% endif %}>{{ link.title }}</a>
     {%- endfor -%}
   {%- else -%}
+    {%- comment -%} Ordered by what shoppers need most: help choosing, proof from other customers, answers, then contact and the brand story {%- endcomment -%}
     {%- if qz != blank %}<a class="desk-tab is-info" href="{{ qz }}"{% if request.path == qz %} aria-current="page"{% endif %}>Skin quiz</a>{% endif %}
-    <a class="desk-tab is-info" href="/pages/about"{% if request.path == '/pages/about' %} aria-current="page"{% endif %}>About Us</a>
     {%- comment -%} Reviews: a link once the Reviews page is published (Online Store > Pages), until then a label that goes nowhere {%- endcomment -%}
     {%- if pages.reviews.url != blank and pages.reviews.published_at != blank %}
     <a class="desk-tab is-info" href="{{ pages.reviews.url }}"{% if request.path == pages.reviews.url %} aria-current="page"{% endif %}>Reviews</a>
@@ -72,6 +72,7 @@
     {%- endif %}
     <a class="desk-tab is-info" href="/pages/faqs"{% if request.path == '/pages/faqs' %} aria-current="page"{% endif %}>FAQs</a>
     <a class="desk-tab is-info" href="/pages/contact"{% if request.path == '/pages/contact' %} aria-current="page"{% endif %}>Contact</a>
+    <a class="desk-tab is-info" href="/pages/about"{% if request.path == '/pages/about' %} aria-current="page"{% endif %}>About Us</a>
   {%- endif -%}
   </div>
 </nav>
