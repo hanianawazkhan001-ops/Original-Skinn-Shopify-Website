@@ -1,7 +1,8 @@
 {%- comment -%}
   Bag page — copied from the test site's "Your Basket" page, now using the real Shopify cart.
-  - Free-delivery bar: threshold and charge are section settings (£30 / £3.95). The real delivery
-    charge at checkout comes from Settings > Shipping and delivery, so keep the two the same.
+  - Free-delivery bar: threshold and charge are section settings. Set the threshold to 0 for free
+    delivery on every order (the bar is then hidden). The real delivery charge at checkout comes
+    from Settings > Shipping and delivery, so keep the two the same.
   - Items are listed oldest first, like the test site (Shopify's own order is newest first).
   - "Complete your ritual" suggestion: each "Suggestion" block says which category in the bag
     it goes with (e.g. Face) and which product to suggest — the same list as the test site.
@@ -11,6 +12,11 @@
   assign threshold = section.settings.free_threshold | times: 100
   assign charge = section.settings.delivery_charge | times: 100 | round
   assign free = false
+  assign all_free = false
+  if threshold <= 0
+    assign all_free = true
+    assign threshold = 0
+  endif
   if subtotal >= threshold
     assign free = true
   endif
@@ -19,7 +25,10 @@
     assign delivery = 0
   endif
   assign grand = subtotal | plus: delivery
-  assign bar = subtotal | times: 100.0 | divided_by: threshold
+  assign bar = 100
+  if all_free == false
+    assign bar = subtotal | times: 100.0 | divided_by: threshold
+  endif
   if bar > 100
     assign bar = 100
   endif
@@ -194,8 +203,8 @@
 <svg viewBox="0 0 24 24"><path d="M1.5 6.5h12v9h-12z"></path><path d="M13.5 9.5h4l2.5 3v3h-6.5z"></path><circle cx="6" cy="18" r="1.75"></circle><circle cx="17.5" cy="18" r="1.75"></circle></svg>
 </div>
 <div class="dp-text">
-<strong id="deliveryMsg">{% if free %}You’ve unlocked free UK delivery{% else %}Add {{ threshold | minus: subtotal | money }} more for free UK delivery{% endif %}</strong>
-<div class="dp-bar" aria-hidden="true"><span id="deliveryBar" style="width: {{ bar }}%;"></span></div>
+<strong id="deliveryMsg">{% if all_free %}Free UK delivery on every order{% elsif free %}You’ve unlocked free UK delivery{% else %}Add {{ threshold | minus: subtotal | money }} more for free UK delivery{% endif %}</strong>
+{%- unless all_free %}<div class="dp-bar" aria-hidden="true"><span id="deliveryBar" style="width: {{ bar }}%;"></span></div>{% endunless %}
 <span>{{ section.settings.delivery_line }}</span>
 </div>
 </div>
@@ -273,10 +282,10 @@
     { "type": "text", "id": "empty_heading", "label": "Empty bag: heading", "default": "Your basket is empty" },
     { "type": "text", "id": "empty_text", "label": "Empty bag: text", "default": "Browse the shop to find your next favourite." },
     { "type": "header", "content": "Free delivery bar" },
-    { "type": "number", "id": "free_threshold", "label": "Free UK delivery from (£)", "default": 30, "info": "Keep this the same as your shipping rates in Settings > Shipping and delivery." },
+    { "type": "number", "id": "free_threshold", "label": "Free UK delivery from (£)", "default": 0, "info": "0 = free delivery on every order. Keep this the same as your shipping rates in Settings > Shipping and delivery." },
     { "type": "text", "id": "delivery_charge", "label": "Delivery charge under that (£)", "default": "3.95" },
-    { "type": "text", "id": "delivery_line", "label": "Line under the bar", "default": "Free UK delivery on orders of £30 or more." },
-    { "type": "textarea", "id": "summary_note", "label": "Note under the total", "default": "Taxes included where applicable. Delivery is calculated before payment if your basket falls below the free-delivery threshold." },
+    { "type": "text", "id": "delivery_line", "label": "Line under the bar", "default": "No minimum spend." },
+    { "type": "textarea", "id": "summary_note", "label": "Note under the total", "default": "Taxes included where applicable. UK delivery is free on every order." },
     { "type": "header", "content": "Complete your ritual" },
     { "type": "text", "id": "kinds", "label": "Product kinds (comma separated)", "default": "Body Butter,Salt Scrub,Bath Soak,Face Wash,Toner Mist,Baby Moisturiser,Baby Wash", "info": "If the bag already has a product of a kind, another of the same kind isn't suggested." }
   ],

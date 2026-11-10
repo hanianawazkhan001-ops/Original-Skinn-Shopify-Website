@@ -21,8 +21,8 @@
         "help_link_label": "Contact us →",
         "help_link": "/pages/contact",
         "hl_kicker": "UK DELIVERY",
-        "hl_heading": "Free delivery on UK orders of £30 or more.",
-        "hl_text": "Any delivery charge for smaller orders will be shown clearly before checkout."
+        "hl_heading": "Free delivery on every UK order.",
+        "hl_text": "No minimum spend and no delivery charge."
       },
       "blocks": {
         "col_1": {
@@ -36,7 +36,7 @@
           "type": "point",
           "settings": {
             "heading": "UK delivery",
-            "text": "We deliver across the UK. Free delivery applies when your order total is £30 or more."
+            "text": "We deliver across the UK. Delivery is free on every order, with no minimum spend."
           }
         },
         "point_1_2": {

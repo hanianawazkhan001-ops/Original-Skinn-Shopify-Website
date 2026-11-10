@@ -153,7 +153,7 @@
           "type": "question",
           "settings": {
             "question": "Do you offer free UK delivery?",
-            "answer": "<p>Yes. Free delivery is available on UK orders of £30 or more.</p>"
+            "answer": "<p>Yes. UK delivery is free on every order, with no minimum spend.</p>"
           }
         },
         "q_14": {
