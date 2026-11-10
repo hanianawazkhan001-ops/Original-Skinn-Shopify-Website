@@ -69,8 +69,8 @@
             "bundle_upgrade_product": "day-night-face-ritual-complete-face-routine",
             "upgrade": false,
             "upgrade_other_label": "Night",
-            "upgrade_text": "Moisturiser & Serum for £13 more",
-            "upgrade_total_html": "<s>£50</s> £45",
+            "upgrade_text": "Moisturiser & Serum for the same £55",
+            "upgrade_total_html": "<s>£60</s> £55",
             "upgrade_small": "Saves £5.",
             "upgrade_button_label": "Add the Day & Night Face Ritual",
             "upgrade_ritual_name": "Day & Night Face Ritual"
