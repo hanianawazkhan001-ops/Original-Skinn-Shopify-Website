@@ -42,6 +42,23 @@
 {%- endif -%}
 {%- render 'help-box', style: 'faq-contact', kicker: section.settings.help_kicker, heading: section.settings.help_heading, text: section.settings.help_text, link_label: section.settings.help_link_label, link: section.settings.help_link %}
 </section>
+{%- comment -%} Structured data for search engines: the questions and answers on this page {%- endcomment -%}
+{%- assign faq_n = 0 -%}
+{%- for block in section.blocks -%}{%- if block.type == 'question' and block.settings.question != blank and block.settings.answer != blank -%}{%- assign faq_n = faq_n | plus: 1 -%}{%- endif -%}{%- endfor -%}
+{%- if faq_n > 0 %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{%- assign faq_first = true -%}
+{%- for block in section.blocks -%}
+{%- if block.type == 'question' and block.settings.question != blank and block.settings.answer != blank -%}
+{%- unless faq_first %},{% endunless -%}
+{%- assign faq_first = false -%}
+{"@type":"Question","name":{{ block.settings.question | strip_html | strip | json }},"acceptedAnswer":{"@type":"Answer","text":{{ block.settings.answer | strip_html | strip | json }}}}
+{%- endif -%}
+{%- endfor -%}
+]}
+</script>
+{%- endif %}
 
 {% schema %}
 {

@@ -11,7 +11,12 @@
     "name": "Brand",
     "settings": [
       { "type": "text", "id": "brand_name", "label": "Brand name", "default": "Original Skinn" },
-      { "type": "textarea", "id": "meta_description", "label": "Default search description", "default": "Small-batch, plant-led, vegan skincare and home fragrance from an independent Hampshire brand. Free UK delivery on every order." }
+      { "type": "textarea", "id": "meta_description", "label": "Default search description", "default": "Small-batch, plant-led, vegan skincare and home fragrance from an independent Hampshire brand. Free UK delivery on every order." },
+      { "type": "header", "content": "Search engines" },
+      { "type": "paragraph", "content": "Shown to Google in the site's hidden structured data, not on the page." },
+      { "type": "text", "id": "legal_name", "label": "Company name", "default": "OriginalSkin Ltd" },
+      { "type": "text", "id": "contact_email", "label": "Contact email", "default": "original@originalskinn.com" },
+      { "type": "textarea", "id": "social_links", "label": "Social profiles", "info": "One full web address per line, e.g. https://www.instagram.com/yourpage" }
     ]
   }
 ]

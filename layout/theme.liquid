@@ -23,6 +23,7 @@
 <link rel="canonical" href="{{ canonical_url }}">
 <link rel="icon" type="image/png" href="{{ 'logo.png' | asset_url }}">
 {{ 'original-skinn.css' | asset_url | stylesheet_tag }}
+{% render 'structured-data' %}
 {{ content_for_header }}
 </head>
 <body class="template-{{ template.name }}">

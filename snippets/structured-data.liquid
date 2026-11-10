@@ -1,0 +1,107 @@
+{%- comment -%}
+  Structured data for search engines (schema.org JSON-LD). Hidden from customers; rendered in the
+  <head> by layout/theme.liquid.
+  - Home page: Organization (name, logo, email, social profiles) and WebSite (with site search).
+  - Product pages: Shopify's own product data (name, photos, description, price, stock, brand)
+    and breadcrumbs (Home > collection > product).
+  - Shop pages: breadcrumbs (Home > collection).
+  - FAQs page: FAQPage, built in sections/main-faqs.liquid from its questions.
+  Social profiles, legal name and contact email are in Theme settings > Brand.
+  Star ratings are left to the Judge.me app, which adds them only when a product has real reviews.
+{%- endcomment -%}
+{%- liquid
+  assign brand = settings.brand_name | default: 'Original Skinn'
+  assign home_url = shop.url | append: '/'
+  assign org_id = shop.url | append: '/#organization'
+  assign search_target = shop.url | append: routes.search_url | append: '?type=product&q='
+-%}
+{%- if template.name == 'index' -%}
+{%- liquid
+  assign lines = settings.social_links | newline_to_br | split: '<br />'
+  assign same_as = ''
+  for l in lines
+    assign s = l | strip
+    if s contains 'http'
+      assign same_as = same_as | append: s | append: '|'
+    endif
+  endfor
+  assign same_as = same_as | split: '|'
+-%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": {{ org_id | json }},
+  "name": {{ brand | json }},
+  {%- if settings.legal_name != blank %}
+  "legalName": {{ settings.legal_name | strip | json }},
+  {%- endif %}
+  "url": {{ home_url | json }},
+  "logo": {{ 'logo.png' | asset_url | prepend: 'https:' | json }}
+  {%- if settings.contact_email != blank -%},
+  "email": {{ settings.contact_email | strip | json }}
+  {%- endif -%}
+  {%- if same_as.size > 0 -%},
+  "sameAs": {{ same_as | json }}
+  {%- endif %}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": {{ brand | json }},
+  "url": {{ home_url | json }},
+  "publisher": { "@id": {{ org_id | json }} },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "{{ search_target }}{search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+{%- elsif template.name == 'product' and product -%}
+<script type="application/ld+json">
+{{ product | structured_data }}
+</script>
+{%- liquid
+  assign crumb = collection
+  if crumb == blank or crumb.handle == 'all'
+    assign crumb = nil
+    assign prefer = 'face,body,bath-shower,baby,home-fragrance,bundles,bedtime-ritual' | split: ','
+    for h in prefer
+      for c in product.collections
+        if c.handle == h and crumb == blank
+          assign crumb = c
+        endif
+      endfor
+    endfor
+  endif
+-%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": {{ home_url | json }} },
+    {%- if crumb != blank %}
+    { "@type": "ListItem", "position": 2, "name": {{ crumb.title | json }}, "item": {{ shop.url | append: crumb.url | json }} },
+    { "@type": "ListItem", "position": 3, "name": {{ product.title | json }}, "item": {{ shop.url | append: product.url | json }} }
+    {%- else %}
+    { "@type": "ListItem", "position": 2, "name": {{ product.title | json }}, "item": {{ shop.url | append: product.url | json }} }
+    {%- endif %}
+  ]
+}
+</script>
+{%- elsif template.name == 'collection' and collection -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": {{ home_url | json }} },
+    { "@type": "ListItem", "position": 2, "name": {{ collection.title | json }}, "item": {{ shop.url | append: collection.url | json }} }
+  ]
+}
+</script>
+{%- endif -%}
