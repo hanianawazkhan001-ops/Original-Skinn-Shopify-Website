@@ -2521,3 +2521,5 @@ a:active,button:active{transform:scale(.97)}
 .quiz-nudge-btn{display:inline-flex;align-items:center;max-width:100%;box-sizing:border-box;min-height:44px;margin-top:16px;padding:10px 20px;line-height:1.35;border-radius:999px;background:#dfe7dc;border:1px solid rgba(180,147,102,.7);color:var(--forest);font-size:12px;font-weight:600;text-decoration:none;transition:background .2s ease}
 .quiz-nudge-btn:hover{background:#d3dfcf}
 @media(prefers-reduced-motion:reduce){.ann-rotating .ann-msg.is-active{animation:none}.ann-rotating .announcement-icon{transition:none}}
+/* Quick add: a bigger tap area (at least 44px tall) without changing how the link looks */
+.quickadd{position:relative}.quickadd::after{content:"";position:absolute;left:-10px;right:-10px;top:50%;height:44px;transform:translateY(-50%)}

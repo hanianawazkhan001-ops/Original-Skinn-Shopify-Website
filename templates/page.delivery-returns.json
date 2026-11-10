@@ -67,6 +67,13 @@
             "heading": "If you need to return something"
           }
         },
+        "point_2_0": {
+          "type": "point",
+          "settings": {
+            "heading": "Your right to cancel",
+            "text": "For most online purchases, UK consumers have a legal right to cancel within 14 days of receiving the goods, subject to certain exceptions. After telling us you wish to cancel, you will normally have a further 14 days to return the goods. Some products may not be returnable once opened where they were supplied sealed and are not suitable for return for health protection or hygiene reasons."
+          }
+        },
         "point_2_1": {
           "type": "point",
           "settings": {
@@ -103,6 +110,7 @@
         "point_1_3",
         "point_1_4",
         "col_2",
+        "point_2_0",
         "point_2_1",
         "point_2_2",
         "point_2_3",
