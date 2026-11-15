@@ -148,7 +148,6 @@
 <div class="product-price-row">
 <strong id="pdPrice">{{ v.price | money }}</strong>
 <span class="product-size" id="pdSize">{% if v.title == 'Default Title' %}{{ one_size }}{% else %}{{ v.title }}{% endif %}</span>
-<span>Tax included.</span>
 </div>
 <div class="product-summary">
 {%- assign summary = intro | append: p_more | remove: '<strong>' | remove: '</strong>' | strip -%}
@@ -272,7 +271,7 @@
 <details>
 <summary>Delivery &amp; returns <span>+</span></summary>
 <div class="accordion-copy">
-{{ p_dispatch }}
+{%- if section.settings.dispatch_text != blank %}<p>{{ section.settings.dispatch_text }}</p>{% else %}{{ p_dispatch }}{% endif %}
 <p>{{ section.settings.delivery_text }} See our <a href="{{ section.settings.delivery_link }}">Delivery &amp; Returns page</a> for dispatch times and how to return an item.</p>
 </div>
 </details>
@@ -380,6 +379,7 @@
     { "type": "text", "id": "ritual_note_unlock", "label": "Note when 'Complete your ritual' reaches free delivery", "default": "The full ritual unlocks free UK delivery." },
     { "type": "text", "id": "ritual_note_away", "label": "Note when it doesn't yet", "default": "With the full ritual, you’re [amount] away from free UK delivery.", "info": "[amount] is replaced with what's left to spend." },
     { "type": "text", "id": "ingredients_note", "label": "Note under the ingredients", "default": "Always check the ingredient list on the packaging — it is the final reference." },
+    { "type": "text", "id": "dispatch_text", "label": "Dispatch time (all products)", "default": "Dispatched within 3–7 working days.", "info": "Shown in every product's Delivery & returns tab, instead of the Dispatch line in its description. Leave empty to use each product's own line." },
     { "type": "text", "id": "delivery_text", "label": "Delivery & returns text", "default": "Free UK delivery on every order." },
     { "type": "text", "id": "delivery_link", "label": "Delivery & Returns page link", "default": "/pages/delivery-returns" },
     { "type": "text", "id": "also_heading", "label": "'You may also like' heading", "default": "You may also like" },
