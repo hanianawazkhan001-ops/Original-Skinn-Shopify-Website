@@ -15,7 +15,7 @@
 {%- if product.tags contains 'best-seller' and plain != true %}
 <span class="shop-badge">Best Seller</span>
 {%- endif %}
-<a class="card-media-link" href="{{ product.url }}" tabindex="-1" aria-hidden="true"><img loading="lazy" alt="{{ product.featured_image.alt | default: card_title | escape }}" src="{{ product.featured_image | image_url: width: 900 }}"/></a>
+<a class="card-media-link" href="{{ product.url }}" tabindex="-1" aria-hidden="true">{% if product.featured_image != blank %}<img loading="lazy" alt="{{ product.featured_image.alt | default: card_title | escape }}" src="{{ product.featured_image | image_url: width: 900 }}"/>{% else %}{{ 'product-1' | placeholder_svg_tag: 'os-placeholder' }}{% endif %}</a>
 </div>
 <div class="shop-copy">
 <span class="shop-category">{{ cat_label }}</span>
