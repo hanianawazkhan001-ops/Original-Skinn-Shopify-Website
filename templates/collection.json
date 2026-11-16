@@ -173,7 +173,7 @@
           "settings": {
             "collection": "baby",
             "step_label": "Step 1 · Wash",
-            "product": "original-skinn-all-natural-gentle-soothing-baby-wash-100ml"
+            "product": "lavender-chamomile-baby-wash"
           }
         },
         "baby_s2": {
@@ -181,7 +181,7 @@
           "settings": {
             "collection": "baby",
             "step_label": "Step 2 · Moisturise",
-            "product": "original-skinn-all-natural-soothing-baby-moisturiser-100ml"
+            "product": "organic-baby-moisturiser"
           }
         },
         "baby_buy": {
@@ -194,7 +194,7 @@
             "button_label": "Add the Baby Essentials Bundle",
             "ritual_name": "Baby Essentials Bundle",
             "add_products": [
-              "original-skinn-bedtime-bundle-gentle-wash-soothing-moisturiser"
+              "baby-essentials-bundle"
             ]
           }
         },

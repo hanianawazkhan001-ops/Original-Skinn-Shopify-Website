@@ -64,7 +64,7 @@
           "type": "suggest",
           "settings": {
             "category": "Baby",
-            "product": "original-skinn-all-natural-soothing-baby-moisturiser-100ml",
+            "product": "organic-baby-moisturiser",
             "why": "Wash, then moisturise: the Bedtime Ritual."
           }
         },
@@ -72,7 +72,7 @@
           "type": "suggest",
           "settings": {
             "category": "Baby",
-            "product": "original-skinn-all-natural-gentle-soothing-baby-wash-100ml",
+            "product": "lavender-chamomile-baby-wash",
             "why": "Wash, then moisturise: the Bedtime Ritual."
           }
         }
