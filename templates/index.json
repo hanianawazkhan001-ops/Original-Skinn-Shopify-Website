@@ -211,7 +211,7 @@
             "bundle_eyebrow": "Steps 2–4, in your scents",
             "button_label": "Choose your scents",
             "extra_products": [
-              "shimmer-velvet-soy-wax-candle"
+              "amber-velvet-soy-wax-candle"
             ],
             "extra_text": "Add the candle",
             "extra_name": "Shimmer Velvet candle"
@@ -221,7 +221,7 @@
           "type": "step",
           "settings": {
             "step": "Set the mood",
-            "product": "shimmer-velvet-soy-wax-candle",
+            "product": "amber-velvet-soy-wax-candle",
             "name": "Shimmer Velvet Soy Wax Candle"
           }
         },
