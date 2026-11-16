@@ -39,6 +39,16 @@
     .desk-drop a.is-all:hover{border-radius:11px}
     .desk-drop small{font-size:12px;color:var(--muted,#5f6d66);font-variant-numeric:tabular-nums;flex:none}
     .desk-drop .arrow{opacity:.55;flex:none}
+    /* Shop All: a category opens a second list beside the first with its sub-categories */
+    .desk-cat-btn{display:flex;align-items:center;justify-content:space-between;gap:18px;width:100%;padding:9px 12px;border:0;border-radius:11px;background:none;color:var(--forest);font:inherit;font-size:14px;line-height:1.3;letter-spacing:0;text-align:left;cursor:pointer;transition:background-color .18s ease}
+    .desk-cat-btn:hover,.desk-cat-btn[aria-expanded="true"]{background:var(--mist,#eef3ec)}
+    .desk-cat-btn[aria-expanded="true"],.desk-cat-btn.is-here{font-weight:600}
+    .desk-cat-btn:focus-visible{outline:2px solid var(--forest);outline-offset:2px}
+    .desk-cat-btn svg{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:.6}
+    .desk-sub{position:absolute;top:-1px;left:calc(100% + 8px);min-width:230px;padding:10px;background:var(--paper,#fffdf8);border:1px solid var(--line);border-radius:18px;box-shadow:0 24px 50px rgba(30,55,44,.14)}
+    .desk-sub::before{content:"";position:absolute;top:0;bottom:0;right:100%;width:10px}
+    .desk-sub.is-flip{left:auto;right:calc(100% + 8px)}
+    .desk-sub.is-flip::before{right:auto;left:100%}
     html.os-tabs-compact .desk-tabs{--tab-gap:14px;--logo-space:22px;font-size:12px;letter-spacing:0}
     html.os-tabs-off .desk-tabs{display:none}
     html.os-tabs-off .header .menu-left{visibility:visible!important}
@@ -169,6 +179,7 @@
           g.el.addEventListener('mouseenter', () => { if (!this.hover.matches) return; clearTimeout(g.t); g.t = setTimeout(() => this.open(g), 60); });
           g.el.addEventListener('mouseleave', () => { if (!this.hover.matches) return; clearTimeout(g.t); g.t = setTimeout(() => this.close(g), 160); });
           g.el.addEventListener('focusout', (e) => { if (!g.el.contains(e.relatedTarget)) this.close(g); });
+          this.initSubs(g);
         });
         document.addEventListener('keydown', (e) => {
           if (e.key !== 'Escape') return;
@@ -189,12 +200,51 @@
         const gap = Math.max(12, Math.round(this.header.getBoundingClientRect().bottom - g.btn.getBoundingClientRect().bottom) + 8);
         g.drop.style.setProperty('--drop-gap', gap + 'px');
         g.drop.hidden = false;
+        /* keep a wide panel (Shop All) inside the window */
+        g.drop.style.left = '';
+        const r = g.drop.getBoundingClientRect(), edge = 16, over = r.right - (window.innerWidth - edge);
+        if (over > 0) g.drop.style.left = ((parseFloat(getComputedStyle(g.drop).left) || 0) - Math.min(over, Math.max(0, r.left - edge))) + 'px';
         g.btn.setAttribute('aria-expanded', 'true');
         void g.drop.offsetWidth; /* let the browser place it before it fades in */
         g.drop.classList.add('is-open');
       }
+      /* Shop All's categories: each opens its sub-categories beside the list */
+      initSubs(g) {
+        g.drop.querySelectorAll('.desk-cat').forEach((cat) => {
+          const btn = cat.querySelector('.desk-cat-btn'), sub = cat.querySelector('.desk-sub');
+          if (!btn || !sub) return;
+          btn.addEventListener('click', () => {
+            if (btn.getAttribute('aria-expanded') === 'true' && !this.hover.matches) this.closeSub(cat);
+            else this.openSub(g, cat);
+          });
+          btn.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') { e.preventDefault(); this.openSub(g, cat); const a = sub.querySelector('a'); if (a) a.focus(); }
+          });
+          sub.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') { e.preventDefault(); this.closeSub(cat); btn.focus(); }
+          });
+          cat.addEventListener('mouseenter', () => { if (!this.hover.matches) return; clearTimeout(cat.t); cat.t = setTimeout(() => this.openSub(g, cat), 90); });
+          cat.addEventListener('mouseleave', () => clearTimeout(cat.t));
+        });
+      }
+      openSub(g, cat) {
+        g.drop.querySelectorAll('.desk-cat').forEach((c) => { if (c !== cat) this.closeSub(c); });
+        const btn = cat.querySelector('.desk-cat-btn'), sub = cat.querySelector('.desk-sub');
+        sub.classList.remove('is-flip');
+        sub.hidden = false;
+        btn.setAttribute('aria-expanded', 'true');
+        if (sub.getBoundingClientRect().right > window.innerWidth - 16) sub.classList.add('is-flip');
+      }
+      closeSub(cat) {
+        clearTimeout(cat.t);
+        const btn = cat.querySelector('.desk-cat-btn'), sub = cat.querySelector('.desk-sub');
+        if (!btn || !sub) return;
+        btn.setAttribute('aria-expanded', 'false');
+        sub.hidden = true;
+      }
       close(g) {
         clearTimeout(g.t);
+        g.drop.querySelectorAll('.desk-cat').forEach((c) => this.closeSub(c));
         if (!this.isOpen(g)) return;
         g.btn.setAttribute('aria-expanded', 'false');
         g.drop.classList.remove('is-open');
@@ -212,6 +262,32 @@
 </script>
 {%- endif -%}
 
+<style>
+  /* ☰ menu: a category opens its sub-categories underneath */
+  .menu-primary .menu-cat{border-bottom:1px solid rgba(216,221,212,.72)}
+  .menu-cat-btn{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:42px;padding:4px 0;border:0;background:none;color:var(--forest);font-family:Georgia,"Times New Roman",serif;font-size:19px;line-height:1.15;letter-spacing:-.02em;text-align:left;cursor:pointer}
+  .menu-cat-btn svg{width:16px;height:16px;flex:none;margin-left:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;opacity:.55;transition:transform .25s ease}
+  .menu-cat-btn[aria-expanded="true"] svg{transform:rotate(180deg)}
+  .menu-cat-btn:focus-visible{outline:2px solid var(--forest);outline-offset:2px}
+  .menu-sub{display:flex;flex-direction:column;padding:0 0 10px 14px}
+  .menu-sub[hidden]{display:none}
+  .menu-primary .menu-sub a{min-height:38px;padding:2px 0;border-bottom:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:15px;letter-spacing:0;color:#3f5a4d}
+  .menu-primary .menu-sub a.is-all{font-weight:600;color:var(--forest)}
+  .menu-primary .menu-sub .arrow{font-size:13px}
+</style>
+<script>
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest ? e.target.closest('.menu-cat-btn') : null;
+    if (!btn) return;
+    var open = btn.getAttribute('aria-expanded') !== 'true';
+    document.querySelectorAll('.menu-cat-btn').forEach(function (b) {
+      var s = document.getElementById(b.getAttribute('aria-controls'));
+      var on = open && b === btn;
+      b.setAttribute('aria-expanded', on ? 'true' : 'false');
+      if (s) s.hidden = !on;
+    });
+  });
+</script>
 <div class="menu-overlay" id="menuOverlay" aria-hidden="true"></div>
 <aside class="menu-drawer" id="menuDrawer" aria-hidden="true" aria-label="Main menu">
   <div class="menu-drawer-head">
@@ -228,12 +304,7 @@
       <a href="{{ link.url }}">{{ link.title }} <span class="arrow">&rarr;</span></a>
         {%- endfor -%}
       {%- else -%}
-      <a href="{{ routes.all_products_collection_url }}">Shop All <span class="arrow">&rarr;</span></a>
-      <a href="{{ routes.collections_url }}/face">Face <span class="arrow">&rarr;</span></a>
-      <a href="{{ routes.collections_url }}/body">Body <span class="arrow">&rarr;</span></a>
-      <a href="{{ routes.collections_url }}/bath-shower">Bath &amp; Shower <span class="arrow">&rarr;</span></a>
-      <a href="{{ routes.collections_url }}/baby">Baby <span class="arrow">&rarr;</span></a>
-      <a href="{{ routes.collections_url }}/home-fragrance">Home Fragrance <span class="arrow">&rarr;</span></a>
+      {%- render 'shop-menu', menu: '', mode: 'accordion' -%}
       <a href="{{ routes.collections_url }}/aromatherapy">Aromatherapy <span class="arrow">&rarr;</span></a>
       {%- endif -%}
     </nav>

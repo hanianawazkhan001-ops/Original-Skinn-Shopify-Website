@@ -3,13 +3,17 @@
   list. Used by the header:
     mode 'desk'   – the computer tabs left of the logo (each opens a drop-down list)
     mode 'chips'  – the "Popular" links in the search panel
-    mode 'drawer' – grouped version of the ☰ menu (not used: phones keep the plain list)
+    mode 'accordion' – the ☰ menu's shop list (Shop All's categories; tap one to see its sub-categories)
+    mode 'drawer' – grouped version of the ☰ menu (not used)
   Params: menu (the "Shop links menu" chosen in the theme editor), mode
 
   Using a Shopify menu (Online Store > Navigation): make one top-level item per group (e.g. Shop
   All, Aromatherapy, Bundles) and put its list underneath as nested items. A top-level item with
   nothing underneath shows as a plain link. Until a menu is chosen, the groups below are used.
   In a list made only of products (like Bundles), each shows its price next to the name.
+  Sub-categories: in the standard groups, an item starting with "- " belongs to the category above
+  it; in a Shopify menu, nest them one level deeper under the category. On computers, clicking a
+  category in that group (or pointing at it with a mouse) opens its sub-categories in a second list.
 {%- endcomment -%}
 {%- liquid
   assign c = routes.collections_url
@@ -19,6 +23,9 @@
       assign items = ''
       for child in link.links
         assign items = items | append: child.title | append: '‡' | append: child.url | append: '¤'
+        for sub in child.links
+          assign items = items | append: '- ' | append: sub.title | append: '‡' | append: sub.url | append: '¤'
+        endfor
       endfor
       assign spec = spec | append: link.title | append: '¦' | append: link.url | append: '¦' | append: items | append: '§'
     endfor
@@ -27,10 +34,31 @@
       echo 'Shop All¦' | append: routes.all_products_collection_url | append: '¦'
       echo 'Shop all‡' | append: routes.all_products_collection_url | append: '¤'
       echo 'Face‡' | append: c | append: '/face¤'
+      echo '- Cleansers‡' | append: c | append: '/face-cleansers¤'
+      echo '- Toner mist‡/products/facial-toner-mist-spray¤'
+      echo '- Serum‡/products/hyaluronic-acid-facial-serum-cranberry-grapefruit-raspberry¤'
+      echo '- Moisturisers‡' | append: c | append: '/face-moisturisers¤'
+      echo '- Face sets‡' | append: c | append: '/face-sets¤'
       echo 'Body‡' | append: c | append: '/body¤'
+      echo '- Body butters‡' | append: c | append: '/body-butters¤'
+      echo '- Skin balms‡' | append: c | append: '/skin-nourishing-balms¤'
+      echo '- Hand cream‡/products/sea-buckthorn-aloe-hand-cream¤'
+      echo '- Hair serum‡/products/organic-herbal-hair-serum¤'
       echo 'Bath & Shower‡' | append: c | append: '/bath-shower¤'
+      echo '- Salt scrubs‡' | append: c | append: '/salt-scrubs¤'
+      echo '- Bath soaks‡' | append: c | append: '/bath-soaks¤'
+      echo '- Shower steamers‡' | append: c | append: '/shower-steamers¤'
+      echo '- Shower gel‡/products/mandarin-geranium-shower-gel¤'
+      echo '- Bath & shower sets‡' | append: c | append: '/bath-sets¤'
       echo 'Baby‡' | append: c | append: '/baby¤'
-      echo 'Home Fragrance‡' | append: c | append: '/home-fragrance¤§'
+      echo '- Baby wash‡/products/lavender-chamomile-baby-wash¤'
+      echo '- Baby moisturiser‡/products/organic-baby-moisturiser¤'
+      echo '- Baby bundle‡/products/baby-essentials-bundle¤'
+      echo 'Home Fragrance‡' | append: c | append: '/home-fragrance¤'
+      echo '- Candles‡' | append: c | append: '/candles¤'
+      echo '- Reed diffusers‡' | append: c | append: '/reed-diffusers¤'
+      echo '- Room sprays & mists‡' | append: c | append: '/room-sprays¤'
+      echo '- Car blends‡' | append: c | append: '/car-blends¤§'
       echo 'Aromatherapy¦' | append: c | append: '/aromatherapy¦'
       echo 'All aromatherapy‡' | append: c | append: '/aromatherapy¤'
       echo 'Pulse point roll-on‡/products/lavender-rose-vetiver-pulse-roll-on¤'
@@ -45,6 +73,7 @@
       echo 'Face Moisturiser Duo‡/products/original-skinn-day-night-facial-set-light-rich¤'
       echo 'Spa Ritual Set‡/products/spa-ritual-set¤'
       echo 'Ultimate Spa Ritual Set‡/products/ultimate-spa-ritual-set¤'
+      echo 'Candlelit Spa Ritual Set‡/products/candlelit-spa-ritual-set¤'
       echo 'Face Wash & Shower Gel Bundle‡/products/face-wash-shower-gel-bundle¤'
       echo 'Shower Steamer Set‡/products/shower-steamer-set¤'
       echo 'Baby Essentials Bundle‡/products/baby-essentials-bundle¤§'
@@ -58,7 +87,7 @@
     {%- assign f = g | split: '¦' -%}{%- if f[0] == blank -%}{%- continue -%}{%- endif -%}
     {%- if forloop.first and f[2] != blank -%}
       {%- assign items = f[2] | split: '¤' -%}
-      {%- for it in items offset: 1 -%}{%- assign p = it | split: '‡' -%}{%- if p[0] != blank -%}<a href="{{ p[1] }}">{{ p[0] | escape }}</a>{%- endif -%}{%- endfor -%}
+      {%- for it in items offset: 1 -%}{%- assign p = it | split: '‡' -%}{%- assign lead = p[0] | slice: 0, 2 -%}{%- if p[0] != blank and lead != '- ' -%}<a href="{{ p[1] }}">{{ p[0] | escape }}</a>{%- endif -%}{%- endfor -%}
     {%- else -%}
       <a href="{{ f[1] }}">{{ f[0] | escape }}</a>
     {%- endif -%}
@@ -94,6 +123,41 @@
       {%- for it in items -%}{%- assign p = it | split: '‡' -%}{%- if p[1] != blank and request.path == p[1] -%}{%- assign here = true -%}{%- endif -%}{%- endfor -%}
     <div class="desk-group">
       <button class="desk-tab desk-group-btn{% if here %} is-here{% endif %}" type="button" aria-expanded="false" aria-controls="{{ gid }}">{{ f[0] | escape }}<svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></button>
+      {%- if f[2] contains '¤- ' -%}
+      {%- comment -%}
+        A group with sub-categories (items starting "- "): the usual list of categories; clicking a
+        category (or pointing at it with a mouse) opens a second list beside it with its sub-categories.
+      {%- endcomment -%}
+      {%- assign sub_open = false -%}{%- assign n_sub = 0 -%}
+      <div class="desk-drop desk-cats" id="{{ gid }}" hidden>
+        <ul>
+        {%- for it in items -%}
+          {%- assign p = it | split: '‡' -%}{%- if p[0] == blank -%}{%- continue -%}{%- endif -%}
+          {%- assign lead = p[0] | slice: 0, 2 -%}
+          {%- if forloop.first -%}
+          <li><a class="is-all" href="{{ p[1] }}"{% if request.path == p[1] %} aria-current="page"{% endif %}><span>{{ p[0] | escape }}</span><span class="arrow" aria-hidden="true">&rarr;</span></a></li>
+          {%- elsif lead == '- ' -%}
+            {%- if sub_open -%}<li><a href="{{ p[1] }}"{% if request.path == p[1] %} aria-current="page"{% endif %}><span>{{ p[0] | remove_first: '- ' | escape }}</span></a></li>{%- endif -%}
+          {%- else -%}
+            {%- if sub_open -%}</ul></div></li>{%- assign sub_open = false -%}{%- endif -%}
+            {%- assign nx = items[forloop.index] | split: '‡' | first | slice: 0, 2 -%}
+            {%- if nx == '- ' -%}
+              {%- assign n_sub = n_sub | plus: 1 -%}
+              {%- assign sid = gid | append: 'Sub' | append: n_sub -%}
+          <li class="desk-cat"><button class="desk-cat-btn{% if request.path == p[1] %} is-here{% endif %}" type="button" aria-expanded="false" aria-controls="{{ sid }}"><span>{{ p[0] | escape }}</span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button>
+            <div class="desk-sub" id="{{ sid }}" hidden>
+              <a class="is-all" href="{{ p[1] }}"{% if request.path == p[1] %} aria-current="page"{% endif %}><span>All {{ p[0] | escape }}</span><span class="arrow" aria-hidden="true">&rarr;</span></a>
+              <ul>
+              {%- assign sub_open = true -%}
+            {%- else -%}
+          <li><a href="{{ p[1] }}"{% if request.path == p[1] %} aria-current="page"{% endif %}><span>{{ p[0] | escape }}</span></a></li>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if sub_open -%}</ul></div></li>{%- endif -%}
+        </ul>
+      </div>
+      {%- else -%}
       <div class="desk-drop" id="{{ gid }}" hidden>
         <ul>
         {%- for it in items -%}
@@ -104,8 +168,42 @@
         {%- endfor -%}
         </ul>
       </div>
+      {%- endif -%}
     </div>
     {%- endif -%}
+  {%- endfor -%}
+{%- when 'accordion' -%}
+  {%- comment -%}
+    The ☰ menu (phones and tablets): the first group (Shop All) as a list; a category with
+    sub-categories opens them underneath when tapped.
+  {%- endcomment -%}
+  {%- for g in groups limit: 1 -%}
+    {%- assign f = g | split: '¦' -%}
+    {%- assign items = f[2] | split: '¤' -%}
+    {%- assign sub_open = false -%}{%- assign n_sub = 0 -%}
+    {%- for it in items -%}
+      {%- assign p = it | split: '‡' -%}{%- if p[0] == blank -%}{%- continue -%}{%- endif -%}
+      {%- assign lead = p[0] | slice: 0, 2 -%}
+      {%- if forloop.first -%}
+      <a href="{{ p[1] }}">{{ f[0] | escape }} <span class="arrow">&rarr;</span></a>
+      {%- elsif lead == '- ' -%}
+        {%- if sub_open -%}<a href="{{ p[1] }}">{{ p[0] | remove_first: '- ' | escape }}</a>{%- endif -%}
+      {%- else -%}
+        {%- if sub_open -%}</div></div>{%- assign sub_open = false -%}{%- endif -%}
+        {%- assign nx = items[forloop.index] | split: '‡' | first | slice: 0, 2 -%}
+        {%- if nx == '- ' -%}
+          {%- assign n_sub = n_sub | plus: 1 -%}
+          {%- assign sid = 'menuCat' | append: n_sub -%}
+      <div class="menu-cat"><button class="menu-cat-btn" type="button" aria-expanded="false" aria-controls="{{ sid }}">{{ p[0] | escape }}<svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></button>
+        <div class="menu-sub" id="{{ sid }}" hidden>
+          <a class="is-all" href="{{ p[1] }}">All {{ p[0] | escape }} <span class="arrow">&rarr;</span></a>
+          {%- assign sub_open = true -%}
+        {%- else -%}
+      <a href="{{ p[1] }}">{{ p[0] | escape }} <span class="arrow">&rarr;</span></a>
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- if sub_open -%}</div></div>{%- endif -%}
   {%- endfor -%}
 {%- when 'drawer' -%}
   {%- for g in groups -%}
@@ -138,6 +236,7 @@
       <div class="menu-group-list" id="{{ gid }}"{% unless forloop.first %} hidden{% endunless %}>
         {%- for it in items -%}
           {%- assign p = it | split: '‡' -%}{%- if p[0] == blank -%}{%- continue -%}{%- endif -%}
+          {%- assign lead = p[0] | slice: 0, 2 -%}{%- if lead == '- ' -%}{%- continue -%}{%- endif -%}
           {%- assign price = '' -%}
           {%- if show_prices and p[1] contains '/products/' -%}{%- assign ph = p[1] | split: '/products/' | last | split: '?' | first -%}{%- if all_products[ph] != blank -%}{%- assign price = all_products[ph].price | money_without_trailing_zeros -%}{%- endif -%}{%- endif -%}
         <a class="{% if forloop.first %}is-all{% endif %}" href="{{ p[1] }}"><span>{{ p[0] | escape }}</span>{% if price != blank %}<small>{{ price }}</small>{% else %}<span class="arrow">&rarr;</span>{% endif %}</a>
