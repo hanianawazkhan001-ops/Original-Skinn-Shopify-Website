@@ -2523,3 +2523,29 @@ a:active,button:active{transform:scale(.97)}
 @media(prefers-reduced-motion:reduce){.ann-rotating .ann-msg.is-active{animation:none}.ann-rotating .announcement-icon{transition:none}}
 /* Quick add: a bigger tap area (at least 44px tall) without changing how the link looks */
 .quickadd{position:relative}.quickadd::after{content:"";position:absolute;left:-10px;right:-10px;top:50%;height:44px;transform:translateY(-50%)}
+
+/* =========================
+   Shopify cookie banner — shapes and type matched to the site.
+   Colours and wording come from Settings > Customer privacy > Cookie banner > Customize.
+   ========================= */
+#shopify-pc__banner{bottom:16px;padding:24px 26px;border:1px solid var(--line);border-radius:22px;box-shadow:0 24px 50px rgba(30,55,44,.16);font-family:var(--sans)}
+#shopify-pc__banner h2{margin:0 0 8px;font-family:var(--serif);font-weight:400;font-size:24px;line-height:1.15;letter-spacing:-.02em}
+#shopify-pc__banner p{font-size:14px;line-height:1.55}
+#shopify-pc__banner a{text-underline-offset:3px}
+#shopify-pc__banner .shopify-pc__banner__btns{gap:10px;margin-top:16px;align-items:center}
+#shopify-pc__banner button{flex:0 0 auto;margin:0;min-height:44px;padding:0 22px;border-radius:999px;font-family:var(--sans);font-size:12px;font-weight:700;line-height:1;letter-spacing:.06em;text-transform:uppercase}
+#shopify-pc__banner #shopify-pc__banner__btn-manage-prefs{margin-right:auto;padding:0 4px;font-size:13px;font-weight:600;letter-spacing:0;text-transform:none;text-decoration:underline;text-underline-offset:3px}
+#shopify-pc__banner button:focus,#shopify-pc__prefs__dialog button:focus{box-shadow:none}
+#shopify-pc__banner button:focus-visible,#shopify-pc__banner a:focus-visible,#shopify-pc__prefs__dialog button:focus-visible{outline:2px solid var(--forest);outline-offset:3px}
+@media (max-width:480px){
+  #shopify-pc__banner{left:12px;right:12px;bottom:12px;width:auto;min-width:0;padding:20px}
+  #shopify-pc__banner button{width:100%}
+  #shopify-pc__banner #shopify-pc__banner__btn-manage-prefs{margin:0}
+}
+#shopify-pc__prefs__overlay{background-color:rgba(24,49,39,.45)}
+#shopify-pc__prefs__dialog{border:1px solid var(--line);border-radius:22px;box-shadow:0 30px 70px rgba(30,55,44,.22);font-family:var(--sans)}
+#shopify-pc__prefs__dialog header,#shopify-pc__prefs__dialog .shopify-pc__prefs__option:first-child{border-color:var(--line)}
+#shopify-pc__prefs__dialog #shopify-pc__prefs__header-title{font-family:var(--serif);font-weight:400;font-size:26px;letter-spacing:-.02em}
+#shopify-pc__prefs__dialog h3{font-family:var(--serif);font-weight:400;font-size:20px;letter-spacing:-.01em}
+#shopify-pc__prefs__dialog .shopify-pc__prefs__header-actions button{min-height:42px;padding:0 20px;border-radius:999px;font-family:var(--sans);font-size:12px;font-weight:700;line-height:1;letter-spacing:.06em;text-transform:uppercase}
+#shopify-pc__prefs__dialog .shopify-pc__prefs__option p{font-size:14px;line-height:1.55}
