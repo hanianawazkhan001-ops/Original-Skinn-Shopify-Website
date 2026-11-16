@@ -1,7 +1,7 @@
 {%- comment -%}
   Bundles where the customer picks the products inside (e.g. Bath Ritual: which scrub, which soak,
-  which butter). The choices come from the product's fields "Bundle choice 1" to "Bundle choice 4"
-  (custom.bundle_choice_1..4, lists of products). The first product that's in stock in each list is
+  which butter). The choices come from the product's fields "Bundle choice 1" to "Bundle choice 6"
+  (custom.bundle_choice_1..6, lists of products). The first product that's in stock in each list is
   picked to start with. Each item's name comes from its product type ("Salt Scrub" → "Salt scrub");
   products with sizes use their first (smallest) size, e.g. the 50 ml butter.
   The picks go into the bag as notes on the item ("Salt scrub: Grapefruit Salt Scrub"), which show in
@@ -14,7 +14,7 @@
 {%- endcomment -%}
 {%- liquid
   assign slots = 0
-  for i in (1..4)
+  for i in (1..6)
     assign k = 'bundle_choice_' | append: i
     assign plist = product.metafields.custom[k].value
     if plist != blank and plist.size > 0
@@ -28,14 +28,14 @@
 {%- when 'pairs' -%}
 {%- capture picks -%}
 {%- assign handles = '' -%}
-{%- for i in (1..4) -%}
+{%- for i in (1..6) -%}
 {%- assign k = 'bundle_choice_' | append: i -%}
 {%- assign plist = product.metafields.custom[k].value -%}
 {%- if plist == blank or plist.size == 0 -%}{%- continue -%}{%- endif -%}
 {%- assign pick = false -%}
 {%- for q in plist -%}{%- if pick == false and q.variants.first.available -%}{%- assign pick = q -%}{%- endif -%}{%- endfor -%}
 {%- if pick == false -%}{%- for q in plist limit: 1 -%}{%- assign pick = q -%}{%- endfor -%}{%- endif -%}
-{%- for q in plist limit: 1 -%}{%- capture label -%}{{ q.type | default: 'Item' | downcase | capitalize }}{%- endcapture -%}{%- endfor -%}
+{%- for q in plist limit: 1 -%}{%- capture label -%}{{ q.type | default: 'Item' | downcase | capitalize | replace: 'Candles', 'Candle' }}{%- endcapture -%}{%- endfor -%}
 {%- capture value -%}{% render 'product-name', product: pick, part: 'short' %}{% if pick.variants.size > 1 %} ({{ pick.variants.first.title | downcase | remove: ' ' | replace: 'ml', ' ml' }}){% endif %}{%- endcapture -%}
 {{ label | json }}:{{ value | strip | json }},
 {%- assign handles = handles | append: pick.handle | append: ',' -%}
@@ -49,7 +49,7 @@
 <div class="bundle-pick" id="{{ pick_id }}">
 <p class="bp-intro"><span class="bp-kicker">Make it yours</span>{%- capture bname -%}{% render 'product-name', product: product, part: 'short' %}{%- endcapture -%}Choose each product in your {{ bname | strip }}.</p>
 {%- assign n = 0 -%}
-{%- for i in (1..4) -%}
+{%- for i in (1..6) -%}
 {%- assign k = 'bundle_choice_' | append: i -%}
 {%- assign plist = product.metafields.custom[k].value -%}
 {%- if plist == blank or plist.size == 0 -%}{%- continue -%}{%- endif -%}
@@ -57,14 +57,14 @@
 {%- assign pick = false -%}
 {%- for q in plist -%}{%- if pick == false and q.variants.first.available -%}{%- assign pick = q -%}{%- endif -%}{%- endfor -%}
 {%- assign size = '' -%}
-{%- for q in plist limit: 1 -%}{%- capture label -%}{{ q.type | default: 'Item' | downcase | capitalize }}{%- endcapture -%}{%- if q.variants.size > 1 -%}{%- assign size = q.variants.first.title | downcase | remove: ' ' | replace: 'ml', ' ml' -%}{%- endif -%}{%- endfor -%}
+{%- for q in plist limit: 1 -%}{%- capture label -%}{{ q.type | default: 'Item' | downcase | capitalize | replace: 'Candles', 'Candle' }}{%- endcapture -%}{%- if q.variants.size > 1 -%}{%- assign size = q.variants.first.title | downcase | remove: ' ' | replace: 'ml', ' ml' -%}{%- endif -%}{%- endfor -%}
 <fieldset class="bp-slot" data-label="{{ label | escape }}">
 <legend class="bp-legend"><span class="bp-num">{{ n }}</span><span class="bp-label">{{ label }}{% if size != blank %} <em>{{ size }}</em>{% endif %}</span><span class="bp-chosen" aria-hidden="true"></span></legend>
 <div class="bp-options">
 {%- for q in plist -%}
 {%- capture full -%}{% render 'product-name', product: q, part: 'short' %}{%- endcapture -%}
 {%- assign full = full | strip -%}
-{%- assign short = full | remove: q.type | remove: ' Whipped' | strip -%}
+{%- assign short = full | remove: q.type | remove: ' Whipped' | remove: ' Soy Wax Candle' | remove: ' Skin & Beard Nourishing' | remove: ' Skin Nourishing' | remove: ' Aromatherapy' | remove: "'" | strip -%}
 {%- if short == blank -%}{%- assign short = full -%}{%- endif -%}
 {%- capture value -%}{{ full }}{% if q.variants.size > 1 %} ({{ q.variants.first.title | downcase | remove: ' ' | replace: 'ml', ' ml' }}){% endif %}{%- endcapture -%}
 <label class="bp-opt">

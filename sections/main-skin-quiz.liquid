@@ -6,7 +6,7 @@
   (QUIZ and the pick… functions). Product names, photos, prices and links come from the products.
 {%- endcomment -%}
 {%- liquid
-  assign handles = 'gentle-foaming-face-wash-chamomile-lavender,facial-toner-mist-spray,hyaluronic-acid-facial-serum-cranberry-grapefruit-raspberry,original-skinn-light-moisturiser-serum-unfragranced-50ml,original-skinn-rich-moisturiser-serum-lemon-cedarwood-50ml,face-ritual-cleanse-refresh-moisturise,day-night-face-ritual-complete-face-routine,sweet-citrus-salt-scrub,rose-petal-salt-scrub,vanilla-bliss-salt-scrub,lavender-salt-scrub,sweet-orange-body-butter,rose-whipped-body-butter,original-shea-body-butter,lavender-fragranced-whipped-body-butter,candy-cane-whipped-body-butter-winter-rituals-collection,citrus-skin-nourishing-balm,geranium-rose-skin-nourishing-balm,lavender-skin-nourishing-balm,rosemary-skin-and-beard-nourishing-balm,ginger-lemon-orange-bath-soak,rose-petal-bath-salt,lavender-bliss-bath-salt,spiced-citrus-wood-soy-wax-candle,lemongrass-violet-soy-wax-candle,amber-velvet-soy-wax-candle,steamy-romance-shower-steamer,hangover-shower-steamer,mandarin-geranium-shower-gel,lavender-chamomile-baby-wash,organic-baby-moisturiser,baby-essentials-bundle,ultimate-spa-ritual-set' | split: ','
+  assign handles = 'gentle-foaming-face-wash-chamomile-lavender,facial-toner-mist-spray,hyaluronic-acid-facial-serum-cranberry-grapefruit-raspberry,original-skinn-light-moisturiser-serum-unfragranced-50ml,original-skinn-rich-moisturiser-serum-lemon-cedarwood-50ml,face-ritual-cleanse-refresh-moisturise,day-night-face-ritual-complete-face-routine,sweet-citrus-salt-scrub,rose-petal-salt-scrub,vanilla-bliss-salt-scrub,lavender-salt-scrub,sweet-orange-body-butter,rose-whipped-body-butter,original-shea-body-butter,lavender-fragranced-whipped-body-butter,candy-cane-whipped-body-butter-winter-rituals-collection,citrus-skin-nourishing-balm,geranium-rose-skin-nourishing-balm,lavender-skin-nourishing-balm,rosemary-skin-and-beard-nourishing-balm,ginger-lemon-orange-bath-soak,rose-petal-bath-salt,lavender-bliss-bath-salt,spiced-citrus-wood-soy-wax-candle,lemongrass-violet-soy-wax-candle,amber-velvet-soy-wax-candle,steamy-romance-shower-steamer,hangover-shower-steamer,mandarin-geranium-shower-gel,lavender-chamomile-baby-wash,organic-baby-moisturiser,baby-essentials-bundle,spa-ritual-set' | split: ','
   assign hero_heading = section.settings.hero_heading | default: page.title
 -%}
 {%- render 'page-hero', style: 'faq', kicker: section.settings.hero_kicker, heading: hero_heading, text: section.settings.hero_text -%}
@@ -83,7 +83,7 @@
     serum:'hyaluronic-acid-facial-serum-cranberry-grapefruit-raspberry',
     day:'original-skinn-light-moisturiser-serum-unfragranced-50ml', night:'original-skinn-rich-moisturiser-serum-lemon-cedarwood-50ml',
     faceRitual:'face-ritual-cleanse-refresh-moisturise', dayNight:'day-night-face-ritual-complete-face-routine',
-    gel:'mandarin-geranium-shower-gel', spaSet:'ultimate-spa-ritual-set',
+    gel:'mandarin-geranium-shower-gel', spaSet:'spa-ritual-set',
     babyWash:'lavender-chamomile-baby-wash', babyMoist:'organic-baby-moisturiser',
     babyBundle:'baby-essentials-bundle'
   };
@@ -207,7 +207,7 @@
     if(a.type === 'bath'){
       r.steps = [step('Set the mood', s.candle, 'Light it before you run the bath'), step('Scrub', s.scrub, 'Before you soak'), step('Soak', s.soak, '2–3 teaspoons under warm running water'), step('Moisturise', s.butter, 'After your bath')];
       r.intro = 'Light a candle, scrub, soak, then moisturise.';
-      r.link = {label:'Or choose your scrub, soak and butter in the Ultimate Spa Ritual Set', h:H.spaSet};
+      r.link = {label:'Or choose your scrub, soak and butter in the Spa Ritual Set', h:H.spaSet};
     } else {
       r.steps = [step('Steam', s.steamer, 'On the shower floor, away from the water'), step('Scrub', s.scrub, '2–3 times a week'), step('Wash', H.gel, 'Every shower'), step('Moisturise', s.butter, 'After your shower')];
       r.intro = 'A shower steamer for the scent, then scrub, wash and moisturise.';
