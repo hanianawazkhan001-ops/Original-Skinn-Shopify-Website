@@ -3,6 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+{%- if request.page_type == 'policy' -%}
+  {%- liquid
+    # Shopify's own policy pages (/policies/...) send visitors on to the site's designed pages,
+    # so each policy has one page. The text in Settings > Policies is still what checkout shows.
+    assign policy_go = ''
+    if request.path contains 'privacy-policy'
+      assign policy_go = '/pages/privacy'
+    elsif request.path contains 'terms-of-service'
+      assign policy_go = '/pages/terms'
+    elsif request.path contains 'refund-policy' or request.path contains 'shipping-policy'
+      assign policy_go = '/pages/delivery-returns'
+    elsif request.path contains 'contact-information'
+      assign policy_go = '/pages/contact'
+    endif
+  -%}
+  {%- if policy_go != blank %}
+<meta http-equiv="refresh" content="0; url={{ policy_go }}">
+<script>window.location.replace({{ policy_go | json }});</script>
+  {%- endif -%}
+{%- endif %}
 {%- liquid
   assign brand = settings.brand_name | default: 'Original Skinn'
   if template.name == 'index'
