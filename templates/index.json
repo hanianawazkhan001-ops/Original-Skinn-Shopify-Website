@@ -316,7 +316,7 @@
             "image_alt": "Organic Baby Moisturiser and Lavender & Chamomile Baby Wash",
             "title": "The baby journey",
             "colour": "sage",
-            "bundle": "original-skinn-bedtime-bundle-gentle-wash-soothing-moisturiser",
+            "bundle": "baby-essentials-bundle",
             "bundle_choose": false,
             "bundle_eyebrow": "Both steps",
             "bundle_name": "Baby Essentials Bundle",
@@ -328,7 +328,7 @@
           "type": "step",
           "settings": {
             "step": "Bath time",
-            "product": "original-skinn-all-natural-gentle-soothing-baby-wash-100ml",
+            "product": "lavender-chamomile-baby-wash",
             "note": "From 3 months"
           }
         },
@@ -336,7 +336,7 @@
           "type": "step",
           "settings": {
             "step": "Moisturise",
-            "product": "original-skinn-all-natural-soothing-baby-moisturiser-100ml",
+            "product": "organic-baby-moisturiser",
             "note": "From 6 months"
           }
         }
@@ -414,7 +414,7 @@
         "card4": {
           "type": "card",
           "settings": {
-            "product": "original-skinn-bedtime-bundle-gentle-wash-soothing-moisturiser",
+            "product": "baby-essentials-bundle",
             "badge": "Baby care",
             "description": "Organic Baby Moisturiser and Lavender & Chamomile Baby Wash.",
             "image_alt": "Baby care products"
