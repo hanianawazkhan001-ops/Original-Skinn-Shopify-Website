@@ -75,6 +75,22 @@
             "product": "lavender-chamomile-baby-wash",
             "why": "Wash, then moisturise: the Bedtime Ritual."
           }
+        },
+        "suggest_9": {
+          "type": "suggest",
+          "settings": {
+            "category": "Hand",
+            "product": "original-shea-body-butter",
+            "why": "Soft hands, then soft skin all over."
+          }
+        },
+        "suggest_10": {
+          "type": "suggest",
+          "settings": {
+            "category": "Hand",
+            "product": "citrus-skin-nourishing-balm",
+            "why": "A rich balm for extra-dry spots like knuckles and elbows."
+          }
         }
       },
       "block_order": [
@@ -85,7 +101,9 @@
         "suggest_5",
         "suggest_6",
         "suggest_7",
-        "suggest_8"
+        "suggest_8",
+        "suggest_9",
+        "suggest_10"
       ],
       "settings": {}
     }

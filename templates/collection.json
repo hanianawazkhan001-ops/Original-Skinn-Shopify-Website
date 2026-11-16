@@ -81,7 +81,7 @@
           "settings": {
             "collection": "body",
             "heading": "Soft Skin Ritual",
-            "text": "Whipped body butters in five scents. Rich, melts into skin, and made by hand in small batches."
+            "text": "Whipped body butters in seven scents. Rich, melts into skin, and made by hand in small batches."
           }
         },
         "body_s1": {
@@ -198,6 +198,14 @@
             ]
           }
         },
+        "hand_intro": {
+          "type": "intro",
+          "settings": {
+            "collection": "hand",
+            "heading": "Hand Ritual",
+            "text": "Our Sea Buckthorn & Aloe Hand Cream: unscented, in a 50 ml tube that fits in any bag."
+          }
+        },
         "home_intro": {
           "type": "intro",
           "settings": {
@@ -227,6 +235,7 @@
         "baby_s1",
         "baby_s2",
         "baby_buy",
+        "hand_intro",
         "home_intro"
       ],
       "settings": {}

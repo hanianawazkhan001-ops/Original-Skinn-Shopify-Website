@@ -37,6 +37,7 @@
   assign in_bag = ' '
   assign names = ''
   assign cats = ''
+  assign cat_order = 'Baby|Hand|Face|Bath & Shower|Home Fragrance|Aromatherapy|Body' | split: '|'
   for item in cart.items reversed
     assign in_bag = in_bag | append: item.product.handle | append: ' '
     assign names = names | append: item.product.title | append: ' | '
@@ -52,11 +53,17 @@
     capture c
       render 'product-cats', product: item.product, mode: 'label'
     endcapture
-    assign ck = '|' | append: c | append: '|'
-    assign cats_check = '|' | append: cats
-    unless cats_check contains ck
-      assign cats = cats | append: c | append: '|'
-    endunless
+    # a product in more than one category (e.g. Body and Hand) counts for each, most specific first
+    assign c_parts = c | strip | split: ' · '
+    for cn in cat_order
+      if c_parts contains cn
+        assign ck = '|' | append: cn | append: '|'
+        assign cats_check = '|' | append: cats
+        unless cats_check contains ck
+          assign cats = cats | append: cn | append: '|'
+        endunless
+      endif
+    endfor
   endfor
   assign kinds = section.settings.kinds | split: ','
   assign cand_ids = ''
@@ -294,7 +301,7 @@
       "type": "suggest",
       "name": "Suggestion",
       "settings": [
-        { "type": "text", "id": "category", "label": "When the bag has this category", "default": "Face", "info": "Face, Body, Bath & Shower, Baby or Home Fragrance." },
+        { "type": "text", "id": "category", "label": "When the bag has this category", "default": "Face", "info": "Face, Body, Hand, Bath & Shower, Baby, Home Fragrance or Aromatherapy." },
         { "type": "product", "id": "product", "label": "Suggest this product" },
         { "type": "text", "id": "why", "label": "Reason shown", "default": "Step 1 of the Face Ritual." },
         { "type": "image_picker", "id": "image", "label": "Photo (leave empty for the product photo)" }

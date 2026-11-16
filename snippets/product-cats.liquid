@@ -21,6 +21,12 @@
       assign first = 'body'
     endif
   endif
+  if handles contains ' hand '
+    assign keys = keys | append: ' hand'
+    assign names = names | append: '|Hand'
+    # hand care is more specific than Body, so a hand product's breadcrumb goes to Hand
+    assign first = 'hand'
+  endif
   if handles contains ' bath-shower ' or handles contains ' bath-and-shower '
     assign keys = keys | append: ' bath'
     assign names = names | append: '|Bath & Shower'

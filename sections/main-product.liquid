@@ -337,6 +337,11 @@
 <div class="also-grid" id="pdAlso">
 {%- liquid
   assign pool = collections.all.products | sort: 'id'
+  # hand care sits with body care, so a hand product's last suggestions come from Body
+  assign also_handle = crumb_handle
+  if crumb_handle == 'hand'
+    assign also_handle = 'body'
+  endif
   assign shown = 0
   assign used = ' ' | append: product.handle | append: ' '
 -%}
@@ -363,7 +368,7 @@
 {%- assign key = ' ' | append: q.handle | append: ' ' -%}
 {%- unless used contains key -%}
 {%- capture qkeys -%}{% render 'product-cats', product: q, mode: 'first-handle' %}{%- endcapture -%}
-{%- if qkeys == crumb_handle -%}
+{%- if qkeys == also_handle -%}
 {%- render 'shop-card', product: q, plain: true -%}{%- assign shown = shown | plus: 1 -%}{%- assign used = used | append: q.handle | append: ' ' -%}
 {%- endif -%}{%- endunless -%}
 {%- endif -%}{%- endfor -%}
