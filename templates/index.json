@@ -211,18 +211,18 @@
             "bundle_eyebrow": "Steps 2–4, in your scents",
             "button_label": "Choose your scents",
             "extra_products": [
-              "shimmer-velvet-soy-wax-candle"
+              "amber-velvet-soy-wax-candle"
             ],
             "extra_text": "Add the candle",
-            "extra_name": "Shimmer Velvet candle"
+            "extra_name": "Amber Velvet candle"
           }
         },
         "bath_1": {
           "type": "step",
           "settings": {
             "step": "Set the mood",
-            "product": "shimmer-velvet-soy-wax-candle",
-            "name": "Shimmer Velvet Soy Wax Candle"
+            "product": "amber-velvet-soy-wax-candle",
+            "name": "Amber Velvet Soy Wax Candle"
           }
         },
         "bath_2": {
