@@ -67,6 +67,20 @@
             "heading": "If you need to return something"
           }
         },
+        "point_2_r21": {
+          "type": "point",
+          "settings": {
+            "heading": "21-day returns",
+            "text": "We accept returns of unopened and unused products within 21 days of purchase. Email us at original@originalskinn.com with your order number and the reason for the return, and we’ll send you return instructions."
+          }
+        },
+        "point_2_ex": {
+          "type": "point",
+          "settings": {
+            "heading": "Exchanges",
+            "text": "If you’d rather swap a product for something else, let us know when you get in touch and we’ll arrange an exchange."
+          }
+        },
         "point_2_0": {
           "type": "point",
           "settings": {
@@ -110,6 +124,8 @@
         "point_1_3",
         "point_1_4",
         "col_2",
+        "point_2_r21",
+        "point_2_ex",
         "point_2_0",
         "point_2_1",
         "point_2_2",

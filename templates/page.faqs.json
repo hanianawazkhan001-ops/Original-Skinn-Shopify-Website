@@ -174,7 +174,7 @@
           "type": "question",
           "settings": {
             "question": "Where can I find your returns information?",
-            "answer": "<p>You can find the full policy on our Delivery &amp; Returns page. If you are unsure about anything, contact us before sending an item back.</p>"
+            "answer": "<p>We accept returns of unopened and unused products within 21 days of purchase, and we can arrange an exchange if you prefer. You also have the legal right to cancel within 14 days of receiving your order. The full details are on our <a href=\"/pages/delivery-returns\">Delivery &amp; Returns page</a>. Please contact us before sending an item back.</p>"
           }
         }
       },
