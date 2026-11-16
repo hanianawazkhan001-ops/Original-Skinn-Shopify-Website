@@ -68,7 +68,7 @@
   assign crumb = collection
   if crumb == blank or crumb.handle == 'all'
     assign crumb = nil
-    assign prefer = 'face,hand,body,bath-shower,baby,home-fragrance,bundles,bedtime-ritual' | split: ','
+    assign prefer = 'face,hand,hair,bath-shower,baby,home-fragrance,body,bundles,bedtime-ritual' | split: ','
     for h in prefer
       for c in product.collections
         if c.handle == h and crumb == blank

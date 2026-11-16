@@ -1,5 +1,7 @@
 {%- comment -%}
   Prints a product's shop categories, worked out from the collections it is in.
+  A product's breadcrumb (first-handle) is its first category, except that a more specific one
+  (Hand, Hair, Bath & Shower, Baby) wins over Body.
   Params: product, mode ('label' → "Face · Bath & Shower", 'keys' → "face bath", 'first-handle' → "face")
 {%- endcomment -%}
 {%- liquid
@@ -24,20 +26,28 @@
   if handles contains ' hand '
     assign keys = keys | append: ' hand'
     assign names = names | append: '|Hand'
-    # hand care is more specific than Body, so a hand product's breadcrumb goes to Hand
-    assign first = 'hand'
+    if first == blank or first == 'body'
+      assign first = 'hand'
+    endif
+  endif
+  if handles contains ' hair '
+    assign keys = keys | append: ' hair'
+    assign names = names | append: '|Hair'
+    if first == blank or first == 'body'
+      assign first = 'hair'
+    endif
   endif
   if handles contains ' bath-shower ' or handles contains ' bath-and-shower '
     assign keys = keys | append: ' bath'
     assign names = names | append: '|Bath & Shower'
-    if first == blank
+    if first == blank or first == 'body'
       assign first = 'bath-shower'
     endif
   endif
   if handles contains ' baby ' or handles contains ' baby-shop '
     assign keys = keys | append: ' baby'
     assign names = names | append: '|Baby'
-    if first == blank
+    if first == blank or first == 'body'
       assign first = 'baby'
     endif
   endif

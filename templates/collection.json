@@ -206,6 +206,14 @@
             "text": "Our Sea Buckthorn & Aloe Hand Cream: unscented, in a 50 ml tube that fits in any bag."
           }
         },
+        "hair_intro": {
+          "type": "intro",
+          "settings": {
+            "collection": "hair",
+            "heading": "Hair Ritual",
+            "text": "Our Organic Herbal Hair Serum: a rosemary oil for scalp and hair."
+          }
+        },
         "home_intro": {
           "type": "intro",
           "settings": {
@@ -236,6 +244,7 @@
         "baby_s2",
         "baby_buy",
         "hand_intro",
+        "hair_intro",
         "home_intro"
       ],
       "settings": {}

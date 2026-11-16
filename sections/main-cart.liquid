@@ -37,7 +37,7 @@
   assign in_bag = ' '
   assign names = ''
   assign cats = ''
-  assign cat_order = 'Baby|Hand|Face|Bath & Shower|Home Fragrance|Aromatherapy|Body' | split: '|'
+  assign cat_order = 'Baby|Hand|Hair|Face|Bath & Shower|Home Fragrance|Aromatherapy|Body' | split: '|'
   for item in cart.items reversed
     assign in_bag = in_bag | append: item.product.handle | append: ' '
     assign names = names | append: item.product.title | append: ' | '
@@ -301,7 +301,7 @@
       "type": "suggest",
       "name": "Suggestion",
       "settings": [
-        { "type": "text", "id": "category", "label": "When the bag has this category", "default": "Face", "info": "Face, Body, Hand, Bath & Shower, Baby, Home Fragrance or Aromatherapy." },
+        { "type": "text", "id": "category", "label": "When the bag has this category", "default": "Face", "info": "Face, Body, Hand, Hair, Bath & Shower, Baby, Home Fragrance or Aromatherapy." },
         { "type": "product", "id": "product", "label": "Suggest this product" },
         { "type": "text", "id": "why", "label": "Reason shown", "default": "Step 1 of the Face Ritual." },
         { "type": "image_picker", "id": "image", "label": "Photo (leave empty for the product photo)" }

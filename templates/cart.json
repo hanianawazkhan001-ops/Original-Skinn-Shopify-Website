@@ -91,6 +91,14 @@
             "product": "citrus-skin-nourishing-balm",
             "why": "A rich balm for extra-dry spots like knuckles and elbows."
           }
+        },
+        "suggest_11": {
+          "type": "suggest",
+          "settings": {
+            "category": "Hair",
+            "product": "mandarin-geranium-shower-gel",
+            "why": "A shower gel for body and hair."
+          }
         }
       },
       "block_order": [
@@ -103,7 +111,8 @@
         "suggest_7",
         "suggest_8",
         "suggest_9",
-        "suggest_10"
+        "suggest_10",
+        "suggest_11"
       ],
       "settings": {}
     }
