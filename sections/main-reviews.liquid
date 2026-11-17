@@ -1,5 +1,6 @@
 {%- comment -%}
-  Reviews page (/pages/reviews): every entry in Content > Metaobjects > Google review, shown word for word,
+  Reviews page (/pages/reviews). If a reviews app block is added (e.g. Judge.me showing the reviews it syncs from
+  the Google Business Profile), that is shown. Otherwise: every entry in Content > Metaobjects > Google review, shown word for word,
   in "Home page order" first and then the rest. Each review links to the products it mentions.
   The overall rating uses Judge.me's store-review figures when it has them, otherwise the numbers set below.
 {%- endcomment -%}
@@ -13,6 +14,12 @@
   endif
   assign g_avg = g_avg | times: 1.0 | round: 1
   assign g_count = shop.metaobjects.google_review.values.size
+  assign app_blocks = 0
+  for block in section.blocks
+    if block.type == '@app'
+      assign app_blocks = app_blocks | plus: 1
+    endif
+  endfor
 -%}
 {%- render 'page-hero', style: 'faq', kicker: section.settings.hero_kicker, heading: hero_heading, text: section.settings.hero_text -%}
 <section class="rv-shell">
@@ -26,7 +33,11 @@
     {%- endif -%}
   </div>
   {%- endif -%}
-  {%- if g_count > 0 -%}
+  {%- if app_blocks > 0 -%}
+  {% render 'reviews-style' %}
+  <div class="os-app-reviews rv-app">{%- for block in section.blocks -%}{%- if block.type == '@app' -%}{% render block %}{%- endif -%}{%- endfor -%}</div>
+  <p class="rv-note">{{ section.settings.note }}</p>
+  {%- elsif g_count > 0 -%}
   <div class="rv-grid">
     {%- for n in (0..60) -%}
       {%- for r in shop.metaobjects.google_review.values -%}
@@ -48,6 +59,7 @@
 {% schema %}
 {
   "name": "Reviews page",
+  "blocks": [{ "type": "@app" }],
   "settings": [
     { "type": "text", "id": "hero_kicker", "label": "Small heading", "default": "Original Skinn" },
     { "type": "text", "id": "hero_heading", "label": "Heading", "default": "Reviews" },
@@ -56,7 +68,7 @@
     { "type": "number", "id": "google_count", "label": "Number of Google reviews (fallback)", "default": 20 },
     { "type": "url", "id": "google_link", "label": "Link to the reviews on Google" },
     { "type": "text", "id": "google_label", "label": "Google link label", "default": "See us on Google" },
-    { "type": "textarea", "id": "note", "label": "Note under the reviews", "default": "Reviews left on our Google Business Profile, shown word for word.", "info": "Reviews come from Content > Metaobjects > Google review." }
+    { "type": "textarea", "id": "note", "label": "Note under the reviews", "default": "Reviews left on our Google Business Profile, shown word for word.", "info": "Shown under the reviews. Add a Judge.me reviews block to show your synced Google reviews; without one, reviews come from Content > Metaobjects > Google review." }
   ]
 }
 {% endschema %}
