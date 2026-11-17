@@ -15,7 +15,7 @@
         "face_intro": {
           "type": "intro",
           "settings": {
-            "collection": "face",
+            "collection": "face-old",
             "heading": "Face Ritual",
             "text": "Cleanse, refresh, serum, moisturise. A gentle foaming wash, a toner mist, a hyaluronic acid serum and a moisturiser & serum for day or night. Get all four in the Face Ritual, or choose the Day & Night Face Ritual for the full morning-to-night routine."
           }
@@ -23,7 +23,7 @@
         "face_s1": {
           "type": "step",
           "settings": {
-            "collection": "face",
+            "collection": "face-old",
             "step_label": "Step 1 · Cleanse",
             "product": "gentle-foaming-face-wash-chamomile-lavender",
             "name": "Gentle Foaming Face Wash"
@@ -32,7 +32,7 @@
         "face_s2": {
           "type": "step",
           "settings": {
-            "collection": "face",
+            "collection": "face-old",
             "step_label": "Step 2 · Refresh",
             "product": "facial-toner-mist-spray"
           }
@@ -40,7 +40,7 @@
         "face_serum": {
           "type": "step",
           "settings": {
-            "collection": "face",
+            "collection": "face-old",
             "step_label": "Step 3 · Serum",
             "product": "hyaluronic-acid-facial-serum-cranberry-grapefruit-raspberry",
             "name": "Hyaluronic Acid Serum"
@@ -49,7 +49,7 @@
         "face_s3": {
           "type": "step",
           "settings": {
-            "collection": "face",
+            "collection": "face-old",
             "step_label": "Step 4 · Moisturise",
             "product": "original-skinn-light-moisturiser-serum-unfragranced-50ml",
             "name": "Day Moisturiser & Serum"
@@ -58,7 +58,7 @@
         "face_buy": {
           "type": "buy",
           "settings": {
-            "collection": "face",
+            "collection": "face-old",
             "kicker": "Face Ritual",
             "total_html": "£55",
             "small": "",
@@ -79,7 +79,7 @@
         "body_intro": {
           "type": "intro",
           "settings": {
-            "collection": "body",
+            "collection": "body-old",
             "heading": "Soft Skin Ritual",
             "text": "Whipped body butters in seven scents. Rich, melts into skin, and made by hand in small batches."
           }
@@ -87,7 +87,7 @@
         "body_s1": {
           "type": "step",
           "settings": {
-            "collection": "body",
+            "collection": "body-old",
             "step_label": "Step 1 · Scrub",
             "product": "sweet-citrus-salt-scrub",
             "name": "Salt Scrub",
@@ -97,7 +97,7 @@
         "body_s2": {
           "type": "step",
           "settings": {
-            "collection": "body",
+            "collection": "body-old",
             "step_label": "Step 2 · Butter",
             "product": "cherry-fragranced-whipped-body-butter",
             "name": "Whipped Body Butter",
@@ -108,7 +108,7 @@
         "body_buy": {
           "type": "buy",
           "settings": {
-            "collection": "body",
+            "collection": "body-old",
             "kicker": "Soft Skin Ritual",
             "total_html": "£20",
             "small": "",
