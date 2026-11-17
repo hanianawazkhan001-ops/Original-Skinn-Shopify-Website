@@ -23,4 +23,12 @@
 .reviews .os-app-reviews .jdgm-header .jdgm-star,.reviews .os-app-reviews .jdgm-rating-star{color:#d9c3a2!important}
 .reviews .os-app-reviews .jdgm-rating-text{color:#d5dfd6!important}
 .rv-app .jdgm-cards-carousel .jdgm-header{display:none!important}
+/* Judge.me Reviews Grid on the Reviews page: cream cards, readable text, no duplicate header (our summary sits above) */
+.rv-app .jdgm-reviews-grid-widget[data-widget-container]{--jm-reviews-grid-widget-overlay-and-background-color:var(--paper)!important;--jm-reviews-grid-widget-content-color:var(--ink)!important;--jm-reviews-grid-widget-star-and-reviewer-name-color:var(--forest)!important;--jm-reviews-grid-widget-header-text-color:var(--ink)!important;--jm-reviews-grid-widget-text-color:var(--forest)!important;--jm-reviews-grid-widget-drop-shadow-color:transparent!important}
+.rv-app .jdgm-reviews-grid-widget .jm-grid-header{display:none!important}
+.rv-app .jdgm-reviews-grid-widget .jm-text{color:var(--ink)!important}
+.rv-app .jdgm-review-card{border:1px solid var(--line);border-radius:20px!important;overflow:hidden;background:var(--paper)!important}
+.rv-app .jdgm-review-card__details-description,.rv-app .jdgm-review-card__preview .jm-text:not(.jdgm-review-card__reviewer-name){font-family:var(--serif)!important;font-size:16px!important;line-height:1.5!important;text-align:left!important}
+.rv-app .jdgm-review-card__reviewer-name{font-family:var(--sans)!important;font-size:13px!important;color:var(--forest)!important}
+.rv-app .jm-star-rating__filled{color:var(--forest)!important}
 {%- endstyle -%}
