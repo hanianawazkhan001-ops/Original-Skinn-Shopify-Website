@@ -16,7 +16,7 @@
         "hero_heading": "Terms & Conditions",
         "hero_text": "The terms that apply when you browse our website or place an order with Original Skinn.",
         "style": "terms",
-        "updated": "16 November 2026",
+        "updated": "19 November 2026",
         "nav_label": "Terms and conditions sections"
       },
       "blocks": {
@@ -71,16 +71,16 @@
             "heading": "Cancellations & returns",
             "nav_label": "Cancellations & returns",
             "anchor": "terms-returns",
-            "body": "<p>For most online purchases, UK consumers have a legal right to cancel within 14 days of receiving the goods, subject to certain exceptions.</p><p>After telling us you wish to cancel, you will normally have a further 14 days to return the goods.</p><p>Some products may not be returnable once opened where they were supplied sealed and are not suitable for return for health protection or hygiene reasons.</p><p>In addition to these legal rights, we accept returns of unopened and unused products within 21 days of purchase, and we can arrange an exchange instead of a refund if you prefer.</p><p>Please contact us before returning anything so we can confirm the correct return process.</p>"
+            "body": "<p><strong>Unwanted items (change of mind).</strong> Under the Consumer Contracts Regulations 2013, you have the right to cancel your online order within 14 days of receiving your goods, and a further 14 days to return them to us for a refund.</p><p><strong>Hygiene exemption.</strong> Please note that for health protection and hygiene reasons, we cannot accept returns or offer refunds on any cosmetic products where the tamper-evident hygiene seal has been broken, removed, or tampered with after delivery. To be eligible for a return due to a change of mind, items must be unused, in their original packaging, and have all hygiene seals completely intact.</p><p><strong>Return shipping costs.</strong> If you are returning an unwanted, sealed item, you are responsible for paying the return postage costs. We recommend using a tracked delivery service, as we cannot be held responsible for items lost in transit.</p><p>Our full Returns &amp; Refunds Policy is on our <a href=\"/pages/delivery-returns\">Delivery &amp; Returns page</a>.</p>"
           }
         },
         "part_7": {
           "type": "part",
           "settings": {
-            "heading": "Faulty, damaged or incorrect goods",
+            "heading": "Faulty or damaged goods",
             "nav_label": "Faulty goods",
             "anchor": "terms-faulty",
-            "body": "<p>If a product is faulty, not as described, damaged on arrival or the wrong item has been sent, please contact us as soon as possible.</p><p>Your rights in relation to faulty goods are protected by UK consumer law. These terms do not limit those rights.</p>"
+            "body": "<p>This policy does not affect your statutory rights under the Consumer Rights Act 2015. If your product arrives damaged, faulty, or is not as described, please contact us immediately. You are entitled to a replacement for faulty items, we ask that you provide us with proof of images sent to our email address original@originalskinn.com prior to us sending out a replacement.</p>"
           }
         },
         "part_8": {

@@ -64,56 +64,35 @@
           "type": "column",
           "settings": {
             "kicker": "Returns",
-            "heading": "If you need to return something"
+            "heading": "Returns & Refunds Policy"
           }
         },
-        "point_2_r21": {
+        "point_2_unwanted": {
           "type": "point",
           "settings": {
-            "heading": "21-day returns",
-            "text": "We accept returns of unopened and unused products within 21 days of purchase. Email us at original@originalskinn.com with your order number and the reason for the return, and we’ll send you return instructions."
+            "heading": "Unwanted items (change of mind)",
+            "text": "Under the Consumer Contracts Regulations 2013, you have the right to cancel your online order within 14 days of receiving your goods, and a further 14 days to return them to us for a refund."
           }
         },
-        "point_2_ex": {
+        "point_2_hygiene": {
           "type": "point",
           "settings": {
-            "heading": "Exchanges",
-            "text": "If you’d rather swap a product for something else, let us know when you get in touch and we’ll arrange an exchange."
+            "heading": "Hygiene exemption",
+            "text": "Please note that for health protection and hygiene reasons, we cannot accept returns or offer refunds on any cosmetic products where the tamper-evident hygiene seal has been broken, removed, or tampered with after delivery. To be eligible for a return due to a change of mind, items must be unused, in their original packaging, and have all hygiene seals completely intact."
           }
         },
-        "point_2_0": {
+        "point_2_postage": {
           "type": "point",
           "settings": {
-            "heading": "Your right to cancel",
-            "text": "For most online purchases, UK consumers have a legal right to cancel within 14 days of receiving the goods, subject to certain exceptions. After telling us you wish to cancel, you will normally have a further 14 days to return the goods. Some products may not be returnable once opened where they were supplied sealed and are not suitable for return for health protection or hygiene reasons."
+            "heading": "Return shipping costs",
+            "text": "If you are returning an unwanted, sealed item, you are responsible for paying the return postage costs. We recommend using a tracked delivery service, as we cannot be held responsible for items lost in transit."
           }
         },
-        "point_2_1": {
+        "point_2_faulty": {
           "type": "point",
           "settings": {
-            "heading": "Before returning an item",
-            "text": "Please contact us first with your order number and the reason for the return. We’ll confirm the next steps before anything is sent back."
-          }
-        },
-        "point_2_2": {
-          "type": "point",
-          "settings": {
-            "heading": "Product condition",
-            "text": "Return eligibility may depend on the condition of the product and whether it has been opened or used. We’ll confirm this with you when you contact us."
-          }
-        },
-        "point_2_3": {
-          "type": "point",
-          "settings": {
-            "heading": "Damaged or incorrect items",
-            "text": "If something arrives damaged or you receive the wrong item, let us know as soon as possible and include photos where helpful."
-          }
-        },
-        "point_2_4": {
-          "type": "point",
-          "settings": {
-            "heading": "Refunds",
-            "text": "Where a refund is due, it will be returned to the original payment method after the return has been reviewed."
+            "heading": "Faulty or damaged goods",
+            "text": "This policy does not affect your statutory rights under the Consumer Rights Act 2015. If your product arrives damaged, faulty, or is not as described, please contact us immediately. You are entitled to a replacement for faulty items, we ask that you provide us with proof of images sent to our email address original@originalskinn.com prior to us sending out a replacement."
           }
         }
       },
@@ -124,13 +103,10 @@
         "point_1_3",
         "point_1_4",
         "col_2",
-        "point_2_r21",
-        "point_2_ex",
-        "point_2_0",
-        "point_2_1",
-        "point_2_2",
-        "point_2_3",
-        "point_2_4"
+        "point_2_unwanted",
+        "point_2_hygiene",
+        "point_2_postage",
+        "point_2_faulty"
       ]
     }
   },
