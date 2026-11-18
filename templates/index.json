@@ -718,10 +718,6 @@
         "success": "Thank you — you’re on the list.",
         "privacy_link": "/pages/privacy"
       }
-    },
-    "pagefly-home": {
-      "type": "pagefly-home",
-      "settings": {}
     }
   },
   "order": [
@@ -733,7 +729,6 @@
     "rituals",
     "routine",
     "reviews",
-    "newsletter",
-    "pagefly-home"
+    "newsletter"
   ]
 }
