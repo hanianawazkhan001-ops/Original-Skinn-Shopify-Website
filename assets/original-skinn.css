@@ -2549,3 +2549,6 @@ a:active,button:active{transform:scale(.97)}
 #shopify-pc__prefs__dialog h3{font-family:var(--serif);font-weight:400;font-size:20px;letter-spacing:-.01em}
 #shopify-pc__prefs__dialog .shopify-pc__prefs__header-actions button{min-height:42px;padding:0 20px;border-radius:999px;font-family:var(--sans);font-size:12px;font-weight:700;line-height:1;letter-spacing:.06em;text-transform:uppercase}
 #shopify-pc__prefs__dialog .shopify-pc__prefs__option p{font-size:14px;line-height:1.55}
+/* Safety rule: the PageFly app can add its own section to a page template when a page is published in PageFly.
+   Its content is not styled for this theme (huge icons, plain text), so hide any PageFly section if it reappears. */
+.shopify-section[id*="pagefly"],.shopify-section[id*="__pf-"],#__pf,[data-pf-editor-version]{display:none!important}
