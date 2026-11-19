@@ -535,12 +535,21 @@
             "link": "/collections/face",
             "label2": "",
             "link2": "",
+            "tab1": "",
+            "shop_label": "",
+            "tab2": "",
+            "shop_label2": "",
+            "image2_fit": false,
+            "fallback2": "",
+            "image_alt2": "",
+            "subtitle2": "",
             "style": "face"
           }
         },
         "tile2": {
           "type": "tile",
           "settings": {
+            "image": "shopify://shop_images/home-ritual-soft-skin-body.png",
             "fallback": "photo-body.jpg",
             "image_alt": "Shea Vanilla, Rose and Lavender Whipped Body Butters by Original Skinn",
             "title": "Soft Skin Ritual",
@@ -549,13 +558,21 @@
             "link": "/collections/body",
             "label2": "",
             "link2": "",
-            "style": "body",
-            "image": "shopify://shop_images/home-ritual-soft-skin-body.png"
+            "tab1": "",
+            "shop_label": "",
+            "tab2": "",
+            "shop_label2": "",
+            "image2_fit": false,
+            "fallback2": "",
+            "image_alt2": "",
+            "subtitle2": "",
+            "style": "body"
           }
         },
         "tile3": {
           "type": "tile",
           "settings": {
+            "image": "shopify://shop_images/home-ritual-bath-shower.png",
             "fallback": "photo-bath.jpg",
             "image_alt": "Grapefruit Salt Scrub and Lavender Bliss Bath Salts by Original Skinn",
             "title": "Bath Ritual",
@@ -564,8 +581,15 @@
             "link": "/collections/bath-shower",
             "label2": "",
             "link2": "",
-            "style": "bath",
-            "image": "shopify://shop_images/home-ritual-bath-shower.png"
+            "tab1": "",
+            "shop_label": "",
+            "tab2": "",
+            "shop_label2": "",
+            "image2_fit": false,
+            "fallback2": "",
+            "image_alt2": "",
+            "subtitle2": "",
+            "style": "bath"
           }
         },
         "tile4": {
@@ -579,7 +603,6 @@
             "link": "/collections/baby",
             "label2": "Adult bedtime →",
             "link2": "/collections/adult-bedtime-ritual",
-            "style": "baby",
             "tab1": "Baby bedtime",
             "shop_label": "Shop baby bedtime →",
             "tab2": "Adult bedtime",
@@ -588,7 +611,8 @@
             "image2_fit": true,
             "fallback2": "photo-face.jpg",
             "image_alt2": "Original Skinn adult bedtime ritual: Calendula & Clay Cleansing Balm, Hyaluronic Acid Serum, Night Moisturiser & Serum and Sea Buckthorn & Aloe Hand Cream",
-            "subtitle2": "Grown-ups"
+            "subtitle2": "Grown-ups",
+            "style": "baby"
           }
         },
         "tile5": {
@@ -602,12 +626,21 @@
             "link": "/collections/home-fragrance",
             "label2": "",
             "link2": "",
+            "tab1": "",
+            "shop_label": "",
+            "tab2": "",
+            "shop_label2": "",
+            "image2_fit": false,
+            "fallback2": "",
+            "image_alt2": "",
+            "subtitle2": "",
             "style": "home"
           }
         },
         "tile6": {
           "type": "tile",
           "settings": {
+            "image": "shopify://shop_images/home-ritual-shop-all.png",
             "fallback": "photo-shop-all.jpg",
             "image_alt": "Original Skinn range: day and night facial moisturisers, baby moisturiser, bath salts, body butter and car diffuser",
             "title": "Shop All",
@@ -616,8 +649,15 @@
             "link": "/collections/all",
             "label2": "",
             "link2": "",
-            "style": "shopall",
-            "image": "shopify://shop_images/home-ritual-shop-all.png"
+            "tab1": "",
+            "shop_label": "",
+            "tab2": "",
+            "shop_label2": "",
+            "image2_fit": false,
+            "fallback2": "",
+            "image_alt2": "",
+            "subtitle2": "",
+            "style": "shopall"
           }
         }
       },
@@ -674,8 +714,6 @@
     },
     "reviews": {
       "type": "home-reviews",
-      "blocks": {},
-      "block_order": [],
       "settings": {
         "heading": "What customers say.",
         "use_google": true,
