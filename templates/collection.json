@@ -26,7 +26,13 @@
             "collection": "face-old",
             "step_label": "Step 1 · Cleanse",
             "product": "gentle-foaming-face-wash-chamomile-lavender",
-            "name": "Gentle Foaming Face Wash"
+            "name": "Gentle Foaming Face Wash",
+            "link": "",
+            "note": "",
+            "switch_product": "",
+            "switch_label_a": "Day",
+            "switch_label_b": "Night",
+            "name_suffix": "Moisturiser & Serum"
           }
         },
         "face_s2": {
@@ -34,7 +40,14 @@
           "settings": {
             "collection": "face-old",
             "step_label": "Step 2 · Refresh",
-            "product": "facial-toner-mist-spray"
+            "product": "facial-toner-mist-spray",
+            "name": "",
+            "link": "",
+            "note": "",
+            "switch_product": "",
+            "switch_label_a": "Day",
+            "switch_label_b": "Night",
+            "name_suffix": "Moisturiser & Serum"
           }
         },
         "face_serum": {
@@ -43,7 +56,13 @@
             "collection": "face-old",
             "step_label": "Step 3 · Serum",
             "product": "hyaluronic-acid-facial-serum-cranberry-grapefruit-raspberry",
-            "name": "Hyaluronic Acid Serum"
+            "name": "Hyaluronic Acid Serum",
+            "link": "",
+            "note": "",
+            "switch_product": "",
+            "switch_label_a": "Day",
+            "switch_label_b": "Night",
+            "name_suffix": "Moisturiser & Serum"
           }
         },
         "face_s3": {
@@ -52,7 +71,13 @@
             "collection": "face-old",
             "step_label": "Step 4 · Moisturise",
             "product": "original-skinn-light-moisturiser-serum-unfragranced-50ml",
-            "name": "Day Moisturiser & Serum"
+            "name": "Day Moisturiser & Serum",
+            "link": "",
+            "note": "",
+            "switch_product": "",
+            "switch_label_a": "Day",
+            "switch_label_b": "Night",
+            "name_suffix": "Moisturiser & Serum"
           }
         },
         "face_buy": {
@@ -64,6 +89,7 @@
             "small": "",
             "button_label": "Add the Face Ritual",
             "ritual_name": "Face Ritual",
+            "add_products": [],
             "bundle": "revitalize-set-cleanse-refresh-revitalize",
             "bundle_upgrade": "Day & Night",
             "bundle_upgrade_product": "day-night-face-ritual-complete-face-routine",
@@ -91,7 +117,12 @@
             "step_label": "Step 1 · Scrub",
             "product": "sweet-citrus-salt-scrub",
             "name": "Salt Scrub",
-            "note": "Choose your scent"
+            "link": "",
+            "note": "Choose your scent",
+            "switch_product": "",
+            "switch_label_a": "Day",
+            "switch_label_b": "Night",
+            "name_suffix": "Moisturiser & Serum"
           }
         },
         "body_s2": {
@@ -102,7 +133,11 @@
             "product": "cherry-fragranced-whipped-body-butter",
             "name": "Whipped Body Butter",
             "link": "/collections/body",
-            "note": "Choose your scent"
+            "note": "Choose your scent",
+            "switch_product": "",
+            "switch_label_a": "Day",
+            "switch_label_b": "Night",
+            "name_suffix": "Moisturiser & Serum"
           }
         },
         "body_buy": {
@@ -113,7 +148,18 @@
             "total_html": "£20",
             "small": "",
             "button_label": "Add the Scrub + Butter ritual",
-            "ritual_name": "Scrub & Butter ritual"
+            "ritual_name": "Scrub & Butter ritual",
+            "add_products": [],
+            "bundle": "",
+            "bundle_upgrade": "Day & Night",
+            "bundle_upgrade_product": "",
+            "upgrade": false,
+            "upgrade_other_label": "Night",
+            "upgrade_text": "Moisturiser & Serum for £13 more",
+            "upgrade_total_html": "<s>£50</s> £45",
+            "upgrade_small": "Saves £5.",
+            "upgrade_button_label": "Add the Day & Night Face Ritual",
+            "upgrade_ritual_name": "Day & Night Face Ritual"
           }
         },
         "bath_intro": {
@@ -129,7 +175,14 @@
           "settings": {
             "collection": "bath-shower",
             "step_label": "Step 1 · Scrub",
-            "product": "sweet-citrus-salt-scrub"
+            "product": "sweet-citrus-salt-scrub",
+            "name": "",
+            "link": "",
+            "note": "",
+            "switch_product": "",
+            "switch_label_a": "Day",
+            "switch_label_b": "Night",
+            "name_suffix": "Moisturiser & Serum"
           }
         },
         "bath_s2": {
@@ -137,7 +190,14 @@
           "settings": {
             "collection": "bath-shower",
             "step_label": "Step 2 · Soak",
-            "product": "lavender-bliss-bath-salt"
+            "product": "lavender-bliss-bath-salt",
+            "name": "",
+            "link": "",
+            "note": "",
+            "switch_product": "",
+            "switch_label_a": "Day",
+            "switch_label_b": "Night",
+            "name_suffix": "Moisturiser & Serum"
           }
         },
         "bath_s3": {
@@ -145,7 +205,14 @@
           "settings": {
             "collection": "bath-shower",
             "step_label": "Step 3 · Butter",
-            "product": "lavender-fragranced-whipped-body-butter"
+            "product": "lavender-fragranced-whipped-body-butter",
+            "name": "",
+            "link": "",
+            "note": "",
+            "switch_product": "",
+            "switch_label_a": "Day",
+            "switch_label_b": "Night",
+            "name_suffix": "Moisturiser & Serum"
           }
         },
         "bath_buy": {
@@ -157,7 +224,17 @@
             "small": "Saves £2.",
             "button_label": "Add the Spa Ritual Set",
             "ritual_name": "Spa Ritual Set",
-            "bundle": "spa-ritual-set"
+            "add_products": [],
+            "bundle": "spa-ritual-set",
+            "bundle_upgrade": "Day & Night",
+            "bundle_upgrade_product": "",
+            "upgrade": false,
+            "upgrade_other_label": "Night",
+            "upgrade_text": "Moisturiser & Serum for £13 more",
+            "upgrade_total_html": "<s>£50</s> £45",
+            "upgrade_small": "Saves £5.",
+            "upgrade_button_label": "Add the Day & Night Face Ritual",
+            "upgrade_ritual_name": "Day & Night Face Ritual"
           }
         },
         "baby_intro": {
@@ -173,7 +250,14 @@
           "settings": {
             "collection": "baby",
             "step_label": "Step 1 · Wash",
-            "product": "lavender-chamomile-baby-wash"
+            "product": "lavender-chamomile-baby-wash",
+            "name": "",
+            "link": "",
+            "note": "",
+            "switch_product": "",
+            "switch_label_a": "Day",
+            "switch_label_b": "Night",
+            "name_suffix": "Moisturiser & Serum"
           }
         },
         "baby_s2": {
@@ -181,7 +265,14 @@
           "settings": {
             "collection": "baby",
             "step_label": "Step 2 · Moisturise",
-            "product": "organic-baby-moisturiser"
+            "product": "organic-baby-moisturiser",
+            "name": "",
+            "link": "",
+            "note": "",
+            "switch_product": "",
+            "switch_label_a": "Day",
+            "switch_label_b": "Night",
+            "name_suffix": "Moisturiser & Serum"
           }
         },
         "baby_buy": {
@@ -195,14 +286,114 @@
             "ritual_name": "Baby Essentials Bundle",
             "add_products": [
               "baby-essentials-bundle"
-            ]
+            ],
+            "bundle": "",
+            "bundle_upgrade": "Day & Night",
+            "bundle_upgrade_product": "",
+            "upgrade": false,
+            "upgrade_other_label": "Night",
+            "upgrade_text": "Moisturiser & Serum for £13 more",
+            "upgrade_total_html": "<s>£50</s> £45",
+            "upgrade_small": "Saves £5.",
+            "upgrade_button_label": "Add the Day & Night Face Ritual",
+            "upgrade_ritual_name": "Day & Night Face Ritual"
+          }
+        },
+        "adult_intro": {
+          "type": "intro",
+          "settings": {
+            "collection": "adult-bedtime-ritual",
+            "heading": "Adult Bedtime Ritual",
+            "text": "An evening routine for grown-ups. Cleanse with the Calendula & Clay Cleansing Balm, add a few drops of Hyaluronic Acid Serum, finish with the Night Moisturiser & Serum, then smooth on Sea Buckthorn & Aloe Hand Cream before bed."
+          }
+        },
+        "adult_s1": {
+          "type": "step",
+          "settings": {
+            "collection": "adult-bedtime-ritual",
+            "step_label": "Step 1 · Cleanse",
+            "product": "calendula-clay-cleansing-balm",
+            "name": "Calendula & Clay Cleansing Balm",
+            "link": "",
+            "note": "",
+            "switch_product": "",
+            "switch_label_a": "Day",
+            "switch_label_b": "Night",
+            "name_suffix": "Moisturiser & Serum"
+          }
+        },
+        "adult_s2": {
+          "type": "step",
+          "settings": {
+            "collection": "adult-bedtime-ritual",
+            "step_label": "Step 2 · Serum",
+            "product": "hyaluronic-acid-facial-serum-cranberry-grapefruit-raspberry",
+            "name": "Hyaluronic Acid Serum",
+            "link": "",
+            "note": "",
+            "switch_product": "",
+            "switch_label_a": "Day",
+            "switch_label_b": "Night",
+            "name_suffix": "Moisturiser & Serum"
+          }
+        },
+        "adult_s3": {
+          "type": "step",
+          "settings": {
+            "collection": "adult-bedtime-ritual",
+            "step_label": "Step 3 · Moisturise",
+            "product": "original-skinn-rich-moisturiser-serum-lemon-cedarwood-50ml",
+            "name": "Night Moisturiser & Serum",
+            "link": "",
+            "note": "",
+            "switch_product": "",
+            "switch_label_a": "Day",
+            "switch_label_b": "Night",
+            "name_suffix": "Moisturiser & Serum"
+          }
+        },
+        "adult_s4": {
+          "type": "step",
+          "settings": {
+            "collection": "adult-bedtime-ritual",
+            "step_label": "Step 4 · Hands",
+            "product": "sea-buckthorn-aloe-hand-cream",
+            "name": "Sea Buckthorn & Aloe Hand Cream",
+            "link": "",
+            "note": "",
+            "switch_product": "",
+            "switch_label_a": "Day",
+            "switch_label_b": "Night",
+            "name_suffix": "Moisturiser & Serum"
+          }
+        },
+        "adult_buy": {
+          "type": "buy",
+          "settings": {
+            "collection": "adult-bedtime-ritual",
+            "kicker": "Adult Bedtime Ritual",
+            "total_html": "£45",
+            "small": "",
+            "button_label": "Add the whole ritual",
+            "ritual_name": "Adult Bedtime Ritual",
+            "add_products": [],
+            "bundle": "",
+            "bundle_upgrade": "Day & Night",
+            "bundle_upgrade_product": "",
+            "upgrade": false,
+            "upgrade_other_label": "Night",
+            "upgrade_text": "Moisturiser & Serum for £13 more",
+            "upgrade_total_html": "<s>£50</s> £45",
+            "upgrade_small": "Saves £5.",
+            "upgrade_button_label": "Add the Day & Night Face Ritual",
+            "upgrade_ritual_name": "Day & Night Face Ritual"
           }
         },
         "hand_intro": {
           "type": "intro",
           "settings": {
             "collection": "hand",
-            "heading": "Hand Ritual",
+            "heading": "Hand",
             "text": "Our Sea Buckthorn & Aloe Hand Cream: unscented, in a 50 ml tube that fits in any bag."
           }
         },
@@ -220,61 +411,6 @@
             "collection": "home-fragrance",
             "heading": "Home Ritual",
             "text": "Soy wax candles, reed diffusers, room sprays and car blends, made with essential oils."
-          }
-        },
-        "adult_intro": {
-          "type": "intro",
-          "settings": {
-            "collection": "adult-bedtime-ritual",
-            "heading": "Adult Bedtime Ritual",
-            "text": "An evening routine for grown-ups. Cleanse with the Calendula & Clay Cleansing Balm, add a few drops of Hyaluronic Acid Serum, finish with the Night Moisturiser & Serum, then smooth on Sea Buckthorn & Aloe Hand Cream before bed."
-          }
-        },
-        "adult_s1": {
-          "type": "step",
-          "settings": {
-            "collection": "adult-bedtime-ritual",
-            "step_label": "Step 1 · Cleanse",
-            "product": "calendula-clay-cleansing-balm",
-            "name": "Calendula & Clay Cleansing Balm"
-          }
-        },
-        "adult_s2": {
-          "type": "step",
-          "settings": {
-            "collection": "adult-bedtime-ritual",
-            "step_label": "Step 2 · Serum",
-            "product": "hyaluronic-acid-facial-serum-cranberry-grapefruit-raspberry",
-            "name": "Hyaluronic Acid Serum"
-          }
-        },
-        "adult_s3": {
-          "type": "step",
-          "settings": {
-            "collection": "adult-bedtime-ritual",
-            "step_label": "Step 3 · Moisturise",
-            "product": "original-skinn-rich-moisturiser-serum-lemon-cedarwood-50ml",
-            "name": "Night Moisturiser & Serum"
-          }
-        },
-        "adult_s4": {
-          "type": "step",
-          "settings": {
-            "collection": "adult-bedtime-ritual",
-            "step_label": "Step 4 · Hands",
-            "product": "sea-buckthorn-aloe-hand-cream",
-            "name": "Sea Buckthorn & Aloe Hand Cream"
-          }
-        },
-        "adult_buy": {
-          "type": "buy",
-          "settings": {
-            "collection": "adult-bedtime-ritual",
-            "kicker": "Adult Bedtime Ritual",
-            "total_html": "£45",
-            "small": "",
-            "button_label": "Add the whole ritual",
-            "ritual_name": "Adult Bedtime Ritual"
           }
         }
       },
@@ -308,7 +444,17 @@
         "hair_intro",
         "home_intro"
       ],
-      "settings": {}
+      "settings": {
+        "kicker": "Original Skinn",
+        "quiz_text": "Not sure which to choose? Take the 1-minute skin quiz →",
+        "quiz_collections": "face,body,bath-shower,baby",
+        "r1_title": "Vegan",
+        "r1_text": "Every product, no exceptions.",
+        "r2_title": "Free UK delivery",
+        "r2_text": "On every order.",
+        "r3_title": "Safety assessed",
+        "r3_text": "Every product professionally safety assessed."
+      }
     }
   },
   "order": [
