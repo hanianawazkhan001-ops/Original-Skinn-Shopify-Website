@@ -64,7 +64,7 @@
             "small": "",
             "button_label": "Add the Face Ritual",
             "ritual_name": "Face Ritual",
-            "bundle": "face-ritual-cleanse-refresh-moisturise",
+            "bundle": "revitalize-set-cleanse-refresh-revitalize",
             "bundle_upgrade": "Day & Night",
             "bundle_upgrade_product": "day-night-face-ritual-complete-face-routine",
             "upgrade": false,
