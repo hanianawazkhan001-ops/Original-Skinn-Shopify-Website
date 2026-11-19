@@ -542,28 +542,30 @@
           "type": "tile",
           "settings": {
             "fallback": "photo-body.jpg",
-            "image_alt": "Body",
+            "image_alt": "Shea Vanilla, Rose and Lavender Whipped Body Butters by Original Skinn",
             "title": "Soft Skin Ritual",
             "subtitle": "Body",
             "label": "Shop body →",
             "link": "/collections/body",
             "label2": "",
             "link2": "",
-            "style": "body"
+            "style": "body",
+            "image": "shopify://shop_images/home-ritual-soft-skin-body.png"
           }
         },
         "tile3": {
           "type": "tile",
           "settings": {
             "fallback": "photo-bath.jpg",
-            "image_alt": "Bath & Shower",
+            "image_alt": "Grapefruit Salt Scrub and Lavender Bliss Bath Salts by Original Skinn",
             "title": "Bath Ritual",
             "subtitle": "Bath & Shower",
             "label": "Shop bath & shower →",
             "link": "/collections/bath-shower",
             "label2": "",
             "link2": "",
-            "style": "bath"
+            "style": "bath",
+            "image": "shopify://shop_images/home-ritual-bath-shower.png"
           }
         },
         "tile4": {
@@ -598,14 +600,15 @@
           "type": "tile",
           "settings": {
             "fallback": "photo-shop-all.jpg",
-            "image_alt": "Shop All",
+            "image_alt": "Original Skinn range: day and night facial moisturisers, baby moisturiser, bath salts, body butter and car diffuser",
             "title": "Shop All",
             "subtitle": "",
             "label": "Shop all →",
             "link": "/collections/all",
             "label2": "",
             "link2": "",
-            "style": "shopall"
+            "style": "shopall",
+            "image": "shopify://shop_images/home-ritual-shop-all.png"
           }
         }
       },
