@@ -608,7 +608,7 @@
             "tab2": "Adult bedtime",
             "shop_label2": "Shop adult bedtime →",
             "image2": "shopify://shop_images/home-ritual-adult-bedtime.png",
-            "image2_fit": true,
+            "image2_fit": false,
             "fallback2": "photo-face.jpg",
             "image_alt2": "Original Skinn adult bedtime ritual: Calendula & Clay Cleansing Balm, Hyaluronic Acid Serum, Night Moisturiser & Serum and Sea Buckthorn & Aloe Hand Cream",
             "subtitle2": "Grown-ups",
