@@ -13,11 +13,15 @@
   assign shop1 = block.settings.shop_label | default: block.settings.label
   assign shop2 = block.settings.shop_label2 | default: block.settings.label2
   assign f2 = block.settings.fallback2 | default: block.settings.fallback
+  assign fit2 = false
+  if block.settings.image2_fit and block.settings.image2 != blank
+    assign fit2 = true
+  endif
 -%}
 <div class="cat cat--two cat--tabs {{ block.settings.style }}" data-cat-tabs {{ block.shopify_attributes }}>
 <a class="cat-cover" href="{{ block.settings.link }}" tabindex="-1" aria-hidden="true" data-cat-cover></a>
 <div class="cat-pane is-active" data-cat-pane="1">{% render 'os-img', image: block.settings.image, fallback: block.settings.fallback, alt: block.settings.image_alt, width: 1400, lazy: true %}</div>
-<div class="cat-pane" data-cat-pane="2" aria-hidden="true">{% render 'os-img', image: block.settings.image2, fallback: f2, alt: block.settings.image_alt2, width: 1400, lazy: true %}</div>
+<div class="cat-pane{% if fit2 %} cat-pane--fit{% endif %}" data-cat-pane="2" aria-hidden="true"{% if fit2 %} style="--fit-bg:url('{{ block.settings.image2 | image_url: width: 500 }}')"{% endif %}>{% render 'os-img', image: block.settings.image2, fallback: f2, alt: block.settings.image_alt2, width: 1400, lazy: true %}</div>
 <div class="cat-title">{{ block.settings.title }}<span class="cat-sub" data-cat-sub data-sub1="{{ sub1 | escape }}" data-sub2="{{ sub2 | escape }}">{{ sub1 }}</span></div>
 <div class="cat-label cat-label--two cat-label--tabs">
 <div class="cat-tablist" role="group" aria-label="{{ block.settings.title | escape }}">
@@ -48,6 +52,11 @@
 .cat--tabs .cat-shop{color:#fff;text-decoration:none;display:inline-flex}
 .cat--tabs .cat-shop:hover span{background:rgba(255,255,255,.26)!important}
 .cat--tabs:hover .cat-pane img{transform:scale(1.035)}
+/* "Show the whole photo": a square photo sits smaller in the card over a soft blurred copy of itself, so it is not cropped or zoomed in */
+.cat--tabs .cat-pane--fit{overflow:hidden}
+.cat--tabs .cat-pane--fit::before{content:"";position:absolute;inset:-24px;background:var(--fit-bg) center 30%/cover no-repeat;filter:blur(18px);transform:scale(1.15)}
+.cat--tabs .cat-pane--fit img{position:absolute;top:13%;left:50%;height:73%!important;width:auto!important;aspect-ratio:1/1;object-fit:cover;transform:translateX(-50%);-webkit-mask-image:linear-gradient(to right,transparent 0,#000 7%,#000 93%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 7%,#000 93%,transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent 0,#000 7%,#000 93%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 7%,#000 93%,transparent 100%);mask-composite:intersect}
+.cat--tabs:hover .cat-pane--fit img{transform:translateX(-50%) scale(1.035)}
 {%- endstyle -%}
 <script>
 (function(){
@@ -99,6 +108,7 @@
         { "type": "text", "id": "tab2", "label": "Tab 2 button", "info": "e.g. Adult bedtime" },
         { "type": "text", "id": "shop_label2", "label": "Tab 2 shop link text", "info": "e.g. Shop adult bedtime →. Tab 2 links to the 'Second button link' above." },
         { "type": "image_picker", "id": "image2", "label": "Tab 2 photo" },
+        { "type": "checkbox", "id": "image2_fit", "label": "Tab 2: show the whole photo", "info": "Tick for a square photo that looks too zoomed in. It sits a little smaller in the card over a soft blurred background.", "default": false },
         { "type": "text", "id": "fallback2", "label": "Tab 2 built-in photo (used when no photo is chosen)" },
         { "type": "text", "id": "image_alt2", "label": "Tab 2 photo description" },
         { "type": "text", "id": "subtitle2", "label": "Tab 2 category", "info": "e.g. Grown-ups" },
