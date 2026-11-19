@@ -164,7 +164,7 @@
           "type": "intro",
           "settings": {
             "collection": "baby",
-            "heading": "Bedtime Ritual",
+            "heading": "Baby Bedtime Ritual",
             "text": "A gentle wash and an organic moisturiser for everyday care. Both together in the Baby Essentials Bundle."
           }
         },
@@ -221,6 +221,61 @@
             "heading": "Home Ritual",
             "text": "Soy wax candles, reed diffusers, room sprays and car blends, made with essential oils."
           }
+        },
+        "adult_intro": {
+          "type": "intro",
+          "settings": {
+            "collection": "adult-bedtime-ritual",
+            "heading": "Adult Bedtime Ritual",
+            "text": "An evening routine for grown-ups. Cleanse with the Calendula & Clay Cleansing Balm, add a few drops of Hyaluronic Acid Serum, finish with the Night Moisturiser & Serum, then smooth on Sea Buckthorn & Aloe Hand Cream before bed."
+          }
+        },
+        "adult_s1": {
+          "type": "step",
+          "settings": {
+            "collection": "adult-bedtime-ritual",
+            "step_label": "Step 1 · Cleanse",
+            "product": "calendula-clay-cleansing-balm",
+            "name": "Calendula & Clay Cleansing Balm"
+          }
+        },
+        "adult_s2": {
+          "type": "step",
+          "settings": {
+            "collection": "adult-bedtime-ritual",
+            "step_label": "Step 2 · Serum",
+            "product": "hyaluronic-acid-facial-serum-cranberry-grapefruit-raspberry",
+            "name": "Hyaluronic Acid Serum"
+          }
+        },
+        "adult_s3": {
+          "type": "step",
+          "settings": {
+            "collection": "adult-bedtime-ritual",
+            "step_label": "Step 3 · Moisturise",
+            "product": "original-skinn-rich-moisturiser-serum-lemon-cedarwood-50ml",
+            "name": "Night Moisturiser & Serum"
+          }
+        },
+        "adult_s4": {
+          "type": "step",
+          "settings": {
+            "collection": "adult-bedtime-ritual",
+            "step_label": "Step 4 · Hands",
+            "product": "sea-buckthorn-aloe-hand-cream",
+            "name": "Sea Buckthorn & Aloe Hand Cream"
+          }
+        },
+        "adult_buy": {
+          "type": "buy",
+          "settings": {
+            "collection": "adult-bedtime-ritual",
+            "kicker": "Adult Bedtime Ritual",
+            "total_html": "£45",
+            "small": "",
+            "button_label": "Add the whole ritual",
+            "ritual_name": "Adult Bedtime Ritual"
+          }
         }
       },
       "block_order": [
@@ -243,6 +298,12 @@
         "baby_s1",
         "baby_s2",
         "baby_buy",
+        "adult_intro",
+        "adult_s1",
+        "adult_s2",
+        "adult_s3",
+        "adult_s4",
+        "adult_buy",
         "hand_intro",
         "hair_intro",
         "home_intro"

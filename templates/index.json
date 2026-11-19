@@ -572,14 +572,22 @@
           "type": "tile",
           "settings": {
             "fallback": "photo-baby.jpg",
-            "image_alt": "Baby",
+            "image_alt": "Organic Baby Moisturiser and Lavender & Chamomile Baby Wash by Original Skinn",
             "title": "Bedtime Ritual",
-            "subtitle": "Baby & grown-ups",
+            "subtitle": "Baby",
             "label": "Baby bedtime →",
             "link": "/collections/baby",
-            "label2": "Bedtime ritual →",
-            "link2": "/collections/bedtime-ritual",
-            "style": "baby"
+            "label2": "Adult bedtime →",
+            "link2": "/collections/adult-bedtime-ritual",
+            "style": "baby",
+            "tab1": "Baby bedtime",
+            "shop_label": "Shop baby bedtime →",
+            "tab2": "Adult bedtime",
+            "shop_label2": "Shop adult bedtime →",
+            "image2": "shopify://shop_images/home-ritual-adult-bedtime.png",
+            "fallback2": "photo-face.jpg",
+            "image_alt2": "Original Skinn adult bedtime ritual: Calendula & Clay Cleansing Balm, Hyaluronic Acid Serum, Night Moisturiser & Serum and Sea Buckthorn & Aloe Hand Cream",
+            "subtitle2": "Grown-ups"
           }
         },
         "tile5": {

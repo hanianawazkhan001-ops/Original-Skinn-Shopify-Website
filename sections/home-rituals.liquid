@@ -1,14 +1,75 @@
-{%- comment -%} Home: Shop by ritual tiles — copied from the test site. Each tile is a block. {%- endcomment -%}
+{%- comment -%}
+  Home: Shop by ritual tiles — copied from the test site. Each tile is a block.
+  A tile with "Tab 1" and "Tab 2" filled in becomes a two-ritual card (e.g. Baby / Adult bedtime):
+  the tab buttons swap the photo, the small heading and the "Shop" link without leaving the page.
+{%- endcomment -%}
 <section class="section" id="shop"><div class="container"><div class="section-head"><div><h2>{{ section.settings.heading }}</h2></div></div>
 <div class="categories">
 {%- for block in section.blocks -%}
-{%- if block.settings.link2 != blank and block.settings.label2 != blank -%}
+{%- if block.settings.tab1 != blank and block.settings.tab2 != blank -%}
+{%- liquid
+  assign sub1 = block.settings.subtitle
+  assign sub2 = block.settings.subtitle2 | default: block.settings.subtitle
+  assign shop1 = block.settings.shop_label | default: block.settings.label
+  assign shop2 = block.settings.shop_label2 | default: block.settings.label2
+  assign f2 = block.settings.fallback2 | default: block.settings.fallback
+-%}
+<div class="cat cat--two cat--tabs {{ block.settings.style }}" data-cat-tabs {{ block.shopify_attributes }}>
+<a class="cat-cover" href="{{ block.settings.link }}" tabindex="-1" aria-hidden="true" data-cat-cover></a>
+<div class="cat-pane is-active" data-cat-pane="1">{% render 'os-img', image: block.settings.image, fallback: block.settings.fallback, alt: block.settings.image_alt, width: 1400, lazy: true %}</div>
+<div class="cat-pane" data-cat-pane="2" aria-hidden="true">{% render 'os-img', image: block.settings.image2, fallback: f2, alt: block.settings.image_alt2, width: 1400, lazy: true %}</div>
+<div class="cat-title">{{ block.settings.title }}<span class="cat-sub" data-cat-sub data-sub1="{{ sub1 | escape }}" data-sub2="{{ sub2 | escape }}">{{ sub1 }}</span></div>
+<div class="cat-label cat-label--two cat-label--tabs">
+<div class="cat-tablist" role="group" aria-label="{{ block.settings.title | escape }}">
+<button type="button" class="cat-tab is-active" aria-pressed="true" data-cat-tab="1" data-href="{{ block.settings.link }}" data-shop="{{ shop1 | escape }}"><span>{{ block.settings.tab1 }}</span></button>
+<button type="button" class="cat-tab" aria-pressed="false" data-cat-tab="2" data-href="{{ block.settings.link2 }}" data-shop="{{ shop2 | escape }}"><span>{{ block.settings.tab2 }}</span></button>
+</div>
+<a class="cat-shop" href="{{ block.settings.link }}" data-cat-shop><span>{{ shop1 }}</span></a>
+</div>
+</div>
+{%- elsif block.settings.link2 != blank and block.settings.label2 != blank -%}
 <div class="cat cat--two {{ block.settings.style }}" {{ block.shopify_attributes }}><a class="cat-cover" href="{{ block.settings.link }}" tabindex="-1" aria-hidden="true"></a>{% render 'os-img', image: block.settings.image, fallback: block.settings.fallback, alt: block.settings.image_alt, width: 1400, lazy: true %}<div class="cat-title">{{ block.settings.title }}{% if block.settings.subtitle != blank %}<span class="cat-sub">{{ block.settings.subtitle }}</span>{% endif %}</div><div class="cat-label cat-label--two"><a href="{{ block.settings.link }}"><span>{{ block.settings.label }}</span></a><a href="{{ block.settings.link2 }}"><span>{{ block.settings.label2 }}</span></a></div></div>
 {%- else -%}
 <a class="cat {{ block.settings.style }}" href="{{ block.settings.link }}" {{ block.shopify_attributes }}>{% render 'os-img', image: block.settings.image, fallback: block.settings.fallback, alt: block.settings.image_alt, width: 1400, lazy: true %}<div class="cat-title">{{ block.settings.title }}{% if block.settings.subtitle != blank %}<span class="cat-sub">{{ block.settings.subtitle }}</span>{% endif %}</div><div class="cat-label"><span>{{ block.settings.label }}</span></div></a>
 {%- endif -%}
 {%- endfor -%}
 </div></div></section>
+{%- style -%}
+.cat--tabs .cat-pane{position:absolute;inset:0;opacity:0;transition:opacity .45s ease}
+.cat--tabs .cat-pane:first-of-type{position:relative;height:100%}
+.cat--tabs .cat-pane.is-active{opacity:1}
+.cat--tabs .cat-pane img{width:100%;height:100%;object-fit:cover}
+.cat--tabs .cat-label--tabs{justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap}
+.cat--tabs .cat-tablist{display:flex;gap:8px;flex-wrap:wrap}
+.cat--tabs .cat-tab{font:inherit;color:#fff;background:none;border:0;padding:0;cursor:pointer}
+.cat--tabs .cat-tab span{transition:background-color .25s ease,color .25s ease!important}
+.cat--tabs .cat-tab.is-active span,.cat--tabs:hover .cat-tab.is-active span{background:rgba(255,253,248,.94)!important;color:var(--forest);border-color:rgba(255,253,248,.94)}
+.cat--tabs .cat-tab:focus-visible,.cat--tabs .cat-shop:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:999px}
+.cat--tabs .cat-shop{color:#fff;text-decoration:none;display:inline-flex}
+.cat--tabs .cat-shop:hover span{background:rgba(255,255,255,.26)!important}
+.cat--tabs:hover .cat-pane img{transform:scale(1.035)}
+{%- endstyle -%}
+<script>
+(function(){
+  document.querySelectorAll('[data-cat-tabs]').forEach(function(card){
+    if(card.dataset.ready) return; card.dataset.ready='1';
+    var tabs=card.querySelectorAll('[data-cat-tab]'), panes=card.querySelectorAll('[data-cat-pane]');
+    var cover=card.querySelector('[data-cat-cover]'), shop=card.querySelector('[data-cat-shop]'), sub=card.querySelector('[data-cat-sub]');
+    tabs.forEach(function(tab){
+      tab.addEventListener('click',function(e){
+        e.preventDefault(); e.stopPropagation();
+        var n=tab.getAttribute('data-cat-tab');
+        tabs.forEach(function(t){var on=t===tab;t.classList.toggle('is-active',on);t.setAttribute('aria-pressed',on?'true':'false');});
+        panes.forEach(function(p){var on=p.getAttribute('data-cat-pane')===n;p.classList.toggle('is-active',on);if(on){p.removeAttribute('aria-hidden');var im=p.querySelector('img');if(im&&im.loading==='lazy')im.loading='eager';}else{p.setAttribute('aria-hidden','true');}});
+        var href=tab.getAttribute('data-href');
+        if(cover) cover.setAttribute('href',href);
+        if(shop){shop.setAttribute('href',href);shop.querySelector('span').textContent=tab.getAttribute('data-shop');}
+        if(sub) sub.textContent=sub.getAttribute('data-sub'+n);
+      });
+    });
+  });
+})();
+</script>
 
 {% schema %}
 {
@@ -31,6 +92,16 @@
         { "type": "text", "id": "link", "label": "Link", "default": "/collections/face" },
         { "type": "text", "id": "label2", "label": "Second button text (optional)", "info": "e.g. Bedtime ritual →. Leave empty for one button." },
         { "type": "text", "id": "link2", "label": "Second button link (optional)", "info": "e.g. /collections/bedtime-ritual" },
+        { "type": "header", "content": "Two-ritual card (tabs)" },
+        { "type": "paragraph", "content": "Fill in Tab 1 and Tab 2 to turn this tile into a card with two tabs (e.g. Baby bedtime / Adult bedtime). Tab 1 uses the Photo, Category and Link above; Tab 2 uses the fields below." },
+        { "type": "text", "id": "tab1", "label": "Tab 1 button", "info": "e.g. Baby bedtime" },
+        { "type": "text", "id": "shop_label", "label": "Tab 1 shop link text", "info": "e.g. Shop baby bedtime →" },
+        { "type": "text", "id": "tab2", "label": "Tab 2 button", "info": "e.g. Adult bedtime" },
+        { "type": "text", "id": "shop_label2", "label": "Tab 2 shop link text", "info": "e.g. Shop adult bedtime →. Tab 2 links to the 'Second button link' above." },
+        { "type": "image_picker", "id": "image2", "label": "Tab 2 photo" },
+        { "type": "text", "id": "fallback2", "label": "Tab 2 built-in photo (used when no photo is chosen)" },
+        { "type": "text", "id": "image_alt2", "label": "Tab 2 photo description" },
+        { "type": "text", "id": "subtitle2", "label": "Tab 2 category", "info": "e.g. Grown-ups" },
         { "type": "select", "id": "style", "label": "Tile style", "default": "face",
           "options": [ { "value": "face", "label": "Face" }, { "value": "body", "label": "Body" }, { "value": "bath", "label": "Bath" }, { "value": "baby", "label": "Baby" }, { "value": "home", "label": "Home" }, { "value": "shopall", "label": "Shop all" } ] }
       ]
