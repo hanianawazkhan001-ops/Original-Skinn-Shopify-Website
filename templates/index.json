@@ -95,6 +95,7 @@
             "colour": "sage",
             "bundle": "day-night-face-ritual-complete-face-routine",
             "bundle_choose": false,
+            "bundle_image": "shopify://shop_images/1_dd49a23b-c5ca-4af5-aa04-bb2b2cbbf2c1.png",
             "bundle_eyebrow": "All 5 steps, morning to night",
             "bundle_name": "",
             "button_label": "Add the face ritual",
@@ -706,7 +707,7 @@
       ],
       "settings": {
         "heading": "A routine people can actually follow.",
-        "text": "Three steps. That's the whole routine.",
+        "text": "Three main steps. That's the whole routine.",
         "button_label": "Build your ritual →",
         "button_link": "#concerns",
         "image": "shopify://shop_images/Face_Ritual_-_3.png",
