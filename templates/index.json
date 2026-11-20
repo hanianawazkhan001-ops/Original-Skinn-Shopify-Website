@@ -95,15 +95,13 @@
             "colour": "sage",
             "bundle": "day-night-face-ritual-complete-face-routine",
             "bundle_choose": false,
-            "bundle_eyebrow": "All 5 steps, morning to night",
+            "bundle_eyebrow": "AM + PM, all 6 products",
             "bundle_name": "",
             "button_label": "Add the face ritual",
-            "extra_products": [
-              "revitalize-set-cleanse-refresh-revitalize"
-            ],
-            "extra_text": "Mornings only? Face Ritual (wash, mist, serum, day)",
-            "extra_name": "Face Ritual",
-            "note": ""
+            "extra_products": [],
+            "extra_text": "",
+            "extra_name": "",
+            "note": "Just mornings or just evenings? Choose the AM or PM set on the ritual’s page."
           }
         },
         "face_1": {
@@ -113,7 +111,7 @@
             "product": "gentle-foaming-face-wash-chamomile-lavender",
             "name": "",
             "price_text": "",
-            "note": "Morning & night",
+            "note": "Morning (AM)",
             "link": ""
           }
         },
@@ -124,7 +122,7 @@
             "product": "facial-toner-mist-spray",
             "name": "Facial Toner Mist",
             "price_text": "",
-            "note": "Morning & night",
+            "note": "Morning (AM)",
             "link": ""
           }
         },
@@ -135,29 +133,29 @@
             "product": "hyaluronic-acid-facial-serum-cranberry-grapefruit-raspberry",
             "name": "Hyaluronic Acid Serum",
             "price_text": "",
-            "note": "Optional, before moisturiser",
+            "note": "Morning (AM)",
             "link": ""
           }
         },
         "face_3": {
           "type": "step",
           "settings": {
-            "step": "Day",
+            "step": "Moisturise",
             "product": "original-skinn-light-moisturiser-serum-unfragranced-50ml",
             "name": "Day Moisturiser & Serum",
             "price_text": "",
-            "note": "Mornings",
+            "note": "Morning (AM)",
             "link": ""
           }
         },
         "face_4": {
           "type": "step",
           "settings": {
-            "step": "Night",
+            "step": "Moisturise",
             "product": "original-skinn-rich-moisturiser-serum-lemon-cedarwood-50ml",
             "name": "Night Moisturiser & Serum",
             "price_text": "",
-            "note": "Evenings",
+            "note": "Evening (PM)",
             "link": ""
           }
         },
@@ -416,6 +414,17 @@
             "note": "From 6 months",
             "link": ""
           }
+        },
+        "face_balm": {
+          "type": "step",
+          "settings": {
+            "step": "Cleanse",
+            "product": "calendula-clay-cleansing-balm",
+            "name": "Calendula & Clay Cleansing Balm",
+            "price_text": "",
+            "note": "Evening (PM)",
+            "link": ""
+          }
         }
       },
       "block_order": [
@@ -424,6 +433,7 @@
         "face_2",
         "face_serum",
         "face_3",
+        "face_balm",
         "face_4",
         "body",
         "body_1",

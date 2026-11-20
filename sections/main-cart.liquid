@@ -223,7 +223,7 @@
     render 'product-name', product: sp, part: 'short'
   endcapture
   assign why = sug.settings.why
-  assign reach = subtotal | plus: sp.price
+  assign reach = subtotal | plus: sp.selected_or_first_available_variant.price
   if free == false and reach >= threshold
     assign why = why | append: ' Unlocks free UK delivery.'
   endif

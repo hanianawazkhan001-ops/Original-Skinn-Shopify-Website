@@ -164,7 +164,7 @@
           name.textContent = String(p.title || '').split(' – ')[0];
           const price = document.createElement('span');
           price.className = 'sr-price';
-          price.textContent = this.money(p.price);
+          price.textContent = (p.price_max && p.price_min && p.price_max !== p.price_min ? 'From ' : '') + this.money(p.price);
           text.append(name, price);
           a.append(img, text);
           li.appendChild(a);

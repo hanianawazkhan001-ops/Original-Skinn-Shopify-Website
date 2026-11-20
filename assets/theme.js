@@ -332,6 +332,11 @@
       if(priceEl) priceEl.textContent = b.dataset.price;
       if(sizeEl) sizeEl.textContent = b.dataset.size;
       add.textContent = 'Add to bag · ' + b.dataset.price;
+      // an option with its own photo (e.g. AM / PM / AM + PM) shows that photo
+      if(main && b.dataset.img){
+        main.src = b.dataset.img;
+        document.querySelectorAll('#pdThumbs .product-thumb').forEach(function(t){ t.classList.toggle('active', t.dataset.src === b.dataset.img); });
+      }
     });
   });
   function qty(){ var n = parseInt(input && input.value || '1', 10); return (n && n > 0) ? n : 1; }

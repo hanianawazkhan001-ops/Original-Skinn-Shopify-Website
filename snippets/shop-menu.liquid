@@ -167,7 +167,7 @@
         {%- for it in items -%}
           {%- assign p = it | split: '‡' -%}{%- if p[0] == blank -%}{%- continue -%}{%- endif -%}
           {%- assign price = '' -%}
-          {%- if show_prices and p[1] contains '/products/' -%}{%- assign ph = p[1] | split: '/products/' | last | split: '?' | first -%}{%- if all_products[ph] != blank -%}{%- assign price = all_products[ph].price | money_without_trailing_zeros -%}{%- endif -%}{%- endif -%}
+          {%- if show_prices and p[1] contains '/products/' -%}{%- assign ph = p[1] | split: '/products/' | last | split: '?' | first -%}{%- if all_products[ph] != blank -%}{%- assign price = all_products[ph].selected_or_first_available_variant.price | money_without_trailing_zeros -%}{%- endif -%}{%- endif -%}
           <li><a class="{% if forloop.first %}is-all{% endif %}" href="{{ p[1] }}"{% if request.path == p[1] %} aria-current="page"{% endif %}><span>{{ p[0] | escape }}</span>{% if price != blank %}<small>{{ price }}</small>{% elsif forloop.first %}<span class="arrow" aria-hidden="true">&rarr;</span>{% endif %}</a></li>
         {%- endfor -%}
         </ul>
@@ -242,7 +242,7 @@
           {%- assign p = it | split: '‡' -%}{%- if p[0] == blank -%}{%- continue -%}{%- endif -%}
           {%- assign lead = p[0] | slice: 0, 2 -%}{%- if lead == '- ' -%}{%- continue -%}{%- endif -%}
           {%- assign price = '' -%}
-          {%- if show_prices and p[1] contains '/products/' -%}{%- assign ph = p[1] | split: '/products/' | last | split: '?' | first -%}{%- if all_products[ph] != blank -%}{%- assign price = all_products[ph].price | money_without_trailing_zeros -%}{%- endif -%}{%- endif -%}
+          {%- if show_prices and p[1] contains '/products/' -%}{%- assign ph = p[1] | split: '/products/' | last | split: '?' | first -%}{%- if all_products[ph] != blank -%}{%- assign price = all_products[ph].selected_or_first_available_variant.price | money_without_trailing_zeros -%}{%- endif -%}{%- endif -%}
         <a class="{% if forloop.first %}is-all{% endif %}" href="{{ p[1] }}"><span>{{ p[0] | escape }}</span>{% if price != blank %}<small>{{ price }}</small>{% else %}<span class="arrow">&rarr;</span>{% endif %}</a>
         {%- endfor -%}
       </div>

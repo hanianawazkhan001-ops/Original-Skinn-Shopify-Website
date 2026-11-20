@@ -111,7 +111,7 @@
           <span class="jr-step-label"><span class="jr-step-num">{{ s_num }}</span> {{ s.settings.step }}</span>
           <span class="jr-step-pic">{% if s_img != blank %}<img src="{{ s_img | image_url: width: 220 }}" alt="" loading="lazy" width="92" height="92">{% endif %}</span>
           <span class="jr-step-name">{% if s.settings.name != blank %}{{ s.settings.name }}{% else %}{% render 'product-name', product: sp, part: 'short' %}{% endif %}</span>
-          <span class="jr-step-price">{% if s.settings.price_text != blank %}{{ s.settings.price_text }}{% else %}{{ sp.price | money_without_trailing_zeros }}{% endif %}</span>
+          <span class="jr-step-price">{% if s.settings.price_text != blank %}{{ s.settings.price_text }}{% else %}{{ sp.selected_or_first_available_variant.price | money_without_trailing_zeros }}{% endif %}</span>
           {%- if s.settings.note != blank -%}<span class="jr-step-note">{{ s.settings.note }}</span>{%- endif -%}
         </a>
       </li>
@@ -132,7 +132,7 @@
           <strong class="jr-buy-name">{% if block.settings.bundle_name != blank %}{{ block.settings.bundle_name }}{% elsif bp != blank %}{% render 'product-name', product: bp, part: 'short' %}{% else %}{{ block.settings.title | default: block.settings.label }}{% endif %}</strong>
           <span class="jr-buy-price">
             {%- if bp != blank -%}
-              {%- if bp.compare_at_price > bp.price -%}<s>{{ bp.compare_at_price | money_without_trailing_zeros }}</s> {% endif -%}<strong>{{ bp.price | money_without_trailing_zeros }}</strong>
+              {%- assign bpv = bp.selected_or_first_available_variant -%}{%- if bpv.compare_at_price > bpv.price -%}<s>{{ bpv.compare_at_price | money_without_trailing_zeros }}</s> {% endif -%}<strong>{{ bpv.price | money_without_trailing_zeros }}</strong>
             {%- else -%}
               <strong>{{ total | money_without_trailing_zeros }}</strong>
             {%- endif -%}

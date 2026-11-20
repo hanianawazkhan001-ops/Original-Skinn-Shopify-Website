@@ -155,8 +155,8 @@
 </div>
 <div class="product-benefits" id="pdBenefits">{% for b in benefit_list %}{% if b != blank %}<div><span>✓</span> {{ b | escape }}</div>{% endif %}{% endfor %}</div>
 {% render 'bundle-choices', product: product, mode: 'picker' %}
-<div class="pd-sizes" id="pdSizes" role="group" aria-label="Size"{% if product.variants.size < 2 %} hidden{% endif %}>
-{%- if product.variants.size > 1 -%}{%- for vv in product.variants -%}<button type="button" class="pd-size{% if vv.id == v.id %} active{% endif %}" data-variant="{{ vv.id }}" data-price="{{ vv.price | money }}" data-size="{{ vv.title | escape }}"{% unless vv.available %} disabled{% endunless %}>{{ vv.title }}</button>{%- endfor -%}{%- endif -%}
+<div class="pd-sizes" id="pdSizes" role="group" aria-label="{{ product.options.first | default: 'Size' | escape }}"{% if product.variants.size < 2 %} hidden{% endif %}>
+{%- if product.variants.size > 1 -%}{%- for vv in product.variants -%}<button type="button" class="pd-size{% if vv.id == v.id %} active{% endif %}" data-variant="{{ vv.id }}" data-price="{{ vv.price | money }}" data-size="{{ vv.title | escape }}"{% if vv.featured_image %} data-img="{{ vv.featured_image | image_url: width: 1400 }}"{% endif %}{% unless vv.available %} disabled{% endunless %}>{{ vv.title }}</button>{%- endfor -%}{%- endif -%}
 </div>
 <div class="product-purchase">
 <div aria-label="Quantity" class="qty-control">
@@ -231,7 +231,7 @@
       endcapture
   endcase
 -%}
-<div class="cr-tile"><a class="cr-img" href="{{ q.url }}" tabindex="-1" aria-hidden="true"><img alt="" loading="lazy" src="{{ q.featured_image | image_url: width: 300 }}"/></a><div><span class="cr-step">{{ step }}</span><a class="cr-name card-title-link" href="{{ q.url }}">{{ qname }}</a><span class="cr-price">{{ q.price | money_without_trailing_zeros }}</span></div></div>
+<div class="cr-tile"><a class="cr-img" href="{{ q.url }}" tabindex="-1" aria-hidden="true"><img alt="" loading="lazy" src="{{ q.featured_image | image_url: width: 300 }}"/></a><div><span class="cr-step">{{ step }}</span><a class="cr-name card-title-link" href="{{ q.url }}">{{ qname }}</a><span class="cr-price">{{ q.selected_or_first_available_variant.price | money_without_trailing_zeros }}</span></div></div>
 {%- endif -%}
 {%- endfor %}
 </div>
