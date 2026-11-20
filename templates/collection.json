@@ -15,15 +15,15 @@
         "face_intro": {
           "type": "intro",
           "settings": {
-            "collection": "face-old",
+            "collection": "face",
             "heading": "Face Ritual",
-            "text": "Cleanse, refresh, serum, moisturise. A gentle foaming wash, a toner mist, a hyaluronic acid serum and a moisturiser & serum for day or night. Get all four in the Face Ritual, or choose the Day & Night Face Ritual for the full morning-to-night routine."
+            "text": "Cleanse, refresh, serum, moisturise. A gentle foaming wash, a toner mist, a hyaluronic acid serum and the Day Moisturiser & Serum: all four come together as the AM set of our Day & Night Face Ritual. Add the PM set (Calendula & Clay Cleansing Balm and Night Moisturiser & Serum) for the full morning-to-night routine."
           }
         },
         "face_s1": {
           "type": "step",
           "settings": {
-            "collection": "face-old",
+            "collection": "face",
             "step_label": "Step 1 · Cleanse",
             "product": "gentle-foaming-face-wash-chamomile-lavender",
             "name": "Gentle Foaming Face Wash",
@@ -38,7 +38,7 @@
         "face_s2": {
           "type": "step",
           "settings": {
-            "collection": "face-old",
+            "collection": "face",
             "step_label": "Step 2 · Refresh",
             "product": "facial-toner-mist-spray",
             "name": "",
@@ -53,7 +53,7 @@
         "face_serum": {
           "type": "step",
           "settings": {
-            "collection": "face-old",
+            "collection": "face",
             "step_label": "Step 3 · Serum",
             "product": "hyaluronic-acid-facial-serum-cranberry-grapefruit-raspberry",
             "name": "Hyaluronic Acid Serum",
@@ -68,7 +68,7 @@
         "face_s3": {
           "type": "step",
           "settings": {
-            "collection": "face-old",
+            "collection": "face",
             "step_label": "Step 4 · Moisturise",
             "product": "original-skinn-light-moisturiser-serum-unfragranced-50ml",
             "name": "Day Moisturiser & Serum",
@@ -83,29 +83,30 @@
         "face_buy": {
           "type": "buy",
           "settings": {
-            "collection": "face-old",
-            "kicker": "Face Ritual",
-            "total_html": "£55",
-            "small": "",
-            "button_label": "Add the Face Ritual",
-            "ritual_name": "Face Ritual",
+            "collection": "face",
+            "kicker": "AM Face Ritual",
+            "total_html": "<s>£47</s> £42",
+            "small": "Saves £5.",
+            "button_label": "Add the AM set",
+            "ritual_name": "AM Face Ritual",
             "add_products": [],
-            "bundle": "revitalize-set-cleanse-refresh-revitalize",
-            "bundle_upgrade": "Day & Night",
-            "bundle_upgrade_product": "day-night-face-ritual-complete-face-routine",
-            "upgrade": false,
-            "upgrade_other_label": "Night",
-            "upgrade_text": "Moisturiser & Serum for the same £55",
-            "upgrade_total_html": "<s>£60</s> £55",
-            "upgrade_small": "Saves £5.",
-            "upgrade_button_label": "Add the Day & Night Face Ritual",
-            "upgrade_ritual_name": "Day & Night Face Ritual"
+            "bundle": "day-night-face-ritual-complete-face-routine",
+            "bundle_upgrade": "AM + PM",
+            "bundle_upgrade_product": "",
+            "upgrade": true,
+            "upgrade_other_label": "the PM set",
+            "upgrade_text": "(Cleansing Balm & Night Moisturiser) for £28 more",
+            "upgrade_total_html": "<s>£77</s> £70",
+            "upgrade_small": "Saves £7.",
+            "upgrade_button_label": "Add the AM + PM set",
+            "upgrade_ritual_name": "Day & Night Face Ritual",
+            "bundle_option": "AM only"
           }
         },
         "body_intro": {
           "type": "intro",
           "settings": {
-            "collection": "body-old",
+            "collection": "body",
             "heading": "Soft Skin Ritual",
             "text": "Whipped body butters in seven scents. Rich, melts into skin, and made by hand in small batches."
           }
@@ -113,7 +114,7 @@
         "body_s1": {
           "type": "step",
           "settings": {
-            "collection": "body-old",
+            "collection": "body",
             "step_label": "Step 1 · Scrub",
             "product": "sweet-citrus-salt-scrub",
             "name": "Salt Scrub",
@@ -128,7 +129,7 @@
         "body_s2": {
           "type": "step",
           "settings": {
-            "collection": "body-old",
+            "collection": "body",
             "step_label": "Step 2 · Butter",
             "product": "cherry-fragranced-whipped-body-butter",
             "name": "Whipped Body Butter",
@@ -143,9 +144,9 @@
         "body_buy": {
           "type": "buy",
           "settings": {
-            "collection": "body-old",
+            "collection": "body",
             "kicker": "Soft Skin Ritual",
-            "total_html": "£20",
+            "total_html": "£21",
             "small": "",
             "button_label": "Add the Scrub + Butter ritual",
             "ritual_name": "Scrub & Butter ritual",
@@ -220,7 +221,7 @@
           "settings": {
             "collection": "bath-shower",
             "kicker": "Spa Ritual Set",
-            "total_html": "<s>£26</s> £24",
+            "total_html": "<s>£28</s> £26",
             "small": "Saves £2.",
             "button_label": "Add the Spa Ritual Set",
             "ritual_name": "Spa Ritual Set",
@@ -372,7 +373,7 @@
           "settings": {
             "collection": "adult-bedtime-ritual",
             "kicker": "Adult Bedtime Ritual",
-            "total_html": "£45",
+            "total_html": "£47",
             "small": "",
             "button_label": "Add the whole ritual",
             "ritual_name": "Adult Bedtime Ritual",

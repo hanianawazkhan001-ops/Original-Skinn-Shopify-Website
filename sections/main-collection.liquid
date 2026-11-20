@@ -35,6 +35,17 @@
 <button class="filter-pill" data-filter="aroma" type="button">Aromatherapy</button>
 </div>
 {%- endif %}
+{%- comment -%} Optional photo under the page name: add a "Photo under the page name" block in the theme editor and choose its collection. {%- endcomment -%}
+{%- for block in section.blocks -%}
+{%- if block.type == 'photo' and block.settings.collection.handle == h -%}
+{%- if block.settings.image != blank -%}
+{%- assign photo_alt = block.settings.alt | default: block.settings.image.alt | default: collection.title -%}
+<div class="shop-photo" {{ block.shopify_attributes }}>{{ block.settings.image | image_url: width: 1600 | image_tag: alt: photo_alt, loading: 'eager', widths: '600, 900, 1200, 1600', sizes: '(min-width: 820px) 760px, calc(100vw - 24px)' }}</div>
+{%- elsif request.design_mode -%}
+<div class="shop-photo shop-photo--empty" {{ block.shopify_attributes }}>Choose a photo for this block in the sidebar</div>
+{%- endif -%}
+{%- endif -%}
+{%- endfor %}
 <div class="shop-controls{% unless is_all %} category-controls{% endunless %}">
 <span id="productCount">{{ collection.products_count }} {% if collection.products_count == 1 %}product{% else %}products{% endif %}</span>
 <label class="sort-wrap">
@@ -114,7 +125,7 @@
     assign add_ids = add_ids | append: ap.selected_or_first_available_variant.id | append: ','
   endfor
 -%}
-<button class="btn primary rs-add"{% if add_ids != blank %} data-variants="{{ add_ids }}"{% endif %}{% render 'bundle-attrs', bundle: buy.settings.bundle, upgrade: buy.settings.bundle_upgrade, upgrade_bundle: buy.settings.bundle_upgrade_product %} data-product="{{ buy.settings.ritual_name | escape }}" data-base-name="{{ buy.settings.ritual_name | escape }}" data-base-label="{{ buy.settings.button_label | escape }}" data-base-total="{{ buy.settings.total_html | escape }}" data-base-small="{{ buy.settings.small | escape }}"{% if buy.settings.upgrade %} data-up-name="{{ buy.settings.upgrade_ritual_name | escape }}" data-up-label="{{ buy.settings.upgrade_button_label | escape }}" data-up-total="{{ buy.settings.upgrade_total_html | escape }}" data-up-small="{{ buy.settings.upgrade_small | escape }}"{% endif %} type="button">{{ buy.settings.button_label }}</button>{%- if strip_choices -%}<button class="rs-choose" type="button" aria-expanded="false" aria-controls="{{ strip_pick_id }}-wrap"><span class="rs-choose-open">Or choose your own scents</span><span class="rs-choose-close">Hide scent choices</span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></button>{%- endif -%}{% if buy.settings.upgrade %}<label class="rs-upgrade"><input type="checkbox" class="rs-both"/> <span>Add <span class="rs-other">{{ buy.settings.upgrade_other_label }}</span> {{ buy.settings.upgrade_text }}</span></label>{% endif %}</div>
+<button class="btn primary rs-add"{% if add_ids != blank %} data-variants="{{ add_ids }}"{% endif %}{% render 'bundle-attrs', bundle: buy.settings.bundle, upgrade: buy.settings.bundle_upgrade, upgrade_bundle: buy.settings.bundle_upgrade_product %}{% if buy.settings.bundle != blank and buy.settings.bundle_option != blank %} data-bundle-pick="{{ buy.settings.bundle_option | escape }}"{% endif %} data-product="{{ buy.settings.ritual_name | escape }}" data-base-name="{{ buy.settings.ritual_name | escape }}" data-base-label="{{ buy.settings.button_label | escape }}" data-base-total="{{ buy.settings.total_html | escape }}" data-base-small="{{ buy.settings.small | escape }}"{% if buy.settings.upgrade %} data-up-name="{{ buy.settings.upgrade_ritual_name | escape }}" data-up-label="{{ buy.settings.upgrade_button_label | escape }}" data-up-total="{{ buy.settings.upgrade_total_html | escape }}" data-up-small="{{ buy.settings.upgrade_small | escape }}"{% endif %} type="button">{{ buy.settings.button_label }}</button>{%- if strip_choices -%}<button class="rs-choose" type="button" aria-expanded="false" aria-controls="{{ strip_pick_id }}-wrap"><span class="rs-choose-open">Or choose your own scents</span><span class="rs-choose-close">Hide scent choices</span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></button>{%- endif -%}{% if buy.settings.upgrade %}<label class="rs-upgrade"><input type="checkbox" class="rs-both"/> <span>Add <span class="rs-other">{{ buy.settings.upgrade_other_label }}</span> {{ buy.settings.upgrade_text }}</span></label>{% endif %}</div>
 </div>
 {%- if strip_choices %}
 <div class="rs-pick" id="{{ strip_pick_id }}-wrap" hidden>{% render 'bundle-choices', product: buy.settings.bundle, mode: 'picker', pick_id: strip_pick_id, prefix: strip_prefix %}</div>
@@ -138,6 +149,10 @@
 
 {%- style -%}
 .os-placeholder{display:block;width:100%;height:100%;background:#f1efe8;fill:#c9cfc6}
+.shop-photo{max-width:760px;margin:0 auto 30px;border-radius:24px;overflow:hidden;background:#f1efe8}
+.shop-photo img{display:block;width:100%;height:auto}
+.shop-photo--empty{display:grid;place-items:center;min-height:220px;padding:24px;border:1.5px dashed #c9cfc6;color:#75837b;font-size:13px;text-align:center}
+@media (max-width:749px){.shop-photo{border-radius:18px;margin-bottom:22px}}
 .rs-choose{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:4px 2px;border:0;background:none;font:600 11px/1.3 var(--sans);color:var(--forest);cursor:pointer}
 .rs-choose span{text-decoration:underline;text-decoration-color:rgba(37,71,56,.35);text-underline-offset:4px}
 .rs-choose:hover span{text-decoration-color:currentColor}
@@ -171,6 +186,15 @@
     { "type": "text", "id": "r3_text", "label": "Point 3 text", "default": "Every product professionally safety assessed." }
   ],
   "blocks": [
+    {
+      "type": "photo",
+      "name": "Photo under the page name",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Show on this collection" },
+        { "type": "image_picker", "id": "image", "label": "Photo" },
+        { "type": "text", "id": "alt", "label": "Photo description (for Google and screen readers)", "info": "Leave empty to use the alt text saved with the photo in Files." }
+      ]
+    },
     {
       "type": "intro",
       "name": "Ritual heading + intro",
@@ -210,6 +234,7 @@
         { "type": "text", "id": "ritual_name", "label": "Name for the 'added' message", "default": "Face Ritual" },
         { "type": "product_list", "id": "add_products", "label": "Products added to the bag", "info": "Leave empty to add the products shown in the steps.", "limit": 5 },
         { "type": "product", "id": "bundle", "label": "Ritual bundle (one item at the ritual price)", "info": "If set, this is added instead. Its options should match the step choice labels, e.g. Day / Night." },
+        { "type": "text", "id": "bundle_option", "label": "Bundle choice to add (optional)", "info": "For a bundle with choices, the one the button adds, e.g. AM only. Leave empty for its first choice." },
         { "type": "text", "id": "bundle_upgrade", "label": "Bundle option used with the upgrade", "default": "Day & Night" },
         { "type": "product", "id": "bundle_upgrade_product", "label": "Upgrade bundle (separate product)", "info": "Optional. Added instead of the ritual bundle when the extra box is ticked, e.g. the Day & Night Face Ritual." },
         { "type": "header", "content": "Optional upgrade checkbox" },

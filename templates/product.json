@@ -12,7 +12,8 @@
         "judgeme_reviews"
       ],
       "settings": {
-        "judgeme": true
+        "judgeme": true,
+        "dispatch_text": "Dispatched within 1\u20132 working days. Free UK delivery with InPost, usually 2\u20133 working days after dispatch."
       }
     }
   },

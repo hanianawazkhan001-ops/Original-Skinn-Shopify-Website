@@ -164,6 +164,8 @@
     if(!keys.length) return '';
     if(both && btn.dataset.bundleUp && map[btn.dataset.bundleUp]) return String(map[btn.dataset.bundleUp]);
     if(label && map[label]) return String(map[label]);
+    // a buy box set to add one choice of a bundle (e.g. the AM set of the Day & Night Face Ritual)
+    if(btn.dataset.bundlePick && map[btn.dataset.bundlePick]) return String(map[btn.dataset.bundlePick]);
     return String(map[keys[0]]);
   }
 

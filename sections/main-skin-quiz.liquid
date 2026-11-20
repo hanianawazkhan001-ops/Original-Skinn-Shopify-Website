@@ -6,7 +6,7 @@
   (QUIZ and the pick… functions). Product names, photos, prices and links come from the products.
 {%- endcomment -%}
 {%- liquid
-  assign handles = 'gentle-foaming-face-wash-chamomile-lavender,facial-toner-mist-spray,hyaluronic-acid-facial-serum-cranberry-grapefruit-raspberry,original-skinn-light-moisturiser-serum-unfragranced-50ml,original-skinn-rich-moisturiser-serum-lemon-cedarwood-50ml,face-ritual-cleanse-refresh-moisturise,day-night-face-ritual-complete-face-routine,sweet-citrus-salt-scrub,rose-petal-salt-scrub,vanilla-bliss-salt-scrub,lavender-salt-scrub,sweet-orange-body-butter,rose-whipped-body-butter,original-shea-body-butter,lavender-fragranced-whipped-body-butter,candy-cane-whipped-body-butter-winter-rituals-collection,citrus-skin-nourishing-balm,geranium-rose-skin-nourishing-balm,lavender-skin-nourishing-balm,rosemary-skin-and-beard-nourishing-balm,ginger-lemon-orange-bath-soak,rose-petal-bath-salt,lavender-bliss-bath-salt,spiced-citrus-wood-soy-wax-candle,lemongrass-violet-soy-wax-candle,amber-velvet-soy-wax-candle,steamy-romance-shower-steamer,hangover-shower-steamer,mandarin-geranium-shower-gel,lavender-chamomile-baby-wash,organic-baby-moisturiser,baby-essentials-bundle,spa-ritual-set' | split: ','
+  assign handles = 'gentle-foaming-face-wash-chamomile-lavender,facial-toner-mist-spray,hyaluronic-acid-facial-serum-cranberry-grapefruit-raspberry,original-skinn-light-moisturiser-serum-unfragranced-50ml,original-skinn-rich-moisturiser-serum-lemon-cedarwood-50ml,calendula-clay-cleansing-balm,day-night-face-ritual-complete-face-routine,sweet-citrus-salt-scrub,rose-petal-salt-scrub,vanilla-bliss-salt-scrub,lavender-salt-scrub,sweet-orange-body-butter,rose-whipped-body-butter,original-shea-body-butter,lavender-fragranced-whipped-body-butter,candy-cane-whipped-body-butter-winter-rituals-collection,citrus-skin-nourishing-balm,geranium-rose-skin-nourishing-balm,lavender-skin-nourishing-balm,rosemary-skin-and-beard-nourishing-balm,ginger-lemon-orange-bath-soak,rose-petal-bath-salt,lavender-bliss-bath-salt,spiced-citrus-wood-soy-wax-candle,lemongrass-violet-soy-wax-candle,amber-velvet-soy-wax-candle,steamy-romance-shower-steamer,hangover-shower-steamer,mandarin-geranium-shower-gel,lavender-chamomile-baby-wash,organic-baby-moisturiser,baby-essentials-bundle,spa-ritual-set' | split: ','
   assign hero_heading = section.settings.hero_heading | default: page.title
 -%}
 {%- render 'page-hero', style: 'faq', kicker: section.settings.hero_kicker, heading: hero_heading, text: section.settings.hero_text -%}
@@ -66,6 +66,9 @@
 {%- if handles contains p.handle -%}
 {%- capture pn -%}{% render 'product-name', product: p, part: 'short' %}{%- endcapture -%}
 {{ p.handle | json }}:{"n":{{ pn | strip | json }},"u":{{ p.url | json }},"i":{{ p.featured_image | image_url: width: 240 | json }},"p":{{ p.selected_or_first_available_variant.price | default: 0 }},"cp":{{ p.selected_or_first_available_variant.compare_at_price | default: 0 }},"v":{{ p.selected_or_first_available_variant.id | default: 0 }},"a":{{ p.available | json }}},
+{%- if p.variants.size > 1 -%}{%- for pv in p.variants -%}{%- assign vk = p.handle | append: '#' | append: pv.title -%}{%- assign vn = pn | strip | append: ' – ' | append: pv.title -%}{%- assign vu = p.url | append: '?variant=' | append: pv.id -%}{%- assign vimg = pv.featured_image | default: p.featured_image -%}
+{{ vk | json }}:{"n":{{ vn | json }},"u":{{ vu | json }},"i":{{ vimg | image_url: width: 240 | json }},"p":{{ pv.price | default: 0 }},"cp":{{ pv.compare_at_price | default: 0 }},"v":{{ pv.id }},"a":{{ pv.available | json }}},
+{%- endfor -%}{%- endif -%}
 {%- endif -%}
 {%- endfor -%}
 {%- endpaginate -%}
@@ -82,7 +85,8 @@
     wash:'gentle-foaming-face-wash-chamomile-lavender', mist:'facial-toner-mist-spray',
     serum:'hyaluronic-acid-facial-serum-cranberry-grapefruit-raspberry',
     day:'original-skinn-light-moisturiser-serum-unfragranced-50ml', night:'original-skinn-rich-moisturiser-serum-lemon-cedarwood-50ml',
-    faceRitual:'face-ritual-cleanse-refresh-moisturise', dayNight:'day-night-face-ritual-complete-face-routine',
+    balm:'calendula-clay-cleansing-balm', dayNight:'day-night-face-ritual-complete-face-routine',
+    dayNightAM:'day-night-face-ritual-complete-face-routine#AM only',
     gel:'mandarin-geranium-shower-gel', spaSet:'spa-ritual-set',
     babyWash:'lavender-chamomile-baby-wash', babyMoist:'organic-baby-moisturiser',
     babyBundle:'baby-essentials-bundle'
@@ -173,20 +177,22 @@
       r.buy = {label:'Add ' + (r.steps.length > 1 ? 'both' : 'it'), keys:r.steps.map(function(s){ return s.h; })};
       return r;
     }
-    r.steps.push(step('Cleanse', H.wash, a.when === 'both' ? 'Morning & night' : ''));
+    r.steps.push(step('Cleanse', H.wash, a.when === 'both' ? 'Mornings' : ''));
     r.steps.push(step('Mist', H.mist, a.when === 'both' ? 'Morning & night' : ''));
     r.steps.push(step('Serum', H.serum, a.when === 'both' ? 'Morning & night' : ''));
     if(a.when !== 'pm') r.steps.push(step('Moisturise', H.day, a.when === 'both' ? 'Mornings' : ''));
+    if(a.when === 'both') r.steps.push(step('Cleanse', H.balm, 'Evenings'));
     if(a.when !== 'am') r.steps.push(step('Moisturise', H.night, a.when === 'both' ? 'Evenings' : ''));
     if(a.when === 'am'){
       r.intro = 'A quick morning routine: cleanse, mist, serum, then the Day Moisturiser.';
-      r.buy = {label:'Face Ritual (all 4 steps)', keys:[H.faceRitual]};
+      // the AM set of the Day & Night Face Ritual is exactly these four; if it can't be added, the four products instead
+      r.buy = P[H.dayNightAM] && P[H.dayNightAM].a ? {label:'AM set (all 4 products)', keys:[H.dayNightAM]} : {label:'All 4 products', keys:[H.wash, H.mist, H.serum, H.day]};
     } else if(a.when === 'pm'){
       r.intro = 'An evening routine: cleanse, mist, serum, then the Night Moisturiser.';
       r.buy = {label:'All 4 products', keys:[H.wash, H.mist, H.serum, H.night]};
     } else {
-      r.intro = 'Cleanse, mist and serum morning and night, with the Day Moisturiser in the morning and the Night Moisturiser before bed.';
-      r.buy = {label:'Day & Night Face Ritual (all 5 products)', keys:[H.dayNight]};
+      r.intro = 'In the morning: face wash, mist, serum, then the Day Moisturiser. In the evening: melt away the day with the cleansing balm, then mist, serum and the Night Moisturiser before bed.';
+      r.buy = {label:'Day & Night Face Ritual (all 6 products)', keys:[H.dayNight]};
     }
     return r;
   }
