@@ -618,6 +618,7 @@
         "tile5": {
           "type": "tile",
           "settings": {
+            "image": "shopify://shop_images/Home-Ritual-Fragances.png",
             "fallback": "photo-home-fragrance.jpg",
             "image_alt": "Home Fragrance",
             "title": "Home Ritual",
