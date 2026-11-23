@@ -109,10 +109,16 @@
           "settings": {
             "step": "Cleanse",
             "product": "gentle-foaming-face-wash-chamomile-lavender",
-            "name": "",
+            "name": "Foaming Face Wash",
             "price_text": "",
-            "note": "Morning (AM)",
-            "link": ""
+            "note": "",
+            "link": "",
+            "tag1": "AM",
+            "product2": "calendula-clay-cleansing-balm",
+            "tag2": "PM",
+            "name2": "Cleansing Balm",
+            "price_text2": "",
+            "link2": ""
           }
         },
         "face_2": {
@@ -142,21 +148,16 @@
           "settings": {
             "step": "Moisturise",
             "product": "original-skinn-light-moisturiser-serum-unfragranced-50ml",
-            "name": "Day Moisturiser & Serum",
+            "name": "Day Moisturiser",
             "price_text": "",
-            "note": "Morning (AM)",
-            "link": ""
-          }
-        },
-        "face_4": {
-          "type": "step",
-          "settings": {
-            "step": "Moisturise",
-            "product": "original-skinn-rich-moisturiser-serum-lemon-cedarwood-50ml",
-            "name": "Night Moisturiser & Serum",
-            "price_text": "",
-            "note": "Evening (PM)",
-            "link": ""
+            "note": "",
+            "link": "",
+            "tag1": "AM",
+            "product2": "original-skinn-rich-moisturiser-serum-lemon-cedarwood-50ml",
+            "tag2": "PM",
+            "name2": "Night Moisturiser",
+            "price_text2": "",
+            "link2": ""
           }
         },
         "body": {
@@ -414,17 +415,6 @@
             "note": "From 6 months",
             "link": ""
           }
-        },
-        "face_balm": {
-          "type": "step",
-          "settings": {
-            "step": "Cleanse",
-            "product": "calendula-clay-cleansing-balm",
-            "name": "Calendula & Clay Cleansing Balm",
-            "price_text": "",
-            "note": "Evening (PM)",
-            "link": ""
-          }
         }
       },
       "block_order": [
@@ -433,8 +423,6 @@
         "face_2",
         "face_serum",
         "face_3",
-        "face_balm",
-        "face_4",
         "body",
         "body_1",
         "body_2",
