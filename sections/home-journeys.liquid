@@ -66,17 +66,29 @@
   assign ids = ''
   assign total = 0
   assign first_img = blank
+  assign addon = blank
   for s in section.blocks offset: from
     if s.type == 'journey'
       break
     endif
     assign sp = s.settings.product
+    if s.settings.optional and sp != blank
+      if addon == blank
+        assign addon = s
+      endif
+      continue
+    endif
     if sp != blank
       assign ids = ids | append: sp.selected_or_first_available_variant.id | append: ','
       assign total = total | plus: sp.selected_or_first_available_variant.price
       if first_img == blank
         assign first_img = sp.featured_image
       endif
+    endif
+    assign sp2 = s.settings.product2
+    if sp2 != blank
+      assign ids = ids | append: sp2.selected_or_first_available_variant.id | append: ','
+      assign total = total | plus: sp2.selected_or_first_available_variant.price
     endif
   endfor
   assign bp = block.settings.bundle
@@ -106,7 +118,26 @@
           assign s_num = '0' | append: s_num
         endif
       -%}
-      <li class="jr-step" {{ s.shopify_attributes }}>
+      {%- assign sp2 = s.settings.product2 -%}
+      {%- if sp2 != blank -%}
+      {%- liquid
+        assign s_url2 = s.settings.link2 | default: sp2.url
+        assign s_img2 = s.settings.image2 | default: sp2.featured_image
+      -%}
+      <li class="jr-step jr-step--pair" {{ s.shopify_attributes }}>
+        <span class="jr-step-label"><span class="jr-step-num">{{ s_num }}</span> {{ s.settings.step }}</span>
+        <span class="jr-pair-pics">
+          <a class="jr-step-pic" href="{{ s_url }}" tabindex="-1" aria-hidden="true">{% if s_img != blank %}<img src="{{ s_img | image_url: width: 220 }}" alt="" loading="lazy" width="92" height="92">{% endif %}<span class="jr-tag">{{ s.settings.tag1 | default: 'AM' }}</span></a>
+          <a class="jr-step-pic" href="{{ s_url2 }}" tabindex="-1" aria-hidden="true">{% if s_img2 != blank %}<img src="{{ s_img2 | image_url: width: 220 }}" alt="" loading="lazy" width="92" height="92">{% endif %}<span class="jr-tag jr-tag--pm">{{ s.settings.tag2 | default: 'PM' }}</span></a>
+        </span>
+        <span class="jr-pair-rows">
+          <a class="jr-pair-row" href="{{ s_url }}"><span class="jr-tag">{{ s.settings.tag1 | default: 'AM' }}</span><span class="jr-pair-name">{% if s.settings.name != blank %}{{ s.settings.name }}{% else %}{% render 'product-name', product: sp, part: 'short' %}{% endif %}</span><span class="jr-pair-price">{% if s.settings.price_text != blank %}{{ s.settings.price_text }}{% else %}{{ sp.selected_or_first_available_variant.price | money_without_trailing_zeros }}{% endif %}</span></a>
+          <a class="jr-pair-row" href="{{ s_url2 }}"><span class="jr-tag jr-tag--pm">{{ s.settings.tag2 | default: 'PM' }}</span><span class="jr-pair-name">{% if s.settings.name2 != blank %}{{ s.settings.name2 }}{% else %}{% render 'product-name', product: sp2, part: 'short' %}{% endif %}</span><span class="jr-pair-price">{% if s.settings.price_text2 != blank %}{{ s.settings.price_text2 }}{% else %}{{ sp2.selected_or_first_available_variant.price | money_without_trailing_zeros }}{% endif %}</span></a>
+        </span>
+      </li>
+      {%- continue -%}
+      {%- endif -%}
+      <li class="jr-step{% if s.settings.optional %} jr-step--optional{% endif %}" {{ s.shopify_attributes }}>
         <a href="{{ s_url }}">
           <span class="jr-step-label"><span class="jr-step-num">{{ s_num }}</span> {{ s.settings.step }}</span>
           <span class="jr-step-pic">{% if s_img != blank %}<img src="{{ s_img | image_url: width: 220 }}" alt="" loading="lazy" width="92" height="92">{% endif %}</span>
@@ -132,9 +163,9 @@
           <strong class="jr-buy-name">{% if block.settings.bundle_name != blank %}{{ block.settings.bundle_name }}{% elsif bp != blank %}{% render 'product-name', product: bp, part: 'short' %}{% else %}{{ block.settings.title | default: block.settings.label }}{% endif %}</strong>
           <span class="jr-buy-price">
             {%- if bp != blank -%}
-              {%- assign bpv = bp.selected_or_first_available_variant -%}{%- if bpv.compare_at_price > bpv.price -%}<s>{{ bpv.compare_at_price | money_without_trailing_zeros }}</s> {% endif -%}<strong>{{ bpv.price | money_without_trailing_zeros }}</strong>
+              {%- assign bpv = bp.selected_or_first_available_variant -%}<span data-jr-price>{%- if bpv.compare_at_price > bpv.price -%}<s>{{ bpv.compare_at_price | money_without_trailing_zeros }}</s> {% endif -%}<strong>{{ bpv.price | money_without_trailing_zeros }}</strong></span>
             {%- else -%}
-              <strong>{{ total | money_without_trailing_zeros }}</strong>
+              <span data-jr-price><strong>{{ total | money_without_trailing_zeros }}</strong></span>
             {%- endif -%}
           </span>
         </span>
@@ -145,6 +176,31 @@
         <button type="button" class="btn primary jr-buy-btn concern-add" data-product="{{ bp.title | split: ' – ' | first | escape }}" data-variants="{{ bp.selected_or_first_available_variant.id }}"{% unless bp.available %} disabled{% endunless %}>{{ block.settings.button_label }}</button>
       {%- else -%}
         <button type="button" class="btn primary jr-buy-btn concern-add" data-product="{{ block.settings.title | default: block.settings.label | escape }}" data-variants="{{ ids }}">{{ block.settings.button_label }}</button>
+      {%- endif -%}
+      {%- if addon != blank and block.settings.bundle_choose == false -%}
+        {%- liquid
+          assign ap = addon.settings.product
+          assign apv = ap.selected_or_first_available_variant
+          if bp != blank
+            assign base_price = bp.selected_or_first_available_variant.price
+          else
+            assign base_price = total
+          endif
+          assign on_price = base_price | plus: apv.price
+          capture ap_name
+            if addon.settings.name != blank
+              echo addon.settings.name
+            else
+              render 'product-name', product: ap, part: 'short'
+            endif
+          endcapture
+          assign ap_name = ap_name | strip
+          assign on_label = block.settings.addon_button_label | default: block.settings.button_label
+        -%}
+        <label class="jr-addon"{% unless ap.available %} hidden{% endunless %}>
+          <input type="checkbox" data-jr-addon data-variant="{{ apv.id }}" data-name="{{ ap_name | escape }}" data-price-on="<strong>{{ on_price | money_without_trailing_zeros }}</strong>" data-label-on="{{ on_label | escape }}">
+          <span>{% if addon.settings.optional_text != blank %}{{ addon.settings.optional_text }}{% else %}Add the {{ ap_name }}{% endif %} <strong>+{{ apv.price | money_without_trailing_zeros }}</strong></span>
+        </label>
       {%- endif -%}
       {%- if ex_ids != '' and block.settings.extra_text != blank -%}
         <button type="button" class="jr-extra concern-add" data-product="{{ block.settings.extra_name | default: block.settings.extra_text | escape }}" data-variants="{{ ex_ids }}">{{ block.settings.extra_text }}, {{ ex_total | money_without_trailing_zeros }}</button>
@@ -157,6 +213,42 @@
 {%- endif -%}
 {%- endfor -%}
 </div></section>
+
+{%- style -%}
+/* A step with a morning and an evening product (e.g. Cleanse: AM face wash / PM cleansing balm) */
+.jr-step.jr-step--pair{flex-basis:190px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.jr-step--pair .jr-pair-pics{display:flex;justify-content:center}
+.jr-step--pair .jr-pair-pics .jr-step-pic{display:block;position:relative;overflow:visible;padding:0}
+.jr-step--pair .jr-pair-pics .jr-step-pic img{border-radius:50%}
+.jr-step--pair .jr-pair-pics .jr-step-pic + .jr-step-pic{margin-left:-18px}
+.jr-step--pair .jr-pair-pics .jr-step-pic:hover{transform:translateY(-3px);z-index:2}
+.jr-tag{display:inline-block;flex:none;padding:2px 7px;border-radius:999px;background:#f3e6c9;color:#5b4626;font-family:inherit;font-size:9px;font-weight:700;letter-spacing:.12em;line-height:1.5}
+.jr-tag--pm{background:var(--forest);color:#fffdf8}
+.jr-step--pair .jr-pair-pics .jr-tag{position:absolute;left:50%;bottom:-8px;transform:translateX(-50%);box-shadow:0 0 0 2px #fff}
+.jr-step--pair .jr-pair-rows{display:flex;flex-direction:column;gap:5px;margin-top:16px;width:100%}
+.jr-step--pair .jr-pair-row{display:flex;flex-direction:row;align-items:baseline;justify-content:center;gap:6px;padding:0;color:var(--ink);text-decoration:none;font-size:12px;line-height:1.3;text-align:left}
+.jr-step--pair .jr-pair-name{font-family:var(--serif);font-size:14px}
+.jr-step--pair .jr-pair-row:hover .jr-pair-name{text-decoration:underline;text-underline-offset:3px}
+.jr-step--pair .jr-pair-price{font-weight:600;white-space:nowrap}
+/* optional step (e.g. hand cream for the night routine) and its tick box in the buy box */
+.jr-step--optional .jr-step-pic{box-shadow:none;outline:2px dashed rgba(180,147,102,.95);outline-offset:3px}
+.jr-step--optional .jr-step-note{font-style:italic}
+.jr-addon{display:flex;align-items:flex-start;gap:8px;margin-top:12px;padding:10px 12px;border:1px dashed rgba(180,147,102,.8);border-radius:12px;font-size:12px;line-height:1.4;color:var(--ink);cursor:pointer;text-align:left}
+.jr-addon[hidden]{display:none}
+.jr-addon input{margin:2px 0 0;width:16px;height:16px;flex:none;accent-color:var(--forest)}
+.jr-addon strong{white-space:nowrap}
+@media(max-width:650px){
+  .jr-step.jr-step--pair{display:grid;grid-template-columns:64px 1fr;column-gap:14px;align-items:start;text-align:left;padding:8px 0}
+  .jr-step--pair .jr-step-label{grid-column:2;margin:4px 0 2px}
+  .jr-step--pair .jr-pair-pics{grid-column:1;grid-row:1/span 2;position:relative;width:64px;height:76px;display:block}
+  .jr-step--pair .jr-pair-pics .jr-step-pic{position:absolute;width:46px;height:46px}
+  .jr-step--pair .jr-pair-pics .jr-step-pic:first-child{left:0;top:0}
+  .jr-step--pair .jr-pair-pics .jr-step-pic + .jr-step-pic{margin-left:0;left:18px;top:28px}
+  .jr-step--pair .jr-pair-pics .jr-tag{display:none}
+  .jr-step--pair .jr-pair-rows{grid-column:2;margin-top:2px}
+  .jr-step--pair .jr-pair-row{justify-content:flex-start}
+}
+{%- endstyle -%}
 
 <script>
 (function(){
@@ -185,6 +277,19 @@
     cards.forEach(function(c){
       c.addEventListener('click', function(){
         show(c.classList.contains('is-open') ? '' : c.dataset.jrCard, true);
+      });
+    });
+    // optional add-on (e.g. the hand cream): ticking it adds it with the journey's button
+    sec.querySelectorAll('[data-jr-addon]').forEach(function(box){
+      var buy = box.closest('.jr-buy'), btn = buy && buy.querySelector('.jr-buy-btn'), price = buy && buy.querySelector('[data-jr-price]');
+      if(!btn || !btn.dataset.variants) return;
+      var base = {v: btn.dataset.variants, p: price ? price.innerHTML : '', l: btn.textContent, n: btn.dataset.product};
+      box.addEventListener('change', function(){
+        var on = box.checked;
+        btn.dataset.variants = on ? base.v.replace(/,+$/, '') + ',' + box.dataset.variant : base.v;
+        if(price) price.innerHTML = on ? box.dataset.priceOn : base.p;
+        btn.textContent = on ? box.dataset.labelOn : base.l;
+        btn.dataset.product = on ? base.n + ' + ' + box.dataset.name : base.n;
       });
     });
     // theme editor: selecting a journey or one of its steps opens it
@@ -237,6 +342,7 @@
         { "type": "text", "id": "bundle_eyebrow", "label": "Small line above the name", "default": "All 4 steps" },
         { "type": "text", "id": "bundle_name", "label": "Name (optional)", "info": "Leave empty to use the bundle's name." },
         { "type": "text", "id": "button_label", "label": "Button label", "default": "Add the ritual" },
+        { "type": "text", "id": "addon_button_label", "label": "Button label when the optional step is ticked", "info": "e.g. Add all 7 products. Leave empty to keep the button label." },
         { "type": "header", "content": "Smaller extra button (optional)" },
         { "type": "product_list", "id": "extra_products", "label": "Products it adds", "limit": 5 },
         { "type": "text", "id": "extra_text", "label": "Button text", "info": "The price is added after it, e.g. \"Mornings only? Face Ritual, steps 1–3, £32\"." },
@@ -254,7 +360,18 @@
         { "type": "text", "id": "price_text", "label": "Price as shown (optional)", "info": "e.g. from £6. Leave empty to use the product's price." },
         { "type": "text", "id": "note", "label": "Small note", "info": "e.g. 4 scents, Morning & night" },
         { "type": "image_picker", "id": "image", "label": "Picture (optional)", "info": "Leave empty to use the product's photo." },
-        { "type": "url", "id": "link", "label": "Link (optional)", "info": "Leave empty to link to the product." }
+        { "type": "url", "id": "link", "label": "Link (optional)", "info": "Leave empty to link to the product." },
+        { "type": "checkbox", "id": "optional", "label": "Optional step", "default": false, "info": "Shown with a dashed circle and not included in the journey's bundle; the buy box gets a tick box to add it." },
+        { "type": "text", "id": "optional_text", "label": "Tick box text (optional step)", "info": "e.g. Add the Hand Cream for your night routine. The price is added after it." },
+        { "type": "header", "content": "Second product (optional)" },
+        { "type": "paragraph", "content": "Pick a second product to show two products in this step, side by side with small labels, e.g. AM face wash and PM cleansing balm." },
+        { "type": "text", "id": "tag1", "label": "Label for the first product", "default": "AM" },
+        { "type": "product", "id": "product2", "label": "Second product" },
+        { "type": "text", "id": "tag2", "label": "Label for the second product", "default": "PM" },
+        { "type": "text", "id": "name2", "label": "Second product name (optional)" },
+        { "type": "text", "id": "price_text2", "label": "Second product price as shown (optional)" },
+        { "type": "image_picker", "id": "image2", "label": "Second product picture (optional)" },
+        { "type": "url", "id": "link2", "label": "Second product link (optional)" }
       ]
     }
   ],

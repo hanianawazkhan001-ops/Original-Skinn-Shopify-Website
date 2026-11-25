@@ -95,13 +95,14 @@
             "colour": "sage",
             "bundle": "day-night-face-ritual-complete-face-routine",
             "bundle_choose": false,
-            "bundle_eyebrow": "AM + PM, all 6 products",
+            "bundle_eyebrow": "AM + PM set · 6 products",
             "bundle_name": "",
             "button_label": "Add the face ritual",
             "extra_products": [],
             "extra_text": "",
             "extra_name": "",
-            "note": "Just mornings or just evenings? Choose the AM or PM set on the ritual’s page."
+            "note": "Just mornings or just evenings? Choose the AM or PM set on the ritual’s page.",
+            "addon_button_label": "Add all 7 products"
           }
         },
         "face_1": {
@@ -124,11 +125,11 @@
         "face_2": {
           "type": "step",
           "settings": {
-            "step": "Mist",
+            "step": "Tone",
             "product": "facial-toner-mist-spray",
             "name": "Facial Toner Mist",
             "price_text": "",
-            "note": "Morning (AM)",
+            "note": "Morning & night",
             "link": ""
           }
         },
@@ -139,7 +140,7 @@
             "product": "hyaluronic-acid-facial-serum-cranberry-grapefruit-raspberry",
             "name": "Hyaluronic Acid Serum",
             "price_text": "",
-            "note": "Morning (AM)",
+            "note": "Morning & night",
             "link": ""
           }
         },
@@ -415,6 +416,19 @@
             "note": "From 6 months",
             "link": ""
           }
+        },
+        "face_hand": {
+          "type": "step",
+          "settings": {
+            "step": "Hands",
+            "product": "sea-buckthorn-aloe-hand-cream",
+            "name": "Hand Cream",
+            "price_text": "",
+            "note": "Optional, at night",
+            "link": "",
+            "optional": true,
+            "optional_text": "Add the Hand Cream for your night routine"
+          }
         }
       },
       "block_order": [
@@ -423,6 +437,7 @@
         "face_2",
         "face_serum",
         "face_3",
+        "face_hand",
         "body",
         "body_1",
         "body_2",
