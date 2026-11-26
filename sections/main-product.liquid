@@ -119,6 +119,54 @@
     assign crumb_url = routes.collections_url | append: '/' | append: crumb_handle
   endif
   assign main_alt = product.featured_image.alt | default: p_name
+
+  # Photos for one option: end the photo's alt text with the option in square brackets,
+  # e.g. "Original Skinn AM Face Ritual set [AM only]". Those photos show only when that option is
+  # picked; the photos without brackets show for every option that has no photos of its own.
+  assign sel_opt = v.title
+  assign photo_groups = '|'
+  for img in product.images
+    assign a = img.alt | default: ''
+    assign lc = a | slice: -1
+    if lc == ']' and a contains ' ['
+      assign g = a | split: ' [' | last | remove: ']'
+      assign photo_groups = photo_groups | append: g | append: '|'
+    endif
+  endfor
+  assign sel_key = '|' | append: sel_opt | append: '|'
+  assign sel_has_photos = false
+  if photo_groups contains sel_key
+    assign sel_has_photos = true
+  endif
+  assign main_img = product.featured_image
+  for img in product.images
+    assign a = img.alt | default: ''
+    assign g = ''
+    assign lc = a | slice: -1
+    if lc == ']' and a contains ' ['
+      assign g = a | split: ' [' | last | remove: ']'
+    endif
+    if g == sel_opt or g == blank and sel_has_photos == false
+      assign main_img = img
+      if g != blank
+        assign tag = ' [' | append: g | append: ']'
+        assign main_alt = a | remove: tag
+      else
+        assign main_alt = a | default: p_name
+      endif
+      break
+    endif
+  endfor
+
+  # optional extra (e.g. the Hand Cream on the Day & Night Face Ritual), set in the theme editor
+  assign addon = nil
+  assign addon_for = section.settings.addon_for
+  if addon_for != blank and addon_for.id == product.id and section.settings.addon_product != blank
+    assign addon = section.settings.addon_product
+    unless addon.available
+      assign addon = nil
+    endunless
+  endif
 -%}
 <nav aria-label="Breadcrumb" class="product-breadcrumbs">
 <a href="{{ routes.root_url }}">Home</a>
@@ -131,10 +179,28 @@
 <div class="product-gallery">
 <div class="product-main-image" id="mainProductImageWrap">
 <span class="product-badge" id="pdBadge"{% unless product.tags contains 'best-seller' %} hidden{% endunless %}>Best Seller</span>
-{%- if product.featured_image != blank -%}<img alt="{{ main_alt | escape }}" id="mainProductImage" src="{{ product.featured_image | image_url: width: 1400 }}"/>{%- else -%}{{ 'product-1' | placeholder_svg_tag: 'os-placeholder' }}{%- endif -%}
+{%- if main_img != blank -%}<img alt="{{ main_alt | escape }}" id="mainProductImage" src="{{ main_img | image_url: width: 1400 }}"/>{%- else -%}{{ 'product-1' | placeholder_svg_tag: 'os-placeholder' }}{%- endif -%}
 </div>
 <div aria-label="Product images" class="product-thumbs" id="pdThumbs">
-{%- for img in product.images -%}<button aria-label="View image {{ forloop.index }}" class="product-thumb{% if forloop.first %} active{% endif %}" data-src="{{ img | image_url: width: 1400 }}" type="button"><img alt="" loading="lazy" src="{{ img | image_url: width: 300 }}"/></button>{%- endfor -%}
+{%- for img in product.images -%}
+{%- liquid
+  assign a = img.alt | default: ''
+  assign g = ''
+  assign lc = a | slice: -1
+  if lc == ']' and a contains ' ['
+    assign g = a | split: ' [' | last | remove: ']'
+    assign tag = ' [' | append: g | append: ']'
+    assign a = a | remove: tag
+  endif
+  assign show = true
+  if g != blank and g != sel_opt
+    assign show = false
+  elsif g == blank and sel_has_photos
+    assign show = false
+  endif
+-%}
+<button aria-label="View image {{ forloop.index }}" class="product-thumb{% if img.id == main_img.id %} active{% endif %}" data-src="{{ img | image_url: width: 1400 }}" data-alt="{{ a | default: p_name | escape }}"{% if g != blank %} data-group="{{ g | escape }}"{% endif %}{% unless show %} hidden{% endunless %} type="button"><img alt="" loading="lazy" src="{{ img | image_url: width: 300 }}"/></button>
+{%- endfor -%}
 </div>
 </div>
 <div class="product-info-panel">
@@ -156,15 +222,26 @@
 <div class="product-benefits" id="pdBenefits">{% for b in benefit_list %}{% if b != blank %}<div><span>✓</span> {{ b | escape }}</div>{% endif %}{% endfor %}</div>
 {% render 'bundle-choices', product: product, mode: 'picker' %}
 <div class="pd-sizes" id="pdSizes" role="group" aria-label="{{ product.options.first | default: 'Size' | escape }}"{% if product.variants.size < 2 %} hidden{% endif %}>
-{%- if product.variants.size > 1 -%}{%- for vv in product.variants -%}<button type="button" class="pd-size{% if vv.id == v.id %} active{% endif %}" data-variant="{{ vv.id }}" data-price="{{ vv.price | money }}" data-size="{{ vv.title | escape }}"{% if vv.featured_image %} data-img="{{ vv.featured_image | image_url: width: 1400 }}"{% endif %}{% unless vv.available %} disabled{% endunless %}>{{ vv.title }}</button>{%- endfor -%}{%- endif -%}
+{%- if product.variants.size > 1 -%}{%- for vv in product.variants -%}<button type="button" class="pd-size{% if vv.id == v.id %} active{% endif %}" data-variant="{{ vv.id }}" data-price="{{ vv.price | money }}" data-cents="{{ vv.price }}" data-size="{{ vv.title | escape }}"{% if vv.featured_image %} data-img="{{ vv.featured_image | image_url: width: 1400 }}"{% endif %}{% unless vv.available %} disabled{% endunless %}>{{ vv.title }}</button>{%- endfor -%}{%- endif -%}
 </div>
+{%- if addon != blank -%}
+{%- capture addon_name -%}{% render 'product-name', product: addon, part: 'name' %}{%- endcapture -%}
+{%- assign addon_name = addon_name | strip -%}
+{%- assign av = addon.selected_or_first_available_variant -%}
+<label class="pd-addon">
+<input type="checkbox" id="pdAddon" data-variant="{{ av.id }}" data-cents="{{ av.price }}" data-name="{{ addon_name | escape }}">
+{%- if addon.featured_image != blank %}<img alt="" loading="lazy" src="{{ addon.featured_image | image_url: width: 120 }}"/>{% endif %}
+<span class="pd-addon-text"><strong>{{ section.settings.addon_label | replace: '[name]', addon_name }}</strong>{% if section.settings.addon_note != blank %}<small>{{ section.settings.addon_note }}</small>{% endif %}</span>
+<span class="pd-addon-price">+{{ av.price | money_without_trailing_zeros }}</span>
+</label>
+{%- endif -%}
 <div class="product-purchase">
 <div aria-label="Quantity" class="qty-control">
 <button aria-label="Decrease quantity" id="qtyMinus" type="button">−</button>
 <input aria-label="Quantity" id="qtyInput" inputmode="numeric" value="1"/>
 <button aria-label="Increase quantity" id="qtyPlus" type="button">+</button>
 </div>
-<button class="add-to-cart" id="pdAdd" type="button" data-variant="{{ v.id }}" data-product="{{ p_name | escape }}"{% unless product.available %} disabled{% endunless %}>{% if product.available %}Add to bag · {{ v.price | money }}{% else %}Sold out{% endif %}</button>
+<button class="add-to-cart" id="pdAdd" type="button" data-variant="{{ v.id }}" data-cents="{{ v.price }}" data-product="{{ p_name | escape }}"{% unless product.available %} disabled{% endunless %}>{% if product.available %}Add to bag · {{ v.price | money }}{% else %}Sold out{% endif %}</button>
 </div>
 <div class="delivery-note">
 <span aria-hidden="true" class="delivery-note-icon">
@@ -288,6 +365,15 @@
 .os-placeholder{display:block;width:100%;height:100%;background:#f1efe8;fill:#c9cfc6}
 .product-summary p+p{margin-top:10px}
 .accordion-copy ul{margin:0;padding-left:16px;color:#68746e;font-size:11px;line-height:1.7}
+.product-thumb[hidden]{display:none}
+.pd-addon{display:flex;align-items:center;gap:10px;margin:0 0 14px;padding:10px 12px;border:1px dashed #9bb0a1;border-radius:12px;background:#fbfaf6;cursor:pointer}
+.pd-addon input{width:18px;height:18px;margin:0;flex:none;accent-color:#2f4b3a}
+.pd-addon img{width:40px;height:40px;object-fit:cover;border-radius:8px;flex:none}
+.pd-addon-text{flex:1;min-width:0;font-size:12px;line-height:1.4;color:#24352b}
+.pd-addon-text strong{display:block;font-weight:600}
+.pd-addon-text small{display:block;color:#68746e;font-size:11px}
+.pd-addon-price{flex:none;font-weight:600;font-size:13px;color:#24352b}
+.pd-addon:has(input:checked){border-style:solid;border-color:#2f4b3a;background:#f1f4ee}
 {%- endstyle -%}
 {%- liquid
   assign app_blocks = 0
@@ -389,6 +475,12 @@
     { "type": "text", "id": "delivery_text", "label": "Delivery & returns text", "default": "Free UK delivery on every order." },
     { "type": "text", "id": "delivery_link", "label": "Delivery & Returns page link", "default": "/pages/delivery-returns" },
     { "type": "text", "id": "also_heading", "label": "'You may also like' heading", "default": "You may also like" },
+    { "type": "header", "content": "Optional extra" },
+    { "type": "paragraph", "content": "A tick box under the options that adds a second product with the main one (e.g. the Hand Cream on the Day & Night Face Ritual). It isn't part of the set." },
+    { "type": "product", "id": "addon_for", "label": "Show the tick box on" },
+    { "type": "product", "id": "addon_product", "label": "Product the tick box adds" },
+    { "type": "text", "id": "addon_label", "label": "Tick box text", "default": "Add the [name]", "info": "[name] is replaced with the product's name." },
+    { "type": "text", "id": "addon_note", "label": "Small text under it", "default": "Optional extra for your AM or PM routine. Not part of either set." },
     { "type": "header", "content": "Reviews" },
     { "type": "checkbox", "id": "judgeme", "label": "Show Judge.me stars under the product name", "default": false, "info": "Needs the Judge.me app embed switched on. Add the review box itself with Add block > Judge.me > Review widget." },
     { "type": "text", "id": "reviews_heading", "label": "Reviews heading", "default": "Reviews" },

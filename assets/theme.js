@@ -326,6 +326,40 @@
       t.classList.add('active');
     });
   });
+  // photos that belong to one option (data-group) — show that option's photos, or the shared ones
+  function showPhotos(opt){
+    var thumbs = Array.prototype.slice.call(document.querySelectorAll('#pdThumbs .product-thumb'));
+    var groups = thumbs.map(function(t){ return t.dataset.group || ''; }).filter(Boolean);
+    if(!groups.length) return false;
+    var own = groups.indexOf(opt) !== -1, first = null;
+    thumbs.forEach(function(t){
+      var g = t.dataset.group || '';
+      var show = g ? g === opt : !own;
+      t.hidden = !show;
+      t.classList.remove('active');
+      if(show && !first) first = t;
+    });
+    if(first){
+      first.classList.add('active');
+      if(main){ main.src = first.dataset.src; if(first.dataset.alt) main.alt = first.dataset.alt; }
+    }
+    return true;
+  }
+  // optional extra tick box (e.g. the Hand Cream on the Day & Night Face Ritual)
+  var extra = document.getElementById('pdAddon');
+  function money(c){ return '£' + (c / 100).toFixed(2); }
+  function addLabel(){
+    if(add.disabled) return;
+    var price = add.dataset.price || (priceEl ? priceEl.textContent : '');
+    if(extra && extra.checked && add.dataset.cents){
+      price = money(parseInt(add.dataset.cents, 10) + parseInt(extra.dataset.cents || '0', 10));
+    }
+    add.textContent = 'Add to bag · ' + price;
+  }
+  if(extra){ extra.addEventListener('change', addLabel); if(extra.checked) addLabel(); }
+  document.querySelectorAll('#pdThumbs .product-thumb').forEach(function(t){
+    t.addEventListener('click', function(){ if(main && t.dataset.alt) main.alt = t.dataset.alt; });
+  });
   document.querySelectorAll('#pdSizes .pd-size').forEach(function(b){
     b.addEventListener('click', function(){
       document.querySelectorAll('#pdSizes .pd-size').forEach(function(x){ x.classList.remove('active'); });
@@ -333,7 +367,11 @@
       add.dataset.variant = b.dataset.variant;
       if(priceEl) priceEl.textContent = b.dataset.price;
       if(sizeEl) sizeEl.textContent = b.dataset.size;
-      add.textContent = 'Add to bag · ' + b.dataset.price;
+      add.dataset.cents = b.dataset.cents || '';
+      add.dataset.price = b.dataset.price;
+      addLabel();
+      // options with their own photos (alt text ending "[AM only]" etc.) show only those photos
+      if(showPhotos(b.dataset.size)) return;
       // an option with its own photo (e.g. AM / PM / AM + PM) shows that photo
       if(main && b.dataset.img){
         main.src = b.dataset.img;
@@ -366,7 +404,12 @@
       if(window.OS.picksMissing(picker) > 0){ window.OS.notify('Please choose a product for each step.'); return; }
       props = {}; props[add.dataset.variant] = window.OS.readPicks(picker);
     }
-    window.OS.addToBag(list.join(','), add.dataset.product, add, props);
+    var name = add.dataset.product;
+    if(extra && extra.checked && extra.dataset.variant){
+      for(var j = 0; j < n; j++) list.push(extra.dataset.variant);
+      name += ' + ' + (extra.dataset.name || 'extra');
+    }
+    window.OS.addToBag(list.join(','), name, add, props);
   });
 })();
 
