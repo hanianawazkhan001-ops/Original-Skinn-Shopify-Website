@@ -160,8 +160,8 @@
 
   # optional extra (e.g. the Hand Cream on the Day & Night Face Ritual), set in the theme editor
   assign addon = nil
-  assign addon_for = section.settings.addon_for
-  if addon_for != blank and addon_for.id == product.id and section.settings.addon_product != blank
+  assign addon_for = section.settings.addon_for | remove: ' ' | split: ','
+  if addon_for contains product.handle and section.settings.addon_product != blank
     assign addon = section.settings.addon_product
     unless addon.available
       assign addon = nil
@@ -477,7 +477,7 @@
     { "type": "text", "id": "also_heading", "label": "'You may also like' heading", "default": "You may also like" },
     { "type": "header", "content": "Optional extra" },
     { "type": "paragraph", "content": "A tick box under the options that adds a second product with the main one (e.g. the Hand Cream on the Day & Night Face Ritual). It isn't part of the set." },
-    { "type": "product", "id": "addon_for", "label": "Show the tick box on" },
+    { "type": "text", "id": "addon_for", "label": "Show the tick box on (product handle)", "info": "The product's handle, e.g. day-night-face-ritual-complete-face-routine. Separate several handles with commas." },
     { "type": "product", "id": "addon_product", "label": "Product the tick box adds" },
     { "type": "text", "id": "addon_label", "label": "Tick box text", "default": "Add the [name]", "info": "[name] is replaced with the product's name." },
     { "type": "text", "id": "addon_note", "label": "Small text under it", "default": "Optional extra for your AM or PM routine. Not part of either set." },

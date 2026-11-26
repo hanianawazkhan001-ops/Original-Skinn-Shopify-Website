@@ -17,7 +17,7 @@
           "settings": {
             "collection": "face",
             "heading": "Face Ritual",
-            "text": "Cleanse, refresh, serum, moisturise. A gentle foaming wash, a toner mist, a hyaluronic acid serum and the Day Moisturiser & Serum: all four come together as the AM set of our Day & Night Face Ritual. Add the PM set (Calendula & Clay Cleansing Balm and Night Moisturiser & Serum) for the full morning-to-night routine."
+            "text": "Cleanse, refresh, serum, moisturise. A gentle foaming wash, a toner mist, a hyaluronic acid serum and the Day Moisturiser & Serum: all four come together as the AM set of our Day & Night Face Ritual. Add the evening steps (Calendula & Clay Cleansing Balm and Night Moisturiser & Serum) for the full morning-to-night routine."
           }
         },
         "face_s1": {
@@ -94,7 +94,7 @@
             "bundle_upgrade": "AM + PM",
             "bundle_upgrade_product": "",
             "upgrade": true,
-            "upgrade_other_label": "the PM set",
+            "upgrade_other_label": "the evening steps",
             "upgrade_text": "(Cleansing Balm & Night Moisturiser) for £28 more",
             "upgrade_total_html": "<s>£77</s> £70",
             "upgrade_small": "Saves £7.",

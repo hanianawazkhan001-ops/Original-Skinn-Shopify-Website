@@ -424,10 +424,10 @@
             "product": "sea-buckthorn-aloe-hand-cream",
             "name": "Hand Cream",
             "price_text": "",
-            "note": "Optional, at night",
+            "note": "Optional extra",
             "link": "",
             "optional": true,
-            "optional_text": "Add the Hand Cream for your night routine"
+            "optional_text": "Add the Hand Cream as an optional extra"
           }
         }
       },

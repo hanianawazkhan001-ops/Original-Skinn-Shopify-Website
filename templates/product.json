@@ -12,8 +12,8 @@
         "judgeme_reviews"
       ],
       "settings": {
-        "judgeme": true,
         "dispatch_text": "Dispatched within 3\u20137 working days, with free UK delivery.",
+        "judgeme": true,
         "addon_for": "day-night-face-ritual-complete-face-routine",
         "addon_product": "sea-buckthorn-aloe-hand-cream",
         "addon_label": "Add the [name]",
