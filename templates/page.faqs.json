@@ -153,7 +153,7 @@
           "type": "question",
           "settings": {
             "question": "Do you offer free UK delivery?",
-            "answer": "<p>Yes. UK delivery is free on every order, with no minimum spend. Orders are dispatched within 1–2 working days and usually arrive 2–3 working days later with InPost.</p>"
+            "answer": "<p>Yes. UK delivery is free on every order, with no minimum spend. Orders are dispatched within 3–7 working days.</p>"
           }
         },
         "q_14": {
